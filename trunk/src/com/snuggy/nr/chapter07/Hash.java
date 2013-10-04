@@ -61,7 +61,7 @@ public class Hash<hfnT extends HfnT<keyT,elT>, keyT, elT> extends Hashtable<hfnT
         return (ll < 0 ? 0 : 1);
     }
 
-    public int erase(final keyT key) {
+    public int erase(final keyT key) throws NRException {
         // Erase an element. Returns 1 for success, or 0 if no element is
         // stored under key.
         return (ierase(key) < 0 ? 0 : 1);

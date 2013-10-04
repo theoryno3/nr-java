@@ -5,7 +5,6 @@ import static com.snuggy.nr.util.Static.*;
 
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Hashtable<hfnT extends HfnT<keyT,eltT>, keyT, eltT> {
 
     // Instantiate a hash table, with methods for maintaining a one-to-one
@@ -67,7 +66,7 @@ public class Hashtable<hfnT extends HfnT<keyT,eltT>, keyT, eltT> {
         int j, k;
         long kprev = 0;
         long pp = hash.fn(key); // Get 64-bit hash
-        j = (int) (pp % nhash); // and map it into the hash table.
+        j = (int) umod(pp, nhash); // and map it into the hash table.
         if (htable.get(j) == -1) { // Key not in table. Find a free integer, either
             k = (ng != 0) ? garbg.get(--ng) : nn++; // new or previously erased.
             htable.set(j, k);
@@ -88,12 +87,12 @@ public class Hashtable<hfnT extends HfnT<keyT,eltT>, keyT, eltT> {
         return k;
     }
 
-    public int ierase(final keyT key) {
+    public int ierase(final keyT key) throws NRException {
         // Erase a key, returning the integer in 0..nmax-1 erased, or 1 if
         // the key was not previously set.
         int j, k, kprev;
         long pp = hash.fn(key);
-        j = (int) (pp % nhash);
+        j = (int) umod(pp, nhash);
         if (htable.get(j) == -1)
             return -1; // Key not previously set.
         kprev = -1;
