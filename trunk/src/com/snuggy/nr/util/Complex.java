@@ -56,7 +56,7 @@ public class Complex {
     }
 
     public static Complex complex(double real, double imag) {
-        Complex r = complex(real, imag);
+        Complex r = new Complex(real, imag);
         return r;
     }
     
