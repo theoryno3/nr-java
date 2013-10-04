@@ -2,6 +2,7 @@
 package com.snuggy.nr.chapter02;
 
 import static com.snuggy.nr.refs.Refs.*;
+
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
@@ -25,7 +26,7 @@ public abstract class Linbcg {
     // Doub snrm(VecDoub_I &sx, final int  itol); Utility used by solve.
 
     public void solve(final double[] b, final double[] x, final int itol, final double tol, 
-                        final int itmax, final int iter_ref[], final double err_ref[]) 
+                        final int itmax, final $int iter, final $double err) 
             throws NRException {
         // Solves Ax D b for x[0..n-1], given b[0..n-1], by the iterative
         // biconjugate gradient method. On input x[0..n-1] should be set to an
@@ -52,7 +53,7 @@ public abstract class Linbcg {
         $double1d r = $(new double[n]); 
         $double1d z = $(new double[n]); 
         $double1d zz = $(new double[n]);
-        iter_ref[0] = 0; // Calculate initial residual.
+        $(iter, 0); // Calculate initial residual.
         atimes(x, r, 0); // Input to atimes is x[0..n-1], output is r[0..n-1];
         // the final 0 indicates that the matrix (not its
         // transpose) is to be used.
@@ -78,14 +79,15 @@ public abstract class Linbcg {
             znrm = snrm(z.$(), itol);
         } else
             throw new NRException("illegal itol in linbcg");
-        while (iter_ref[0] < itmax) { // Main loop.
-            ++(iter_ref[0]);
+        while (iter.$() < itmax) { // Main loop.
+            //++(iter);
+            iter.$(iter.$() + 1);
             asolve(rr, zz.$(), 1); // Final 1 indicates use of transpose matrixeA T
                                // .
             for (bknum = 0.0, j = 0; j < n; j++)
                 bknum += z.$()[j] * rr[j];
             // Calculate coefficient bk and direction vectors p and pp.
-            if (iter_ref[0] == 1) {
+            if (iter.$() == 1) {
                 for (j = 0; j < n; j++) {
                     p[j] = z.$()[j];
                     pp[j] = zz.$()[j];
@@ -110,30 +112,30 @@ public abstract class Linbcg {
             }
             asolve(r.$(), z.$(), 0); // SolveeA  z D r and check stopping criterion.
             if (itol == 1)
-                err_ref[0] = snrm(r.$(), itol) / bnrm;
+                err.$(snrm(r.$(), itol) / bnrm);
             else if (itol == 2)
-                err_ref[0] = snrm(z.$(), itol) / bnrm;
+                err.$(snrm(z.$(), itol) / bnrm);
             else if (itol == 3 || itol == 4) {
                 zm1nrm = znrm;
                 znrm = snrm(z.$(), itol);
                 if (abs(zm1nrm - znrm) > EPS * znrm) {
                     dxnrm = abs(ak) * snrm(p, itol);
-                    err_ref[0] = znrm / abs(zm1nrm - znrm) * dxnrm;
+                    err.$(znrm / abs(zm1nrm - znrm) * dxnrm);
                 } else {
-                    err_ref[0] = znrm / bnrm; // Error may not be accurate, so loop
+                    err.$(znrm / bnrm); // Error may not be accurate, so loop
                                           // again.
                     continue;
                 }
                 xnrm = snrm(x, itol);
-                if (err_ref[0] <= 0.5 * xnrm)
-                    err_ref[0] /= xnrm;
+                if (err.$() <= 0.5 * xnrm)
+                    err.$(err.$() / xnrm);
                 else {
-                    err_ref[0] = znrm / bnrm; // Error may not be accurate, so loop
+                    err.$(znrm / bnrm); // Error may not be accurate, so loop
                                           // again.
                     continue;
                 }
             }
-            if (err_ref[0] <= tol)
+            if (err.$() <= tol)
                 break;
         }
     }
