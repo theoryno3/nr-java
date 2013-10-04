@@ -8,7 +8,6 @@ import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
 
     // Object for Chebyshev approximation and related methods.
@@ -36,6 +35,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         Chebyshev r = new Chebyshev();
 	    r.n = n;
 	    r.m = n;
+	    r.c = new double[c.length];
 	    System.arraycopy(c, 0, r.c, 0, c.length);
 	    r.a = a;
 	    r.b = b;
