@@ -260,7 +260,6 @@ public class Static {
             frenel_FPMIN = Double.MIN_VALUE, // numeric_limits<Doub>::min(),
             frenel_BIG = Double.MAX_VALUE * frenel_EPS; // numeric_limits<Doub>::max()*EPS;
 
-    @Deprecated @Broken
     public static Complex frenel(final double x) throws NRException {
         // Computes the Fresnel integrals S.x/ and C.x/ for all real x. C.x/
         // is returned as the real part of cs and S.x/ as the imaginary part.
