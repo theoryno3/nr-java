@@ -8,7 +8,7 @@ public class Refs {
     // references to ints
     
     public static $int $(final int t) {
-        $int r = new IntWrapper(t);
+        $int r = new IntRef(t);
         return r;
     }
     
@@ -25,7 +25,12 @@ public class Refs {
     // references to doubles
     
     public static $double $(final double t) {
-        $double r = new DoubleWrapper(t);
+        $double r = new DoubleRef(t);
+        return r;
+    }
+    
+    public static $double $(final double[] arr, final int off) {
+        $double r = new DoubleRefFromArrayElement(arr, off);
         return r;
     }
     
@@ -42,7 +47,7 @@ public class Refs {
     // references to booleans
     
     public static $boolean $(final boolean t) {
-        $boolean r = new BooleanWrapper(t);
+        $boolean r = new BooleanRef(t);
         return r;
     }
     
@@ -57,7 +62,7 @@ public class Refs {
     // references to parameterized Objects passed by reference
     
 	public static <T> $<T> $(final T t) {
-	    $<T> r = new RefWrapper<T>(t);
+	    $<T> r = new ObjectRef<T>(t);
 	    return r;
 	}
 	
@@ -72,7 +77,7 @@ public class Refs {
     // references to parameterized Objects passed by reference or value
     
 	public static <T extends ByValue<T>> $$<T> $$(final T t) {
-	    $$<T> r = new BothWrapper<T>(t);
+	    $$<T> r = new ObjectRefByValue<T>(t);
 	    return r;
 	}
 	
@@ -308,9 +313,9 @@ public class Refs {
         }
     }
 	
-	static class DoubleWrapper implements $double {
+	static class DoubleRef implements $double {
         private double t;
-        public DoubleWrapper(double t) {
+        public DoubleRef(double t) {
             this.t = t;
         }
         @Override
@@ -327,9 +332,30 @@ public class Refs {
         }
 	}
 	
-	static class IntWrapper implements $int {
+	static class DoubleRefFromArrayElement implements $double {
+        private double[] arr;
+        private int off;
+        public DoubleRefFromArrayElement(final double[] arr, final int off) {
+            this.arr = arr;
+            this.off = off;
+        }
+        @Override
+        public void $(double t) {
+            arr[off] = t;
+        }
+        @Override
+        public double $() {
+            return arr[off];
+        }
+        @Override
+        public String toString() {
+            return String.valueOf(arr[off]);
+        }
+	}
+	
+	static class IntRef implements $int {
         private int t;
-        public IntWrapper(int t) {
+        public IntRef(int t) {
             this.t = t;
         }
         @Override
@@ -346,9 +372,9 @@ public class Refs {
         }
 	}
 	
-	static class BooleanWrapper implements $boolean {
+	static class BooleanRef implements $boolean {
         private boolean t;
-        public BooleanWrapper(boolean t) {
+        public BooleanRef(boolean t) {
             this.t = t;
         }
         @Override
@@ -365,9 +391,9 @@ public class Refs {
         }
 	}
 	
-    static class RefWrapper<T> implements $<T> {
+    static class ObjectRef<T> implements $<T> {
         private T t;
-        public RefWrapper(T t) {
+        public ObjectRef(T t) {
             this.t = t;
         }
         @Override
@@ -384,9 +410,9 @@ public class Refs {
         }
     }
 	
-    static class BothWrapper<T extends ByValue<T>> implements $$<T> {
+    static class ObjectRefByValue<T extends ByValue<T>> implements $$<T> {
         private T t;
-        public BothWrapper(T t) {
+        public ObjectRefByValue(T t) {
             this.t = t;
         }
         @Override
