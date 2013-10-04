@@ -5,7 +5,6 @@ import java.util.*;
 
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Hash<hfnT extends HfnT<keyT,elT>, keyT, elT> extends Hashtable<hfnT, keyT, elT> {
 
     // Extend the Hashtable class with storage for elements of type elT, and
