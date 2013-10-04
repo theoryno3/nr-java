@@ -8,7 +8,6 @@ import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class MCintegrate {
 
     // Object for Monte Carlo integration of one or more functions in an
