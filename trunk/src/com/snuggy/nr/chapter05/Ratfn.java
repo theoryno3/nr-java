@@ -20,6 +20,7 @@ public class Ratfn implements ByValue<Ratfn> {
     @Override
     public Ratfn copyOut() {
         Ratfn r = new Ratfn();
+        r.cofs = new double[cofs.length];
         System.arraycopy(cofs, 0, r.cofs, 0, cofs.length);
 	    r.nn = nn;
 	    r.dd = dd; 
