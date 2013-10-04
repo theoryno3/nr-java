@@ -2,6 +2,9 @@
 package com.snuggy.nr.chapter03;
 
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
+
 import static java.lang.Math.*;
 
 import com.snuggy.nr.util.*;
@@ -150,13 +153,12 @@ public class Static {
     // interpolation, gives back the interpolated function value and the two
     // gradient values, and uses the above routine bcucof, is simply:
 
-    @Deprecated @Broken
     public static void bcuint(final double[] y, final double[] y1, final double[] y2, final double[] y12, 
                                 final double x1l, final double x1u, 
                                 final double x2l, final double x2u, 
                                 final double x1, final double x2, 
-                                final double ansy_ref[], final double ansy1_ref[], 
-                                final double ansy2_ref[]) 
+                                final $double ansy, final $double ansy1, 
+                                final $double ansy2) 
             throws NRException {
         // Bicubic interpolation within a grid square. Input quantities
         // are y,y1,y2,y12 (as described in bcucof); x1l and x1u, the lower
@@ -173,14 +175,14 @@ public class Static {
             throw new NRException("Bad input in routine bcuint");
         t = (x1 - x1l) / d1; // Equation (3.6.4).
         u = (x2 - x2l) / d2;
-        ansy_ref[0] = ansy2_ref[0] = ansy1_ref[0] = 0.0;
+        $(ansy, $(ansy2, $(ansy1, 0.0)));
         for (i = 3; i >= 0; i--) { // Equation (3.6.6).
-            ansy_ref[0] = t * ansy_ref[0] + ((c[i][3] * u + c[i][2]) * u + c[i][1]) * u + c[i][0];
-            ansy2_ref[0] = t * ansy2_ref[0] + (3.0 * c[i][3] * u + 2.0 * c[i][2]) * u + c[i][1];
-            ansy1_ref[0] = u * ansy1_ref[0] + (3.0 * c[3][i] * t + 2.0 * c[2][i]) * t + c[1][i];
+            ansy.$(t * ansy.$() + ((c[i][3] * u + c[i][2]) * u + c[i][1]) * u + c[i][0]);
+            ansy2.$(t * ansy2.$() + (3.0 * c[i][3] * u + 2.0 * c[i][2]) * u + c[i][1]);
+            ansy1.$(u * ansy1.$() + (3.0 * c[3][i] * t + 2.0 * c[2][i]) * t + c[1][i]);
         }
-        ansy1_ref[0] /= d1;
-        ansy2_ref[0] /= d2;
+        $(ansy1, ansy1.$() / d1);
+        $(ansy2, ansy2.$() / d2);
     }
 
 }
