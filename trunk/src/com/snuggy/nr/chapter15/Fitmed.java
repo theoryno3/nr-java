@@ -3,8 +3,9 @@ package com.snuggy.nr.chapter15;
 
 import static com.snuggy.nr.chapter08.Static.*;
 import static com.snuggy.nr.util.Static.*;
-import com.snuggy.nr.util.*;
 import static java.lang.Math.*;
+
+import com.snuggy.nr.util.*;
 
 @Deprecated @Broken
 public class Fitmed {

@@ -10,11 +10,20 @@ public abstract class Base_interp {
     // Abstract base class used by all interpolation routines in this chapter.
     // Only the routine interp is called directly by the user.
 
-    protected int n, mm, jsav, cor, dj;
+    protected final int n, mm, dj;
     protected final double[] xx_arr;
-    protected int xx_off;
+    protected final int xx_off;
     protected double[] yy_arr;
     protected int yy_off;
+    protected int cor, jsav;
+    
+    public Base_interp() {
+	    n = 0; mm = 0; dj = 0;
+	    xx_arr = null;
+	    xx_off = 0;
+	    yy_arr = null;
+	    yy_off = 0;
+    }
 
     public Base_interp(final double[] x, final double[] y_arr, final int y_off, final int m) {
         // Constructor: Set up for interpolating on a table of x’s and y’s

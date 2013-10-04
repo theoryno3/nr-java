@@ -1,9 +1,9 @@
 
 package com.snuggy.nr.chapter17;
 
-import static java.lang.Math.*;
 import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
+import static java.lang.Math.*;
 
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;

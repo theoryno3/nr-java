@@ -13,6 +13,9 @@ public class Spline_interp extends Base_interp {
 
     private double[] y2;
 
+    public Spline_interp() {
+    }
+    
     public Spline_interp(final double[] xv, final double[] yv_arr, final int yv_off) {
         this(xv, yv_arr, yv_off, 1.e99, 1.e99);
     }
