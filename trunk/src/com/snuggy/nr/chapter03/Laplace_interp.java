@@ -2,12 +2,11 @@
 package com.snuggy.nr.chapter03;
 
 import static com.snuggy.nr.util.Static.*;
-
 import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.refs.*;
+import static com.snuggy.nr.refs.Refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Laplace_interp extends Linbcg {
 
     // Object for interpolating missing data in a matrix by solving Laplace’s
@@ -16,7 +15,7 @@ public class Laplace_interp extends Linbcg {
     private double[][] mat;
     private int ii, jj;
     private int nn;
-    private int[] iter;
+    private $int iter;
     private double[] b, mask;
     private double[] y;
 
@@ -28,7 +27,7 @@ public class Laplace_interp extends Linbcg {
         ii = (nrows(mat));
         jj = (ncols(mat));
         nn = (ii * jj);
-        iter[0] = (0);
+        iter = $(0);
         b = doub_arr(nn);
         y = doub_arr(nn);
         mask = doub_arr(nn);
@@ -67,14 +66,14 @@ public class Laplace_interp extends Linbcg {
         // be called only once. The original matrix mat is refilled with the
         // interpolated solution.
         int i, j, k;
-        double[] err = doub_arr(1);
+        $double err = $(1.0);
         if (itmax <= 0)
             itmax = 2 * MAX(ii, jj);
         super.solve(b, y, 1, tol, itmax, iter, err);
         for (k = 0, i = 0; i < ii; i++)
             for (j = 0; j < jj; j++)
                 mat[i][j] = y[k++];
-        return err[0];
+        return err.$();
     }
 
     @Override
