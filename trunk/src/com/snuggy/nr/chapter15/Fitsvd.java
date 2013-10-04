@@ -8,7 +8,6 @@ import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Fitsvd {
 
     // Object for general linear least-squares fitting using singular value
@@ -17,9 +16,9 @@ public class Fitsvd {
     // and chisq.
     private int ndat, ma;
     private double tol;
-    private double[] x_arr[]; // (Why is x a pointer? Explained in 15.4.4.)
+    private $double1d x; // (Why is x a pointer? Explained in 15.4.4.)
     private int x_off;
-    private double[] y, sig; // (Why is x a pointer? Explained in 15.4.4.)
+    private double[] y, sig; 
     private Func_Doub_To_DoubArr funcs;
     private double[] a; // Output values. a is the vector of fitted
                         // coefficients,
@@ -36,12 +35,12 @@ public class Fitsvd {
         return a;
     }
 
-    public Fitsvd(final double[] xx_arr[], final int xx_off, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks) {
-        this(xx_arr, xx_off, yy, ssig, funks, 1.e-12);
+    public Fitsvd(final $double1d xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks) throws NRException {
+        this(xx, yy, ssig, funks, 1.e-12);
     }
 
-    public Fitsvd(final double[] xx_arr[], final int xx_off, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks,
-            final double TOL) {
+    public Fitsvd(final $double1d xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks,
+            final double TOL) throws NRException {
         // Constructor. Binds references to the data arrays xx, yy, and ssig,
         // and to a user-supplied function funks(x) that returns a VecDoub
         // containing ma basis functions evaluated at x D x. If TOL is positive,
@@ -50,10 +49,8 @@ public class Fitsvd {
         // SVD is used.
         ndat = (yy.length);
         // x = (&xx);
-        x_arr = xx_arr;
-        x_off = xx_off;
-        xmd_arr = null;
-        xmd_off = 0;
+        x = $(xx.$());
+        xmd = null;
         y = (yy);
         sig = (ssig);
         funcs = (funks);
@@ -69,10 +66,10 @@ public class Fitsvd {
         // the covariance matrix covar[0..ma-1][0..ma-1].
         int i, j, k;
         double tmp, thresh, sum;
-        if (x_arr != null)
-            ma = funcs.eval(x_arr[x_off][0]).length;
+        if (x != null)
+            ma = funcs.eval(x.$()[0]).length;
         else
-            ma = funcsmd.eval(row(xmd_arr[xmd_off], 0)).length; // (Discussed in
+            ma = funcsmd.eval(row(xmd.$(), 0)).length; // (Discussed in
                                                                 // 15.4.4.)
         a = doub_arr(ma);
         covar = doub_mat(ma, ma);
@@ -80,10 +77,10 @@ public class Fitsvd {
         double[] b = doub_arr(ndat);
         $double1d afunc = $(new double[ma]); 
         for (i = 0; i < ndat; i++) { // Accumulate coefficients of the
-            if (x_arr != null)
-                $$(afunc, funcs.eval((x_arr[x_off])[i])); // design matrix.
+            if (x != null)
+                $$(afunc, funcs.eval(x.$()[i])); // design matrix.
             else
-                $$(afunc, funcsmd.eval(row(xmd_arr[xmd_off], i))); // (Discussed in
+                $$(afunc, funcsmd.eval(row(xmd.$(), i))); // (Discussed in
                                                                 // 15.4.4.)
             tmp = 1.0 / sig[i];
             for (j = 0; j < ma; j++)
@@ -113,27 +110,24 @@ public class Fitsvd {
 
     // From here on, code for multidimensional fits, to be discussed in 15.4.4.
 
-    private double[][] xmd_arr[];
-    private int xmd_off;
+    private $double2d xmd;
 
     // VecDoub (*funcsmd)(VecDoub_I &);
     private Func_DoubArr_To_DoubArr funcsmd;
 
-    public Fitsvd(final double[][] xx_arr[], final int xx_off, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks) {
-        this(xx_arr, xx_off, yy, ssig, funks, 1.e-12);
+    public Fitsvd(final $double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks) throws NRException {
+        this(xx, yy, ssig, funks, 1.e-12);
     }
 
-    public Fitsvd(final double[][] xx_arr[], final int xx_off, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks,
-            final double TOL) {
+    public Fitsvd(final $double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks,
+            final double TOL) throws NRException {
         // Constructor for multidimensional fits. Exactly the same as the
         // previous constructor, except that xx is now a matrix whose rows are
         // the multidimensional data points and funks is now a function of a
         // multidimensional data point (as a VecDoub).
         ndat = (yy.length);
-        x_arr = (null);
-        x_off = 0;
-        xmd_arr = (xx_arr);
-        xmd_off = xx_off;
+        x = (null);
+        xmd.$(xx.$());
         y = (yy);
         sig = (ssig);
         funcsmd = (funks);

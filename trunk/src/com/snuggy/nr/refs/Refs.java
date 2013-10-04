@@ -96,12 +96,17 @@ public class Refs {
     // references to double[] 
     
 	public static $double1d $(final double[] t) {
-	    $double1d r = new Double1DWrapper(t);
+	    $double1d r = new Double1DRef(t);
+	    return r;
+	}
+	
+	public static $double1d $(final double[] arr[], final int off) {
+	    $double1d r = new Double1DRefFromArrayElement(arr, off);
 	    return r;
 	}
 	
 	public static $double1d $$(final double[] t) throws NRException {
-	    $double1d r = $(new Double1DWrapper(t).$$());
+	    $double1d r = $(new Double1DRef(t).$$());
 	    return r;
 	}
 	
@@ -116,12 +121,12 @@ public class Refs {
     // references to double[][] 
     
 	public static $double2d $(final double[][] t) {
-	    $double2d r = new Double2DWrapper(t);
+	    $double2d r = new Double2DRef(t);
 	    return r;
 	}
 	
 	public static $double2d $$(final double[][] t) {
-	    $double2d r = $(new Double2DWrapper(t).$$());
+	    $double2d r = $(new Double2DRef(t).$$());
 	    return r;
 	}
 	
@@ -136,12 +141,12 @@ public class Refs {
     // references to int[] 
     
 	public static $int1d $(final int[] t) {
-	    $int1d r = new Int1DWrapper(t);
+	    $int1d r = new Int1DRef(t);
 	    return r;
 	}
 	
 	public static $int1d $$(final int[] t) {
-	    $int1d r = $(new Int1DWrapper(t).$$());
+	    $int1d r = $(new Int1DRef(t).$$());
 	    return r;
 	}
 	
@@ -156,12 +161,12 @@ public class Refs {
     // references to int[][] 
     
 	public static $int2d $(final int[][] t) {
-	    $int2d r = new Int2DWrapper(t);
+	    $int2d r = new Int2DRef(t);
 	    return r;
 	}
 	
 	public static $int2d $$(final int[][] t) {
-	    $int2d r = $(new Int2DWrapper(t).$$());
+	    $int2d r = $(new Int2DRef(t).$$());
 	    return r;
 	}
 	
@@ -175,9 +180,9 @@ public class Refs {
 	
 	// classes
 	
-    static class Double1DWrapper implements $double1d {
+    static class Double1DRef implements $double1d {
         private double[] t;
-        public Double1DWrapper(final double[] t) {
+        public Double1DRef(final double[] t) {
             this.t = t;
         }
         @Override
@@ -206,9 +211,42 @@ public class Refs {
         }
     }
 	
-    static class Double2DWrapper implements $double2d {
+    static class Double1DRefFromArrayElement implements $double1d {
+        private double[] arr[];
+        private final int off;
+        public Double1DRefFromArrayElement(final double[] arr[], final int off) {
+            this.arr = arr;
+            this.off = off;
+        }
+        @Override
+        public void $(final double[] t) {
+            arr[off] = t;
+        }
+        @Override
+        public double[] $() {
+            return arr[off];
+        }
+        @Override
+        public double[] $$() {
+            double[] r = new double[arr[off].length];
+            System.arraycopy(arr[off], 0, r, 0, arr[off].length);
+            return r;
+        }
+        @Override
+        public void $$(double[] t) throws NRException {
+            if (this.arr[off].length != arr[off].length)
+                throw new NRException("this.t.length != arr[off].length");
+            System.arraycopy(t, 0, this.arr[off], 0, arr[off].length);
+        }
+        @Override
+        public String toString() {
+            return arr[off].toString();
+        }
+    }
+	
+    static class Double2DRef implements $double2d {
         private double[][] t;
-        public Double2DWrapper(final double[][] t) {
+        public Double2DRef(final double[][] t) {
             this.t = t;
         }
         @Override
@@ -244,9 +282,9 @@ public class Refs {
         }
     }
 	
-    static class Int1DWrapper implements $int1d {
+    static class Int1DRef implements $int1d {
         private int[] t;
-        public Int1DWrapper(final int[] t) {
+        public Int1DRef(final int[] t) {
             this.t = t;
         }
         @Override
@@ -275,9 +313,9 @@ public class Refs {
         }
     }
 	
-    static class Int2DWrapper implements $int2d {
+    static class Int2DRef implements $int2d {
         private int[][] t;
-        public Int2DWrapper(final int[][] t) {
+        public Int2DRef(final int[][] t) {
             this.t = t;
         }
         @Override
