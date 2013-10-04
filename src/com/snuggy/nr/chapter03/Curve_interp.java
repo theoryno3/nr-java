@@ -4,11 +4,8 @@ package com.snuggy.nr.chapter03;
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
-import java.util.*;
-
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Curve_interp {
 
     // Object for interpolating a curve specified by n points in dim dimensions.
@@ -17,14 +14,14 @@ public class Curve_interp {
     private double[][] pts;
     private double[] s;
     private double[] ans;
-    private List<Spline_interp> srp;
+    private Spline_interp[] srp;
 
-    public Curve_interp(final double[][] ptsin) throws NRException {
+    public Curve_interp(final double[][] ptsin) throws NRException, InstantiationException, IllegalAccessException {
         this(ptsin, false);
     }
 
     public Curve_interp(final double[][] ptsin, final boolean close) 
-            throws NRException {
+            throws NRException, InstantiationException, IllegalAccessException {
         // Constructor. The n  dim matrix ptsin inputs the data points. Input
         // close as 0 for an open curve, 1 for a closed curve. (For a closed
         // curve, the last data point should not duplicate the first — the
@@ -37,8 +34,7 @@ public class Curve_interp {
         pts = doub_mat(dim, in);
         s = doub_arr(in);
         ans = doub_arr(dim);
-        // srp = (dim);
-        srp = new ArrayList<Spline_interp>();
+        srp = obj_arr(Spline_interp.class, dim);
 
         int i, ii, im, j, ofs;
         double ss, soff, db, de;
@@ -69,7 +65,7 @@ public class Curve_interp {
                                     // derivatives.
             db = in < 4 ? 1.e99 : fprime(s, 0, pts[j], 0, 1);
             de = in < 4 ? 1.e99 : fprime(s, in - 1, pts[j], in - 1, -1);
-            srp.set(j, new Spline_interp(s, pts[j], 0, db, de));
+            srp[j] = new Spline_interp(s, pts[j], 0, db, de);
         }
     }
 
@@ -83,7 +79,7 @@ public class Curve_interp {
         if (cls)
             t = t - floor(t);
         for (int j = 0; j < dim; j++)
-            ans[j] = (srp.get(j)).interp(t);
+            ans[j] = srp[j].interp(t);
         return ans;
     }
 

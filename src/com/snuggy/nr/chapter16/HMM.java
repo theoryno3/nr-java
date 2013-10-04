@@ -1,12 +1,11 @@
 
 package com.snuggy.nr.chapter16;
 
-import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.refs.Refs.*;
-import com.snuggy.nr.refs.*;
-
+import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 @Deprecated @Broken

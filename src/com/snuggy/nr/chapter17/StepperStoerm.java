@@ -2,11 +2,9 @@
 package com.snuggy.nr.chapter17;
 
 import static com.snuggy.nr.util.Static.*;
-
-import com.snuggy.nr.refs.*;
-
 import static java.lang.Math.*;
 
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 @Deprecated @Broken
