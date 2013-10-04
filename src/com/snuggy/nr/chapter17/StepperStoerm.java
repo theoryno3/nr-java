@@ -8,7 +8,7 @@ import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 @Deprecated @Broken
-public abstract class StepperStoerm extends StepperBS {
+public class StepperStoerm extends StepperBS {
 
     // Stoermer’s rule for integrating y00 D f.x;y/ for a system of equations.
     // using StepperBS<D>::x; using StepperBS<D>::xold; using StepperBS<D>::y;

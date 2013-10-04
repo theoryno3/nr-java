@@ -9,7 +9,6 @@ import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.chapter07.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Stochsim {
 
     private static final int mm = 3; // Set number of reactions.
@@ -94,17 +93,17 @@ public class Stochsim {
 
     // end user section
 
-    public Stochsim(double[] sinit) throws NRException {
+    public Stochsim(double[] sinit) throws NRException, InstantiationException, IllegalAccessException {
         this(sinit, 1);
     }
 
-    public Stochsim(double[] sinit, final int seed) throws NRException {
+    public Stochsim(double[] sinit, final int seed) throws NRException, InstantiationException, IllegalAccessException {
         // Constructor. Input initial species numbers and an optional random
         // seed.
         s = (sinit);
         a = doub_arr(mm, 0.);
-        outchg = new NRsparseCol[mm];
-        depend = new NRsparseCol[mm];
+        outchg = obj_arr(NRsparseCol.class, mm);
+        depend = obj_arr(NRsparseCol.class, mm);
         pr = int_arr(mm);
         t = (0.);
         asum = (0.);

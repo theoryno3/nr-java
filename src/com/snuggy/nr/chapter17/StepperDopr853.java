@@ -70,7 +70,7 @@ public class StepperDopr853 extends StepperBS {
         }
     };
 
-    private Controller con;
+    private Controller con = new Controller();
 
     public StepperDopr853(final double[] yy, final double[] dydxx, final $double xx, final double atoll,
             final double rtoll, final boolean dens) throws NRException {
