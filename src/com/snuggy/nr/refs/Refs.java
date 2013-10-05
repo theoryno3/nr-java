@@ -539,7 +539,12 @@ public class Refs {
         }
         @Override
         public String toString() {
-            return String.valueOf(arr[off]);
+            StringBuilder sb = new StringBuilder();
+            sb.append("{ ");
+            for (double x : arr)
+                sb.append(x + ", ");
+            sb.append("} at " + off);
+            return sb.toString();
         }
         @Override
         public double $(int n) throws NRException {

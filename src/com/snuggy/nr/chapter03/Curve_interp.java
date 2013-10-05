@@ -34,7 +34,7 @@ public class Curve_interp {
         pts = doub_mat(dim, in);
         s = doub_arr(in);
         ans = doub_arr(dim);
-        srp = obj_arr(Spline_interp.class, dim);
+        srp = obj_null_arr(Spline_interp.class, dim);
 
         int i, ii, im, j, ofs;
         double ss, soff, db, de;

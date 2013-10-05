@@ -123,6 +123,14 @@ public class Static {
         return arr;
     }
 
+    public static <T> T[] obj_null_arr(Class<T> type, int n) throws InstantiationException, IllegalAccessException {
+        @SuppressWarnings("unchecked")
+        T[] arr = (T[]) Array.newInstance(type, n);
+        for (int i = 0; i < n; i++)
+            arr[i] = null;
+        return arr;
+    }
+
     public static boolean[] bool_arr(int n) {
         return new boolean[n];
     }
