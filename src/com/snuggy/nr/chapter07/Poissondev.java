@@ -11,7 +11,7 @@ public class Poissondev extends Ran {
 
     // Structure for Poisson deviates.
     private double lambda, sqlam, loglam, lamexp, lambold;
-    private double[] logfact;
+    private final double[] logfact;
     @SuppressWarnings("unused")
     private int swch;
 

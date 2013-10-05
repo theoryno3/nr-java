@@ -9,7 +9,7 @@ import com.snuggy.nr.refs.*;
 public class Phylo_nj extends Phylagglom {
 
     // Derived class implementing the neighbor joining (NJ) method.
-    private double[] u;
+    private final double[] u;
 
     @Override
     public void premin(final double[][] d, final int[] nextp) {

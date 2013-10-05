@@ -1,10 +1,11 @@
 
 package com.snuggy.nr.chapter03;
 
+import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
+
 import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.refs.*;
-import static com.snuggy.nr.refs.Refs.*;
 import com.snuggy.nr.util.*;
 
 public class Laplace_interp extends Linbcg {
@@ -12,12 +13,12 @@ public class Laplace_interp extends Linbcg {
     // Object for interpolating missing data in a matrix by solving Laplace’s
     // equation. Call constructor once, then solve one or more times (see text).
 
-    private double[][] mat;
+    private final double[][] mat;
     private int ii, jj;
     private int nn;
     private $int iter;
-    private double[] b, mask;
-    private double[] y;
+    private final double[] b, mask;
+    private final double[] y;
 
     public Laplace_interp(final double[][] matrix) {
         // Constructor. Values greater than 1.e99 in the input matrix mat are
@@ -85,7 +86,7 @@ public class Laplace_interp extends Linbcg {
     }
 
     @Override
-    public void atimes(final double[] x, final $double1d r, final int itrnsp) {
+    public void atimes(final double[] x, final $$double1d r, final int itrnsp) {
         // Sparse matrix, and matrix transpose, multiply. This routine
         // embodies eqs. (3.8.4), (3.8.5), and (3.8.6).
         int i, j, k, n = r.$().length, jjt, it;

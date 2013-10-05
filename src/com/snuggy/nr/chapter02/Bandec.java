@@ -9,9 +9,9 @@ public class Bandec {
     // Object for solving linear equations A  x D b for a band-diagonal
     // matrix A, using LU decomposition.
     private int n, m1, m2;
-    private double[][] au, al; // Upper and lower triangular matrices, stored
+    private final double[][] au, al; // Upper and lower triangular matrices, stored
                                // compactly.
-    private int[] indx;
+    private final int[] indx;
     private double d;
 
     // public Bandec(MatDoub_I &a, const int mm1, const int mm2); //

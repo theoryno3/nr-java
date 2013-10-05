@@ -12,7 +12,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
 
     // Object for Chebyshev approximation and related methods.
     private int n, m; // Number of total, and truncated, coefficients.
-    private double[] c;
+    private final double[] c;
     private double a, b; // Approximation interval.
 
     // Chebyshev(Doub func(Doub), Doub aa, Doub bb, Int nn);
@@ -27,18 +27,11 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         b = (bb);
     }
     
-    private Chebyshev() {
-    }
-
     @Override
     public Chebyshev copyOut() {
-        Chebyshev r = new Chebyshev();
-	    r.n = n;
-	    r.m = n;
-	    r.c = new double[c.length];
-	    System.arraycopy(c, 0, r.c, 0, c.length);
-	    r.a = a;
-	    r.b = b;
+        final double[] temp = new double[c.length];
+        System.arraycopy(c, 0, temp, 0, c.length);
+        Chebyshev r = new Chebyshev(temp, a, b);
 	    return r;
     }
 
@@ -58,7 +51,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         return m;
     }
 
-    public double[] c() {
+    public final double[] c() {
         return c;
     }
 
@@ -77,7 +70,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
     // Chebyshev integral();
     // VecDoub polycofs(Int m); See 5.10.
 
-    public double[] polycofs() {
+    public final double[] polycofs() {
         return polycofs(m);
     }
 
@@ -105,7 +98,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         final double pi = 3.141592653589793;
         int k, j;
         double fac, bpa, bma, y, sum;
-        double[] f = doub_arr(n);
+        final double[] f = doub_arr(n);
         bma = 0.5 * (b - a);
         bpa = 0.5 * (b + a);
         for (k = 0; k < n; k++) { // We evaluate the function at the n points
@@ -146,7 +139,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // of the existing function over the same range [a,b].
         int j;
         double con;
-        double[] cder = doub_arr(n);
+        final double[] cder = doub_arr(n);
         cder[n - 1] = 0.0; // n-1 and n-2 are special cases.
         cder[n - 2] = 2 * (n - 1) * c[n - 1];
         for (j = n - 2; j > 0; j--)
@@ -164,7 +157,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // constant of integration is set so that the integral vanishes at a.
         int j;
         double sum = 0.0, fac = 1.0, con;
-        double[] cint = doub_arr(n);
+        final double[] cint = doub_arr(n);
         con = 0.25 * (b - a); // Factor that normalizes to the interval b-a.
         for (j = 1; j < n - 1; j++) {
             cint[j] = con * (c[j - 1] - c[j + 1]) / j; // Equation (5.9.1).
@@ -178,7 +171,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         return $$(new Chebyshev(cint, a, b));
     }
 
-    public double[] polycofs(final int m) {
+    public final double[] polycofs(final int m) {
         // Polynomial coefficients from a Chebyshev fit. Given a coefficient
         // array c[0..n-1], this routine returns a coefficient array d[0..n-1]
         // such that
@@ -189,7 +182,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // but now applied algebraically rather than arithmetically.
         int k, j;
         double sv;
-        double[] d = doub_arr(m), dd = doub_arr(m);
+        final double[] d = doub_arr(m), dd = doub_arr(m);
         for (j = 0; j < m; j++)
             d[j] = dd[j] = 0.0;
         d[0] = c[m - 1];

@@ -15,8 +15,8 @@ public class Krig<T extends Func_Doub_To_Doub> {
     private final T vgram;
     private int ndim, npt;
     private double lastval, lasterr; // Most recently computed value and (if com
-    double[] y, dstar, vstar, yvi; // puted) error.
-    private double[][] v;
+    final double[] y, dstar, vstar, yvi; // puted) error.
+    private final double[][] v;
     private LUdcmp vi;
 
     public Krig(final double[][] xx, final double[] yy, final T vargram) throws NRException {

@@ -5,7 +5,6 @@ import static com.snuggy.nr.util.Static.*;
 
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Mhash<hfnT extends HfnT<keyT, elT>, keyT, elT> extends Hashtable<hfnT, keyT, elT> {
 
     // Extend the Hashtable class with storage for elements of type elT,
@@ -16,7 +15,7 @@ public class Mhash<hfnT extends HfnT<keyT, elT>, keyT, elT> extends Hashtable<hf
     // using Hashtable<keyT,hfnT>::ireserve;
     // using Hashtable<keyT,hfnT>::irelinquish;
     private elT[] els;
-    private int[] nextsis; // Links to next sister element under a single key.
+    private final int[] nextsis; // Links to next sister element under a single key.
     private int nextget;
 
     // Mhash(Int nh, Int nm); Same constructor syntax as Hashtable.

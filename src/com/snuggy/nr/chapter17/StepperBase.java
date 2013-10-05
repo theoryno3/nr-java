@@ -1,7 +1,6 @@
 
 package com.snuggy.nr.chapter17;
 
-import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
 
 import com.snuggy.nr.refs.*;
@@ -9,16 +8,16 @@ import com.snuggy.nr.util.*;
 
 public abstract class StepperBase implements IStepperBase {
     
-    // The Odeint object doesn’t know in advance which specific stepper object
+    // The Odeint object doesnï¿½t know in advance which specific stepper object
     // it will be instantiated with. It does, however, rely on the fact that
     // the stepper object will be derived from, and thus have the methods in,
     // this StepperBase object, which serves as the base class for all
     // subsequent ODE algorithms in this chapter:
 
     // Base class for all ODE algorithms.
-    protected $double x = $(0.0);
+    protected $double x;
     protected double xold; // Used for dense output.
-    protected $double1d y, dydx;
+    protected final double[] y, dydx;
     protected double atol, rtol;
     protected boolean dense;
     protected double hdid; // Actual stepsize accomplished by the step routine.
@@ -26,18 +25,18 @@ public abstract class StepperBase implements IStepperBase {
                             // step.
     protected double EPS;
     protected int n, neqn; // neqn D n except for StepperStoerm.
-    protected double[] yout, yerr; // New value of y and error estimate.
+    protected final double[] yout, yerr; // New value of y and error estimate.
 
     public StepperBase(final double[] yy, final double[] dydxx, 
                         final $double xx, final double atoll,
                         final double rtoll, boolean dens) throws NRException {
-        $(x, xx);
-        y = $$(yy);
-        dydx = $$(dydxx);
+        x = xx;
+        y = yy;
+        dydx = dydxx;
         atol = (atoll);
         rtol = (rtoll);
         dense = (dens);
-        n = (y.$().length);
+        n = (y.length);
         neqn = (n);
         yout = doub_arr(n);
         yerr = doub_arr(n);

@@ -11,9 +11,9 @@ public class Curve_interp {
     // Object for interpolating a curve specified by n points in dim dimensions.
     private int dim, n, in;
     private boolean cls; // Set if a closed curve.
-    private double[][] pts;
-    private double[] s;
-    private double[] ans;
+    private final double[][] pts;
+    private final double[] s;
+    private final double[] ans;
     private Spline_interp[] srp;
 
     public Curve_interp(final double[][] ptsin) throws NRException, InstantiationException, IllegalAccessException {
@@ -65,13 +65,13 @@ public class Curve_interp {
                                     // derivatives.
             db = in < 4 ? 1.e99 : fprime(s, 0, pts[j], 0, 1);
             de = in < 4 ? 1.e99 : fprime(s, in - 1, pts[j], in - 1, -1);
-            srp[j] = new Spline_interp(s, pts[j], 0, db, de);
+            srp[j] = new Spline_interp(s, pts[j], db, de);
         }
     }
 
     // ~Curve_interp() {for (Int j=0;j<dim;j++) delete srp[j];}
 
-    public double[] interp(double t) throws NRException {
+    public final double[] interp(double t) throws NRException {
         // Interpolate a point on the stored curve. The point is parameterized
         // by t, in the range [0,1]. For open curves, values of t outside this
         // range will return extrapolations (dangerous!). For closed curves,

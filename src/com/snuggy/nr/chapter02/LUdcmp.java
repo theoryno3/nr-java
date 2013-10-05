@@ -11,8 +11,8 @@ import com.snuggy.nr.util.*;
 public class LUdcmp {
 
     private int n;
-    private double[][] lu; // Stores the decomposition.
-    private int[] indx; // Stores the permutation.
+    private final double[][] lu; // Stores the decomposition.
+    private final int[] indx; // Stores the permutation.
     private double d; // Used by det.
     // private LUdcmp(MatDoub_I &a); // Constructor. Argument is the matrix A.
     // private void solve(VecDoub_I &b, VecDoub_O &x); // Solve for a single
@@ -22,7 +22,7 @@ public class LUdcmp {
     // private void inverse(MatDoub_O &ainv); // Calculate matrix inverse A1.
     // private Doub det(); // Return determinant of A.
     // private void mprove(VecDoub_I &b, VecDoub_IO &x); // Discussed in 2.5.
-    private double[][] aref; // Used only by mprove.
+    private final double[][] aref; // Used only by mprove.
 
     public LUdcmp(final double[][] a) throws NRException {
         // Given a matrix a[0..n-1][0..n-1], this routine replaces it by the
@@ -42,7 +42,7 @@ public class LUdcmp {
         final double TINY = 1.0e-40; // A small number.
         int i, imax = 0, j, k;
         double big, temp;
-        double[] vv = doub_arr(n); // vv stores the implicit scaling of each
+        final double[] vv = doub_arr(n); // vv stores the implicit scaling of each
                                      // row.
         d = 1.0; // No row interchanges yet.
         for (i = 0; i < n; i++) { // Loop over rows to get the implicit scaling
@@ -148,7 +148,7 @@ public class LUdcmp {
         if (nrows(b) != n || nrows(x) != n || 
                 ncols(b) != ncols(x))
             throw new NRException("LUdcmp::solve bad sizes");
-        double[] xx = doub_arr(n);
+        final double[] xx = doub_arr(n);
         for (j = 0; j < m; j++) { // Copy and solve each column in turn.
             for (i = 0; i < n; i++)
                 xx[i] = b[i][j];
@@ -185,7 +185,7 @@ public class LUdcmp {
         // A  x D b. The vectors b[0..n-1] and x[0..n-1] are input. On output,
         // x[0..n-1] is modified, to an improved set of values.
         int i, j;
-        double[] r = doub_arr(n);
+        final double[] r = doub_arr(n);
         for (i = 0; i < n; i++) { // Calculate the right-hand side, accumulating
             BigDecimal sdp = new BigDecimal(-b[i]); // the residual in higher
                                                     // precision.

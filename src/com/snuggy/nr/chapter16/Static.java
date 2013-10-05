@@ -27,7 +27,7 @@ public class Static {
         // istart (defaults to 0). seed is an optional argument that sets the
         // seed of the random number generator.
         int i, ilo, ihi, ii, j, m = nrows(atrans), n = out.length;
-        double[][] cum = doub_mat(atrans); // Temporary matrix to hold cumulative
+        final double[][] cum = doub_mat(atrans); // Temporary matrix to hold cumulative
                                        // probabilities.
         double r;
         Ran ran = new Ran(seed); // Use the random number generator Ran.
@@ -67,7 +67,7 @@ public class Static {
         // FileOutputStream OUT = fopen(filename,"wb");
         PrintStream OUT = new PrintStream(filename);
         int i, s, ntask = 0, n = p.n, root = p.root;
-        int[] tasklist = int_arr(2 * n + 1);
+        final int[] tasklist = int_arr(2 * n + 1);
         tasklist[ntask++] = (1 << 16) + root;
         while (ntask-- > 0) { // Depth-first traversal of the tree.
             s = tasklist[ntask] >> 16; // Code indicating context.

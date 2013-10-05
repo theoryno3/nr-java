@@ -10,8 +10,8 @@ public class SVD {
     // Object for singular value decomposition of a matrix A, and related
     // functions.
     private int m, n;
-    private double[][] u, v; // The matrices U and V.
-    private double[] w; // The diagonal matrix W.
+    private final double[][] u, v; // The matrices U and V.
+    private final double[] w; // The diagonal matrix W.
     private double eps, tsh;
 
     public SVD(final double[][] a) throws NRException {
@@ -33,11 +33,11 @@ public class SVD {
         return tsh;
     }
     
-    public double[][] v() {
+    public final double[][] v() {
         return v;
     }
     
-    public double[] w() {
+    public final double[] w() {
         return w;
     }
 
@@ -74,7 +74,7 @@ public class SVD {
         double x = 0.0;
         double y = 0.0;
         double z = 0.0;
-        double[] rv1 = doub_arr(n);
+        final double[] rv1 = doub_arr(n);
         g = scale = anorm = 0.0;
         for (i = 0; i < n; i++) {
             l = i + 2;
@@ -275,8 +275,8 @@ public class SVD {
         int s = 0;
         int inc = 1;
         double sw = 0.0;
-        double[] su = doub_arr(m);
-        double[] sv = doub_arr(n);
+        final double[] su = doub_arr(m);
+        final double[] sv = doub_arr(n);
         do {
             inc *= 3;
             inc++;
@@ -368,15 +368,15 @@ public class SVD {
         return nn;
     }
 
-    public double[][] range() {
+    public final double[][] range() {
         return range(-1.);
     }
 
-    public double[][] range(final double thresh) {
+    public final double[][] range(final double thresh) {
         // Give an orthonormal basis for the range of A as the columns of a
         // returned matrix. thresh as above.
         int i, j, nr = 0;
-        double[][] rnge = doub_mat(m, rank(thresh));
+        final double[][] rnge = doub_mat(m, rank(thresh));
         for (j = 0; j < n; j++) {
             if (w[j] > tsh) {
                 for (i = 0; i < m; i++)
@@ -387,15 +387,15 @@ public class SVD {
         return rnge;
     }
 
-    public double[][] nullspace() {
+    public final double[][] nullspace() {
         return nullspace(-1.);
     }
 
-    public double[][] nullspace(final double thresh) {
+    public final double[][] nullspace(final double thresh) {
         // Give an orthonormal basis for the nullspace of A as the columns of
         // a returned matrix. thresh as above.
         int j, jj, nn = 0;
-        double[][] nullsp = doub_mat(n, nullity(thresh));
+        final double[][] nullsp = doub_mat(n, nullity(thresh));
         for (j = 0; j < n; j++) {
             if (w[j] <= tsh) {
                 for (jj = 0; jj < n; jj++)
@@ -419,7 +419,7 @@ public class SVD {
         double s;
         if (b.length != m || x.length != n)
             throw new NRException("SVD::solve bad sizes");
-        double[] tmp = doub_arr(n);
+        final double[] tmp = doub_arr(n);
         tsh = (thresh >= 0. ? thresh : 0.5 * sqrt(m + n + 1.) * w[0] * eps);
         for (j = 0; j < n; j++) { // Calculate UT B.
             s = 0.0;
@@ -449,7 +449,7 @@ public class SVD {
         int i, j, m = ncols(b);
         if (nrows(b) != n || nrows(x) != n || ncols(b) != ncols(x))
             throw new NRException("SVD::solve bad sizes");
-        double[] xx = doub_arr(n);
+        final double[] xx = doub_arr(n);
         for (j = 0; j < m; j++) { // Copy and solve each column in turn.
             for (i = 0; i < n; i++)
                 xx[i] = b[i][j];

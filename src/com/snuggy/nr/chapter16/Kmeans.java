@@ -9,8 +9,8 @@ public class Kmeans {
     // initial guesses of the means. Output is a set of means and an assignment
     // of each data point to one component.
     private int nn, mm, kk, nchg;
-    private double[][] data, means;
-    private int[] assign, count;
+    private final double[][] data, means;
+    private final int[] assign, count;
 
     public Kmeans(final double[][] ddata, final double[][] mmeans) {
         // Constructor. Arguments are the data points (as rows in a matrix),
@@ -27,15 +27,15 @@ public class Kmeans {
         mstep();
     }
     
-    public int[] count() {
+    public final int[] count() {
         return count;
     }
     
-    public int[] assign() {
+    public final int[] assign() {
         return assign;
     }
     
-    public double[][] means() {
+    public final double[][] means() {
         return means;
     }
 

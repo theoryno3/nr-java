@@ -21,7 +21,7 @@ public class Static {
 
         int k, j, i, n = x.length;
         double phi, ff, b;
-        double[] s = doub_arr(n);
+        final double[] s = doub_arr(n);
         for (i = 0; i < n; i++)
             s[i] = cof[i] = 0.0;
         s[n - 1] = -x[0];
@@ -62,7 +62,7 @@ public class Static {
 
         int k, j, i, n = xa.length;
         double xmin;
-        double[] x = doub_arr(n), y = doub_arr(n);
+        final double[] x = doub_arr(n), y = doub_arr(n);
         for (j = 0; j < n; j++) {
             x[j] = xa[j];
             y[j] = ya[j];
@@ -70,7 +70,7 @@ public class Static {
         for (j = 0; j < n; j++) { // Fill a temporary vector whose size
             // decreases as each coefficient is
             // found.
-            double[] x_t = doub_arr(n - j), y_t = doub_arr(n - j);
+            final double[] x_t = doub_arr(n - j), y_t = doub_arr(n - j);
             for (k = 0; k < n - j; k++) {
                 x_t[k] = x[k];
                 y_t[k] = y[k];
@@ -113,7 +113,7 @@ public class Static {
         2, 2, -2, -2, 2, -2, -2, 2, 1, 1, 1, 1 
     };
     
-    static int[][] wt = int_mat(16, 16, wt_d);
+    static final int[][] wt = int_mat(16, 16, wt_d);
 
     @Deprecated @Broken
     public static void bcucof(final double[] y, final double[] y1, final double[] y2, final double[] y12, 
@@ -128,7 +128,7 @@ public class Static {
 
         int l, k, j, i;
         double xx, d1d2 = d1 * d2;
-        double[] cl = doub_arr(16), x = doub_arr(16);
+        final double[] cl = doub_arr(16), x = doub_arr(16);
         for (i = 0; i < 4; i++) { // Pack a temporary vector x.
             x[i] = y[i];
             x[i + 4] = y1[i] * d1;
@@ -168,7 +168,7 @@ public class Static {
         // values as ansy1 and ansy2. This routine calls bcucof.
         int i;
         double t, u, d1 = x1u - x1l, d2 = x2u - x2l;
-        double[][] c = doub_mat(4, 4);
+        final double[][] c = doub_mat(4, 4);
         bcucof(y, y1, y2, y12, d1, d2, c); // Get the c’s.
         if (x1u == x1l || x2u == x2l)
             throw new NRException("Bad input in routine bcuint");

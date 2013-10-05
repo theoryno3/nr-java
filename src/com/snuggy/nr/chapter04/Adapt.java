@@ -48,7 +48,7 @@ public class Adapt {
 
     public <T extends Func_Doub_To_Doub> double integrate(final T func, final double a, final double b) throws NRException {
         double m, h, fa, fb, i1, i2, is, erri1, erri2, r;
-        double[] y = doub_arr(13);
+        final double[] y = doub_arr(13);
         m = 0.5 * (a + b);
         h = 0.5 * (b - a);
         fa = y[0] = func.eval(a);

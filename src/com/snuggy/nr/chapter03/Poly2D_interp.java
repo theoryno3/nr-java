@@ -1,6 +1,7 @@
 
 package com.snuggy.nr.chapter03;
 
+import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
 
 import com.snuggy.nr.util.*;
@@ -15,7 +16,7 @@ public class Poly2D_interp {
 
     protected int m, n, mm, nn;
     protected final double[][] y;
-    protected double[] yv;
+    protected final double[] yv;
     protected Poly_interp x1terp, x2terp;
 
     public Poly2D_interp(final double[] x1v, final double[] x2v, final double[][] ym, final int mp, final int np) {
@@ -39,8 +40,7 @@ public class Poly2D_interp {
         // Find grid block.
         for (k = i; k < i + mm; k++) { // mm interpolations in the x2 direction.
             // x2terp.yy = &y[k][0];
-            x2terp.yy_arr = y[k];
-            x2terp.yy_off = 0;
+            x2terp.yy = $(y, k, 0);
             yv[k] = x2terp.rawinterp(j, x2p);
         }
         return x1terp.rawinterp(i, x1p);

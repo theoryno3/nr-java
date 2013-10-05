@@ -30,10 +30,10 @@ public class Bilin_interp {
         i = (x1terp.cor != 0) ? x1terp.hunt(x1p) : x1terp.locate(x1p);
         j = (x2terp.cor != 0) ? x2terp.hunt(x2p) : x2terp.locate(x2p);
         // Find the grid square.
-        t = (x1p - x1terp.xx_arr[x1terp.xx_off + i])
-                / (x1terp.xx_arr[x1terp.xx_off + i + 1] - x1terp.xx_arr[x1terp.xx_off + i]); // Interpolate.
-        u = (x2p - x2terp.xx_arr[x2terp.xx_off + j])
-                / (x2terp.xx_arr[x2terp.xx_off + j + 1] - x2terp.xx_arr[x2terp.xx_off + j]);
+        t = (x1p - x1terp.xx.$(i))
+                / (x1terp.xx.$(i + 1) - x1terp.xx.$(i)); // Interpolate.
+        u = (x2p - x2terp.xx.$(j))
+                / (x2terp.xx.$(j + 1) - x2terp.xx.$(j));
         yy = (1. - t) * (1. - u) * y[i][j] + t * (1. - u) * y[i + 1][j] + (1. - t) * u * y[i][j + 1] + t * u
                 * y[i + 1][j + 1];
         return yy;

@@ -14,7 +14,7 @@ public class Eulsum {
     // nmax, an upper bound on the number of terms to be summed, and epss,
     // the desired accuracy. Then make successive calls to the function next
     // (see below).
-    private double[] wksp;
+    private final double[] wksp;
     private int n, ncv;
     private double cnvgd;
     private double sum, eps, lastval, lasteps;

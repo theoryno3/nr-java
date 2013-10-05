@@ -18,23 +18,23 @@ public class Fitmrq {
     private static final int NDONE = 4, ITMAX = 1000; // Convergence parameters.
 
     private int ndat, ma, mfit;
-    private double[] x, y, sig;
+    private final double[] x, y, sig;
     private double tol;
     private Func_Doub_DoubArr_DoubRef_DoubArr_To_Void funcs;
     private boolean[] ia;
-    private double[] a; // Output values. a is the vector of fitted
+    private final double[] a; // Output values. a is the vector of fitted
                         // coefficients,
     // covar is its covariance matrix, alpha is the curvature matrix, and
     // chisq is the value of 2 for the fit.
-    private double[][] covar;
-    private double[][] alpha;
+    private final double[][] covar;
+    private final double[][] alpha;
     private double chisq;
     
-    public double[] a() {
+    public final double[] a() {
         return a;
     }
     
-    public double[][] covar() {
+    public final double[][] covar() {
         return covar;
     }
 
@@ -90,12 +90,12 @@ public class Fitmrq {
         // (Parameters held fixed will return zero covariances.)
         int j, k, l, iter, done = 0;
         double alamda = .001, ochisq;
-        double[] atry = doub_arr(ma), beta = doub_arr(ma), da = doub_arr(ma);
+        final double[] atry = doub_arr(ma), beta = doub_arr(ma), da = doub_arr(ma);
         mfit = 0;
         for (j = 0; j < ma; j++)
             if (ia[j])
                 mfit++;
-        double[][] oneda = doub_mat(mfit, 1), temp = doub_mat(mfit, mfit);
+        final double[][] oneda = doub_mat(mfit, 1), temp = doub_mat(mfit, mfit);
         mrqcof(a, alpha, beta); // Initialization.
         for (j = 0; j < ma; j++)
             atry[j] = a[j];
@@ -153,8 +153,8 @@ public class Fitmrq {
         // vector beta as in (15.5.8), and to calculate 2.
         int i, j, k, l, m;
         double wt, sig2i, dy;
-        double[] ymod_ref = doub_ref();
-        double[] dyda = doub_arr(ma);
+        final double[] ymod_ref = doub_ref();
+        final double[] dyda = doub_arr(ma);
         for (j = 0; j < mfit; j++) { // Initialize (symmetric) alpha, beta.
             for (k = 0; k <= j; k++)
                 alpha[j][k] = 0.0;

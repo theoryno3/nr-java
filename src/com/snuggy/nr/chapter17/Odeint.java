@@ -25,7 +25,7 @@ public class Odeint {
     private int nvar;
     private double x1, x2, hmin;
     private boolean dense; // true if dense output requested by
-    private double[] y, dydx; // out.
+    private final double[] y, dydx; // out.
     private final double[] ystart;
     private final Output out;
 

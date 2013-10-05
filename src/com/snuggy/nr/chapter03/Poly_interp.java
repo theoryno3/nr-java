@@ -1,9 +1,11 @@
 
 package com.snuggy.nr.chapter03;
 
+import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Poly_interp extends Base_interp {
@@ -19,7 +21,7 @@ public class Poly_interp extends Base_interp {
     }
 
     public Poly_interp(final double[] xv, final double[] yv, final int m) {
-        super(xv, yv, 0, m);
+        super(xv, $(yv, 0), m);
         dy = (0.0);
     }
 
@@ -33,28 +35,26 @@ public class Poly_interp extends Base_interp {
 
         int i, m, ns = 0;
         double y, den, dif, dift, ho, hp, w;
-        final double[] xa_arr = xx_arr;
-        final int xa_off = jl;
-        final double[] ya_arr = yy_arr;
-        final int ya_off = jl;
-        double[] c = doub_arr(mm), d = doub_arr(mm);
-        dif = abs(x - xa_arr[xa_off + 0]);
+        final $double xa = $(xx, jl); 
+        final $double ya = $(yy, jl);
+        final double[] c = doub_arr(mm), d = doub_arr(mm);
+        dif = abs(x - xa.$(0));
         for (i = 0; i < mm; i++) { // Here we find the index ns of the closest
                                    // table entry,
-            if ((dift = abs(x - xa_arr[xa_off + i])) < dif) {
+            if ((dift = abs(x - xa.$(i))) < dif) {
                 ns = i;
                 dif = dift;
             }
-            c[i] = ya_arr[ya_off + i]; // and initialize the tableau of c’s and
+            c[i] = ya.$(i); // and initialize the tableau of c’s and
                                        // d’s.
-            d[i] = ya_arr[ya_off + i];
+            d[i] = ya.$(i);
         }
-        y = ya_arr[ya_off + (ns--)]; // This is the initial approximation to y.
+        y = ya.$((ns--)); // This is the initial approximation to y.
         for (m = 1; m < mm; m++) { // For each column of the tableau,
             for (i = 0; i < mm - m; i++) { // we loop over the current c’s and
                                            // d’s and update
-                ho = xa_arr[xa_off + i] - x; // them.
-                hp = xa_arr[xa_off + i + m] - x;
+                ho = xa.$(i) - x; // them.
+                hp = xa.$(i + m) - x;
                 w = c[i + 1] - d[i];
                 if ((den = ho - hp) == 0.0)
                     throw new NRException("Poly_interp error");

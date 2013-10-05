@@ -24,7 +24,7 @@ public class NRsparseLinbcg extends Linbcg {
     // it available to asolve and atimes. To solve for a right-hand side,
     // you call this object’s solve method, as defined in the base class.
 
-    public void atimes(final double[] x, final $double1d r, final int itrnsp) throws NRException {
+    public void atimes(final double[] x, final $$double1d r, final int itrnsp) throws NRException {
         if (itrnsp != 0)
             $$(r, mat.atx(x));
         else

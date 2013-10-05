@@ -10,7 +10,7 @@ public class Primpolytest {
     // Test polynomials over the integers mod 2 for primitiveness.
     private int N, nfactors;
     private long[] factors;
-    private int[] t, a, p;
+    private final int[] t, a, p;
 
     public Primpolytest() {
         // Constructor. The constants are specific to 32-bit LFSRs.
@@ -44,7 +44,7 @@ public class Primpolytest {
     public void mattimeseq(final int[] a, final int[] b) {
         // Utility for a *= b on matrices a and b.
         int i, j, k, sum;
-        int[] tmp = int_arr(N * N);
+        final int[] tmp = int_arr(N * N);
         for (i = 0; i < N; i++)
             for (j = 0; j < N; j++) {
                 sum = 0;

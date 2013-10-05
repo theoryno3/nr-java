@@ -13,7 +13,7 @@ public class Epsalg {
     // sum of the sequence. The current estimate of the limit of the sequence
     // is returned by next. The flag cnvgd is set when convergence is detected.
 
-    private double[] e; // Workspace.
+    private final double[] e; // Workspace.
     private int n, ncv;
     protected boolean cnvgd;
     private double eps, small, big, lastval, lasteps; // Numbers near machine

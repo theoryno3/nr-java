@@ -4,9 +4,7 @@ package com.snuggy.nr.chapter05;
 import static com.snuggy.nr.util.Static.*;
 
 import com.snuggy.nr.refs.*;
-import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Ratfn implements ByValue<Ratfn> {
 
     // Function object for a rational function.

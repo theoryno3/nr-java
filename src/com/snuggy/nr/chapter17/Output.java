@@ -14,6 +14,7 @@ public class Output {
     private boolean dense; // true if dense output requested.
     private int count; // Number of values actually saved.
     private double x1, x2, xout, dxout;
+    
     private double[] xsave; // Results stored in the vector xsave[0..count-1]
                             // and the
     private double[][] ysave; // matrix ysave[0..nvar-1][0..count-1].
@@ -32,11 +33,11 @@ public class Output {
         return dense;
     }
 
-    public double[] xsave() {
+    public final double[] xsave() {
         return xsave;
     }
     
-    public double[][] ysave() {
+    public final double[][] ysave() {
         return ysave;
     }
 
@@ -76,11 +77,11 @@ public class Output {
         // Resize storage arrays by a factor of two, keeping saved data.
         int kold = kmax;
         kmax *= 2;
-        double[] tempvec = doub_arr(xsave);
+        final double[] tempvec = doub_arr(xsave);
         xsave = doub_arr(kmax);
         for (int k = 0; k < kold; k++)
             xsave[k] = tempvec[k];
-        double[][] tempmat = doub_mat(ysave);
+        final double[][] tempmat = doub_mat(ysave);
         ysave = doub_mat(nvar, kmax);
         for (int i = 0; i < nvar; i++)
             for (int k = 0; k < kold; k++)

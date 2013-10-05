@@ -12,21 +12,21 @@ public class Gaumixmod extends preGaumixmod {
     // Solve for a Gaussian mixture model from a set of data points and initial
     // guesses of k means.
     private int nn, kk, mm; // Nos. of data points, components, and dimensions.
-    private double[][] data, means, resp; // Local copies of xn’s, k’s, and the
+    private final double[][] data, means, resp; // Local copies of xn’s, k’s, and the
                                           // pnk’s.
-    private double[] frac, lndets; // P.k/’s and log det†k’s.
-    private double[][] sig_arr[]; // †k’s
+    private final double[] frac, lndets; // P.k/’s and log det†k’s.
+    private final double[][] sig_arr[]; // †k’s
     private double loglike; // logL.
     
-    public double[][][] sig_arr() {
+    public final double[][][] sig_arr() {
         return sig_arr;
     }
     
-    public double[][] means() {
+    public final double[][] means() {
         return means;
     }
     
-    public double[] frac() {
+    public final double[] frac() {
         return frac;
     }
 
@@ -63,7 +63,7 @@ public class Gaumixmod extends preGaumixmod {
         // Perform one E-step of the EM algorithm.
         int k, m, n;
         double tmp, sum, max, oldloglike;
-        double[] u = doub_arr(mm), v = doub_arr(mm);
+        final double[] u = doub_arr(mm), v = doub_arr(mm);
         oldloglike = loglike;
         for (k = 0; k < kk; k++) { // Outer loop for computing the pnk’s.
             Cholesky choltmp = new Cholesky(sig_arr[k]); // Decompose †k in the

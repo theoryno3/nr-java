@@ -35,7 +35,7 @@ public class Static {
         }
     }
 
-    public static void poldiv(final double[] u, final double[] v, final $double1d q, final $double1d r)
+    public static void poldiv(final double[] u, final double[] v, final $$double1d q, final $$double1d r)
             throws NRException {
         // Divide a polynomial u by a polynomial v, and return the quotient
         // and remainder polynomials in q and r, respectively. The four
@@ -77,7 +77,7 @@ public class Static {
         final double safe = 2.0; // Return when error is SAFE worse than the
         int i, j; // best so far.
         double errt, fac, hh, ans = 0.0;
-        double[][] a = doub_mat(ntab, ntab);
+        final double[][] a = doub_mat(ntab, ntab);
         if (h == 0.0)
             throw new NRException("h must be nonzero in dfridr.");
         hh = h;
@@ -114,7 +114,7 @@ public class Static {
         return ans;
     }
 
-    public static void pcshft(final double a, final double b, double[] d) {
+    public static void pcshft(final double a, final double b, final double[] d) {
         // Polynomial coefficient shift. Given a coefficient array d[0..n-1],
         // this routine generates a coefficient array g[0..n-1] such that
         // Pn-1
@@ -152,12 +152,12 @@ public class Static {
         final double BIG = 1.0e99;
         int j, k, n = (cof.length - 1) / 2;
         double sum;
-        double[][] q = doub_mat(n, n);
+        final double[][] q = doub_mat(n, n);
         @SuppressWarnings("unused")
-        double[][] qlu = doub_mat(n, n);
+        final double[][] qlu = doub_mat(n, n);
         @SuppressWarnings("unused")
-        int[] indx = int_arr(n);
-        double[] x = doub_arr(n), y = doub_arr(n), num = doub_arr(n + 1), denom = doub_arr(n + 1);
+        final int[] indx = int_arr(n);
+        final double[] x = doub_arr(n), y = doub_arr(n), num = doub_arr(n + 1), denom = doub_arr(n + 1);
         for (j = 0; j < n; j++) { // Set up matrix for solving.
             y[j] = cof[n + j + 1];
             for (k = 0; k < n; k++)
@@ -194,8 +194,8 @@ public class Static {
         // Number of points where function is evaluated, i.e., fineness of the
         // mesh.
         double devmax, e, hth, power, sum;
-        double[] bb = doub_arr(npt), coff = doub_arr(ncof), ee = doub_arr(npt), fs = doub_arr(npt), wt = doub_arr(npt), xs = doub_arr(npt);
-        double[][] u = doub_mat(npt, ncof);
+        final double[] bb = doub_arr(npt), coff = doub_arr(ncof), ee = doub_arr(npt), fs = doub_arr(npt), wt = doub_arr(npt), xs = doub_arr(npt);
+        final double[][] u = doub_mat(npt, ncof);
         $$<Ratfn> ratbest = $$(new Ratfn(coff, mm + 1, kk + 1));
         dev_ref[0] = BIG;
         for (i = 0; i < npt; i++) { // Fill arrays with mesh abscissas and

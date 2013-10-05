@@ -12,15 +12,15 @@ public class Symmeig {
     // Computes all eigenvalues and eigenvectors of a real symmetric
     // matrix by reduction to tridiagonal form followed by QL iteration.
     private int n;
-    private double[][] z;
-    private double[] d, e;
+    private final double[][] z;
+    private final double[] d, e;
     private boolean yesvecs;
 
-    public double[] d() {
+    public final double[] d() {
         return d;
     }
 
-    public double[][] z() {
+    public final double[][] z() {
         return z;
     }
 

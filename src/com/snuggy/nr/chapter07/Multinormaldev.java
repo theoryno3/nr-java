@@ -11,10 +11,10 @@ public class Multinormaldev extends Ran {
 
     // Structure for multivariate normal deviates.
     private int mm;
-    private double[] mean;
-    private double[][] var;
+    private final double[] mean;
+    private final double[][] var;
     private Cholesky chol;
-    private double[] spt, pt;
+    private final double[] spt, pt;
 
     public Multinormaldev(final long j, final double[] mmean, final double[][] vvar) throws NRException {
         // Constructor. Arguments are the random generator seed, the (vector)
@@ -31,7 +31,7 @@ public class Multinormaldev extends Ran {
             throw new NRException("bad sizes");
     }
 
-    public double[] dev() throws NRException {
+    public final double[] dev() throws NRException {
         // Return a multivariate normal deviate.
         int i;
         double u, v, x, y, q;

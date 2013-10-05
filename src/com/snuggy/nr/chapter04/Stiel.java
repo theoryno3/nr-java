@@ -56,7 +56,7 @@ public class Stiel {
     private Func_Doub_To_Doub wt2;
     private Func_Doub_To_Doub fx;
     private Func_Doub_To_Doub fdxdt;
-    private double[] a, b;
+    private final double[] a, b;
     // Coecents of the recurrence relation for the orthogonal polynomials.
     private Quadrature s1, s2;
     // The two quadratures required in each iteration of eq. (4.6.7).

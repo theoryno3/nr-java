@@ -28,7 +28,7 @@ public class ADAT {
         a = new NRsparseMat(A);
         at = new NRsparseMat(AT);
         int h, i, j, k, l, nvals, m = AT.ncols();
-        int[] done = int_arr(m);
+        final int[] done = int_arr(m);
         for (i = 0; i < m; i++)
             // Initialize to not done.
             done[i] = -1;
@@ -75,7 +75,7 @@ public class ADAT {
             int size = adat.col_ptr()[j + 1] - i;
             if (size > 1) {
                 // VecInt col(size,&adat->row_ind[i]);
-                int[] col = int_arr(size, adat.row_ind(), i);
+                final int[] col = int_arr(size, adat.row_ind(), i);
                 Arrays.sort(col);
                 for (k = 0; k < size; k++)
                     adat.row_ind()[i + k] = col[k];
@@ -88,7 +88,7 @@ public class ADAT {
 
     public void updateD(final double[] D) {
         int h, i, j, k, l, m = a.nrows(), n = a.ncols();
-        double[] temp = doub_arr(n), temp2 = doub_arr(m);
+        final double[] temp = doub_arr(n), temp2 = doub_arr(m);
         for (i = 0; i < m; i++) { // Outer loop over columns of AT .
             for (j = at.col_ptr()[i]; j < at.col_ptr()[i + 1]; j++) {
                 k = at.row_ind()[j]; // Scale elements of each column with D and

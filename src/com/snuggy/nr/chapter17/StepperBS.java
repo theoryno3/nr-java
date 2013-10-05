@@ -8,7 +8,6 @@ import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class StepperBS extends StepperBase implements IStepperBS {
 
     // Bulirsch-Stoer step with monitoring of local truncation error to ensure
@@ -18,18 +17,18 @@ public class StepperBS extends StepperBase implements IStepperBS {
     protected static final int IMAXX = KMAXX + 1;
     // KMAXX is the maximum number of rows used in the extrapolation.
     private int k_targ; // Optimal row number for convergence.
-    protected int[] nseq; // Stepsize sequence.
-    protected int[] cost; // Ak.
-    private double[][] table; // Extrapolation tableau.
-    private double[] dydxnew;
+    protected final int[] nseq; // Stepsize sequence.
+    protected final int[] cost; // Ak.
+    private final double[][] table; // Extrapolation tableau.
+    private final double[] dydxnew;
     protected int mu; // Used for dense output.
-    private double[][] coeff; // Coefficients used in extrapolation tableau.
-    protected double[] errfac; // Used to compute dense interpolation error.
-    protected double[][] ysave; // ysave and fsave store values and derivatives
+    private final double[][] coeff; // Coefficients used in extrapolation tableau.
+    protected final double[] errfac; // Used to compute dense interpolation error.
+    protected final double[][] ysave; // ysave and fsave store values and derivatives
                                 // to be
-    protected double[][] fsave; // used for dense output.
-    private int[] ipoint; // Keeps track of where values are stored in fsave.
-    protected double[] dens; // Stores quantities for dense interpolating
+    protected final double[][] fsave; // used for dense output.
+    private final int[] ipoint; // Keeps track of where values are stored in fsave.
+    protected final double[] dens; // Stores quantities for dense interpolating
                            // polynomial.
 
     // StepperBS(VecDoub_IO &yy, VecDoub_IO &dydxx, Doub &xx, final double atol,
@@ -122,18 +121,18 @@ public class StepperBS extends StepperBase implements IStepperBS {
         final double STEPFAC1 = 0.65, STEPFAC2 = 0.94, STEPFAC3 = 0.02, STEPFAC4 = 4.0, KFAC1 = 0.8, KFAC2 = 0.9;
         int i, k = 0;
         double fac, h, hnew, hopt_int = 0.0;
-        double err_ref[] = doub_ref();
+        $double err = $(0.0);
         boolean firstk;
-        double[] hopt = doub_arr(IMAXX), work = doub_arr(IMAXX);
-        double[] ysav = doub_arr(n), yseq = doub_arr(n);
+        final $$double1d hopt = $$(doub_arr(IMAXX)), work = $$(doub_arr(IMAXX));
+        final $$double1d ysav = $$(doub_arr(n)), yseq = $$(doub_arr(n));
         @SuppressWarnings("unused")
-        double[] ymid = doub_arr(n);
-        double[] scale = doub_arr(n);
-        work[0] = 0;
+        final $$double1d ymid = $$(doub_arr(n));
+        final $$double1d scale = $$(doub_arr(n));
+        $(work, 0, 0);
         h = htry;
         forward = h > 0 ? true : false;
         for (i = 0; i < n; i++)
-            ysav[i] = y.$()[i]; // Save the starting values.
+            $(ysav, i, y[i]); // Save the starting values.
         if (h != hnext && !first_step) { // h gets reset in Odeint for the last
                                          // step.
             last_step = true;
@@ -157,66 +156,66 @@ interp_error: // Restart here if interpolation error too big.
 	            ipt_ref[0] = -1; // Initialize counter for saving stu.
 	            for (k = 0; k <= k_targ + 1; k++) { // Evaluate the sequence of modi
 	                                                // ed midpoint
-	                dy(ysav, h, k, yseq, ipt_ref, derivs); // integrations.
+	                dy(ysav.$(), h, k, yseq.$(), ipt_ref, derivs); // integrations.
 	                if (k == 0)
 	                    $$(y, yseq); 
 	                else
 	                    // Store result in tableau.
 	                    for (i = 0; i < n; i++)
-	                        table[k - 1][i] = yseq[i];
+	                        table[k - 1][i] = yseq.$()[i];
 	                if (k != 0) {
-	                    polyextr(k, table, y.$()); // Perform extrapolation.
-	                    err_ref[0] = 0.0; // Compute normalized error estimate errk.
+	                    polyextr(k, table, y); // Perform extrapolation.
+	                    $(err, 0.0); // Compute normalized error estimate errk.
 	                    for (i = 0; i < n; i++) {
-	                        scale[i] = atol + rtol * MAX(abs(ysav[i]), abs(y.$()[i]));
-	                        err_ref[0] += SQR((y.$()[i] - table[0][i]) / scale[i]);
+	                        scale.$(i, atol + rtol * MAX(abs(ysav.$()[i]), abs(y[i])));
+	                        err.$(err.$() + SQR((y[i] - table[0][i]) / scale.$()[i]));
 	                    }
-	                    err_ref[0] = sqrt(err_ref[0] / n);
+	                    err.$(sqrt(err.$() / n));
 	                    double expo = 1.0 / (2 * k + 1); // Compute optimal stepsize
 	                                                     // for this order.
 	                    double facmin = pow(STEPFAC3, expo);
-	                    if (err_ref[0] == 0.0)
+	                    if (err.$() == 0.0)
 	                        fac = 1.0 / facmin;
 	                    else {
-	                        fac = STEPFAC2 / pow(err_ref[0] / STEPFAC1, expo);
+	                        fac = STEPFAC2 / pow(err.$() / STEPFAC1, expo);
 	                        fac = MAX(facmin / STEPFAC4, MIN(1.0 / facmin, fac));
 	                    }
-	                    hopt[k] = abs(h * fac);
-	                    work[k] = cost[k] / hopt[k]; // Work per unit step
+	                    hopt.$(k, abs(h * fac));
+	                    work.$(k, cost[k] / hopt.$()[k]); // Work per unit step
 	                                                 // (17.3.13).
-	                    if ((first_step || last_step) && err_ref[0] <= 1.0)
+	                    if ((first_step || last_step) && err.$() <= 1.0)
 	                        break;
 	                    if (k == k_targ - 1 && !prev_reject && !first_step && !last_step) {
-	                        if (err_ref[0] <= 1.0) // Converged within order window.
+	                        if (err.$() <= 1.0) // Converged within order window.
 	                            break;
-	                        else if (err_ref[0] > SQR(nseq[k_targ] * nseq[k_targ + 1] / (nseq[0] * nseq[0]))) {
+	                        else if (err.$() > SQR(nseq[k_targ] * nseq[k_targ + 1] / (nseq[0] * nseq[0]))) {
 	                            reject = true; // Criterion (17.3.17) predicts step
 	                                           // will fail.
 	                            k_targ = k;
-	                            if (k_targ > 1 && work[k - 1] < KFAC1 * work[k])
+	                            if (k_targ > 1 && work.$()[k - 1] < KFAC1 * work.$()[k])
 	                                k_targ--;
-	                            hnew = hopt[k_targ];
+	                            hnew = hopt.$()[k_targ];
 	                            break;
 	                        }
 	                    }
 	                    if (k == k_targ) {
-	                        if (err_ref[0] <= 1.0)
+	                        if (err.$() <= 1.0)
 	                            break; // Converged within order window.
-	                        else if (err_ref[0] > SQR(nseq[k + 1] / nseq[0])) {
+	                        else if (err.$() > SQR(nseq[k + 1] / nseq[0])) {
 	                            reject = true; // Criterion (17.3.20) predicts step
 	                                           // will fail.
-	                            if (k_targ > 1 && work[k - 1] < KFAC1 * work[k])
+	                            if (k_targ > 1 && work.$()[k - 1] < KFAC1 * work.$()[k])
 	                                k_targ--;
-	                            hnew = hopt[k_targ];
+	                            hnew = hopt.$()[k_targ];
 	                            break;
 	                        }
 	                    }
 	                    if (k == k_targ + 1) {
-	                        if (err_ref[0] > 1.0) {
+	                        if (err.$() > 1.0) {
 	                            reject = true;
-	                            if (k_targ > 1 && work[k_targ - 1] < KFAC1 * work[k_targ])
+	                            if (k_targ > 1 && work.$()[k_targ - 1] < KFAC1 * work.$()[k_targ])
 	                                k_targ--;
-	                            hnew = hopt[k_targ];
+	                            hnew = hopt.$()[k_targ];
 	                        }
 	                        break;
 	                    }
@@ -225,13 +224,13 @@ interp_error: // Restart here if interpolation error too big.
 	            if (reject) // Arrive here from any break in for loop.
 	                prev_reject = true;
 	        } // Go back if step was rejected.
-	        derivs.eval(x.$() + h, y.$(), dydxnew); // Used for start of next step
+	        derivs.eval(x.$() + h, y, dydxnew); // Used for start of next step
 	                                               // and in dense out
 	        if (dense) { // put.
-	            prepare_dense(h, dydxnew, ysav, scale, k, err_ref);
-	            hopt_int = h / MAX(pow(err_ref[0], 1.0 / (2 * k + 3)), 0.01);
+	            prepare_dense(h, dydxnew, ysav.$(), scale.$(), k, err);
+	            hopt_int = h / MAX(pow(err.$(), 1.0 / (2 * k + 3)), 0.01);
 	            // Stepsize based on interpolation error.
-	            if (err_ref[0] > 10.0) { // Interpolation error too big, reject
+	            if (err.$() > 10.0) { // Interpolation error too big, reject
 	                                     // step.
 	                hnew = abs(hopt_int);
 	                reject = true;
@@ -241,7 +240,7 @@ interp_error: // Restart here if interpolation error too big.
 	        }
 	        break interp_error;
 	    }
-        dydx = $$(dydxnew); // Update for start of next step.
+        $$(dydx, dydxnew); // Update for start of next step.
         xold = x.$(); // For dense output.
         x.$(x.$() + h);
         hdid = h;
@@ -251,29 +250,29 @@ interp_error: // Restart here if interpolation error too big.
             kopt = 2;
         else if (k <= k_targ) {
             kopt = k;
-            if (work[k - 1] < KFAC1 * work[k])
+            if (work.$()[k - 1] < KFAC1 * work.$()[k])
                 kopt = k - 1;
-            else if (work[k] < KFAC2 * work[k - 1])
+            else if (work.$()[k] < KFAC2 * work.$()[k - 1])
                 kopt = MIN(k + 1, KMAXX - 1);
         } else {
             kopt = k - 1;
-            if (k > 2 && work[k - 2] < KFAC1 * work[k - 1])
+            if (k > 2 && work.$()[k - 2] < KFAC1 * work.$()[k - 1])
                 kopt = k - 2;
-            if (work[k] < KFAC2 * work[kopt])
+            if (work.$()[k] < KFAC2 * work.$()[kopt])
                 kopt = MIN(k, KMAXX - 1);
         }
         if (prev_reject) { // After a rejected step neither order nor step
             k_targ = MIN(kopt, k); // size should increase.
-            hnew = MIN(abs(h), hopt[k_targ]);
+            hnew = MIN(abs(h), hopt.$()[k_targ]);
             prev_reject = false;
         } else { // Stepsize control for next step.
             if (kopt <= k)
-                hnew = hopt[kopt];
+                hnew = hopt.$()[kopt];
             else {
-                if (k < k_targ && work[k] < KFAC2 * work[k - 1])
-                    hnew = hopt[k] * cost[kopt + 1] / cost[k];
+                if (k < k_targ && work.$()[k] < KFAC2 * work.$()[k - 1])
+                    hnew = hopt.$()[k] * cost[kopt + 1] / cost[k];
                 else
-                    hnew = hopt[k] * cost[kopt] / cost[k];
+                    hnew = hopt.$()[k] * cost[kopt] / cost[k];
             }
             k_targ = kopt;
         }
@@ -287,10 +286,10 @@ interp_error: // Restart here if interpolation error too big.
 
     // The algorithm routine dy carries out the modied midpoint method.
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#dy(double[], double, int, double[], int[], com.snuggy.nr.chapter17.Dtype)
+     * @see com.snuggy.nr.chapter17.IStepperBS#dy(final double[], double, int, final double[], final int[], com.snuggy.nr.chapter17.Dtype)
      */
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#dy(double[], double, int, double[], int[], com.snuggy.nr.chapter17.Dtype)
+     * @see com.snuggy.nr.chapter17.IStepperBS#dy(final double[], double, int, final double[], final int[], com.snuggy.nr.chapter17.Dtype)
      */
     @Override
     public boolean dy(final double[] y, final double htot, final int k, final double[] yend, final int ipt_ref[],
@@ -298,12 +297,12 @@ interp_error: // Restart here if interpolation error too big.
         // Modi ed midpoint step. Inputs are y, H, and k. The output is
         // returned as yend[0..n-1]. The counter ipt keeps track of saving the
         // right-hand sides in the correct locations for dense output.
-        double[] ym = doub_arr(n), yn = doub_arr(n);
+        final double[] ym = doub_arr(n), yn = doub_arr(n);
         int nstep = nseq[k];
         double h = htot / nstep; // Stepsize this trip.
         for (int i = 0; i < n; i++) { // First step.
             ym[i] = y[i];
-            yn[i] = y[i] + h * dydx.$()[i];
+            yn[i] = y[i] + h * dydx[i];
         }
         double xnew = x.$() + h;
         derivs.eval(xnew, yn, yend); // Use yend for temporary storage of deriva
@@ -339,10 +338,10 @@ interp_error: // Restart here if interpolation error too big.
 
     // Next comes the polynomial extrapolation routine:
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#polyextr(int, double[][], double[])
+     * @see com.snuggy.nr.chapter17.IStepperBS#polyextr(int, final double[][], final double[])
      */
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#polyextr(int, double[][], double[])
+     * @see com.snuggy.nr.chapter17.IStepperBS#polyextr(int, final double[][], final double[])
      */
     @Override
     public void polyextr(final int k, final double[][] table, final double[] last) {
@@ -367,14 +366,14 @@ interp_error: // Restart here if interpolation error too big.
     // The routine prepare_dense sets up the dense output quantities. Our
     // coding is closely based on that of the Fortran code ODEX of [4].
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#prepare_dense(double, double[], double[], double[], int, double[])
+     * @see com.snuggy.nr.chapter17.IStepperBS#prepare_dense(double, final double[], final double[], final double[], int, final double[])
      */
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#prepare_dense(double, double[], double[], double[], int, double[])
+     * @see com.snuggy.nr.chapter17.IStepperBS#prepare_dense(double, final double[], final double[], final double[], int, final double[])
      */
     @Override
     public void prepare_dense(final double h, final double[] dydxnew, final double[] ysav, final double[] scale,
-            final int k, final double error_ref[]) {
+            final int k, final $double error) {
         // Store coecients of interpolating polynomial for dense output in
         // dens array. Input stepsize h, derivative at end of interval
         // dydxnew[0..n-1], function at beginning of interval ysav[0..n-1],
@@ -384,8 +383,8 @@ interp_error: // Restart here if interpolation error too big.
         for (int i = 0; i < n; i++) { // Store y and y0 at both ends of
                                       // interval.
             dens[i] = ysav[i];
-            dens[n + i] = h * dydx.$()[i];
-            dens[2 * n + i] = y.$()[i];
+            dens[n + i] = h * dydx[i];
+            dens[2 * n + i] = y[i];
             dens[3 * n + i] = dydxnew[i] * h;
         }
         for (int j = 1; j <= k; j++) { // Compute solution at midpoint.
@@ -430,7 +429,7 @@ interp_error: // Restart here if interpolation error too big.
                 if (kmi == 1) {
                     int l = lend - 2;
                     for (int i = 0; i < n; i++)
-                        fsave[l][i] = fsave[l][i] - dydx.$()[i];
+                        fsave[l][i] = fsave[l][i] - dydx[i];
                 }
             }
             for (int kk = kmi / 2; kk <= k; kk++) {
@@ -443,11 +442,11 @@ interp_error: // Restart here if interpolation error too big.
         }
         dense_interp(n, dens, mu); // Compute the interpolation coecients in
                                    // dens.
-        error_ref[0] = 0.0; // Estimate the interpolation error.
+        error.$(0.0); // Estimate the interpolation error.
         if (mu >= 1) {
             for (int i = 0; i < n; i++)
-                error_ref[0] += SQR(dens[(mu + 4) * n + i] / scale[i]);
-            error_ref[0] = sqrt(error_ref[0] / n) * errfac[mu - 1];
+                error.$(error.$() + SQR(dens[(mu + 4) * n + i] / scale[i]));
+            error.$(sqrt(error.$() / n) * errfac[mu - 1]);
         }
     }
 
@@ -481,10 +480,10 @@ interp_error: // Restart here if interpolation error too big.
 
     // The nal routine is a utility routine used by prepare_dense.
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#dense_interp(int, double[], int)
+     * @see com.snuggy.nr.chapter17.IStepperBS#dense_interp(int, final double[], int)
      */
     /* (non-Javadoc)
-     * @see com.snuggy.nr.chapter17.IStepperBS#dense_interp(int, double[], int)
+     * @see com.snuggy.nr.chapter17.IStepperBS#dense_interp(int, final double[], int)
      */
     @Override
     public void dense_interp(final int n, final double[] y, final int imit) {
@@ -492,7 +491,7 @@ interp_error: // Restart here if interpolation error too big.
         // y[0..n*(imit+5)-1] contains the dens array from prepare_dense. On
         // output, these coecients have been updated to the required values.
         double y0, y1, yp0, yp1, ydiff, aspl, bspl, ph0, ph1, ph2, ph3, fac1, fac2;
-        double[] a = doub_arr(31);
+        final double[] a = doub_arr(31);
         for (int i = 0; i < n; i++) {
             y0 = y[i];
             y1 = y[2 * n + i];

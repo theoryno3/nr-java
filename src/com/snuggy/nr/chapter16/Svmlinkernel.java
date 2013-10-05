@@ -8,7 +8,7 @@ public class Svmlinkernel extends Svmgenkernel {
     // Kernel structure for the linear kernel, the dot product of two feature
     // vectors (with overall means of each component subtracted).
     private int n;
-    private double[] mu;
+    private final double[] mu;
 
     public Svmlinkernel(final double[][] ddata, final double[] yy) {
         // Constructor is called with the m n data matrix, and the vector

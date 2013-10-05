@@ -72,7 +72,7 @@ public class Static {
         // Here EPS is the fractional accuracy desired, as determined by the
         // extrapolation error estimate; JMAX limits the total number of steps;
         // K is the number of points used in the extrapolation.
-        double[] s = doub_arr(JMAX), h = doub_arr(JMAXP); // These store the
+        final double[] s = doub_arr(JMAX), h = doub_arr(JMAXP); // These store the
                                                               // successive
                                                               // trapezoidal
                                                               // approxi
@@ -110,7 +110,7 @@ public class Static {
         // midinf, midsql, midsqu, midexp are possible choices for q. The
         // constants below have the same meanings as in qromb.
         final int JMAX = 14, JMAXP = JMAX + 1, K = 5;
-        double[] h = doub_arr(JMAXP), s = doub_arr(JMAX);
+        final double[] h = doub_arr(JMAXP), s = doub_arr(JMAX);
         Poly_interp polint = new Poly_interp(h, s, K);
         h[0] = 1.0;
         for (int j = 1; j <= JMAX; j++) {

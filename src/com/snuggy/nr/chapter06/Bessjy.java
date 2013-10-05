@@ -11,13 +11,13 @@ public class Bessjy {
 
     /*
     private static double xj00, xj10, xj01, xj11, twoopi, pio4;
-    private static double[] j0r = doub_arr(7), j0s = doub_arr(7), j0pn = doub_arr(5), j0pd = doub_arr(5),
+    private static final double[] j0r = doub_arr(7), j0s = doub_arr(7), j0pn = doub_arr(5), j0pd = doub_arr(5),
             j0qn = doub_arr(5), j0qd = doub_arr(5);
-    private static double[] j1r = doub_arr(7), j1s = doub_arr(7), j1pn = doub_arr(5), j1pd = doub_arr(5),
+    private static final double[] j1r = doub_arr(7), j1s = doub_arr(7), j1pn = doub_arr(5), j1pd = doub_arr(5),
             j1qn = doub_arr(5), j1qd = doub_arr(5);
-    private static double[] y0r = doub_arr(9), y0s = doub_arr(9), y0pn = doub_arr(5), y0pd = doub_arr(5),
+    private static final double[] y0r = doub_arr(9), y0s = doub_arr(9), y0pn = doub_arr(5), y0pd = doub_arr(5),
             y0qn = doub_arr(5), y0qd = doub_arr(5);
-    private static double[] y1r = doub_arr(8), y1s = doub_arr(8), y1pn = doub_arr(5), y1pd = doub_arr(5),
+    private static final double[] y1r = doub_arr(8), y1s = doub_arr(8), y1pn = doub_arr(5), y1pd = doub_arr(5),
             y1qn = doub_arr(5), y1qd = doub_arr(5);
     */
     

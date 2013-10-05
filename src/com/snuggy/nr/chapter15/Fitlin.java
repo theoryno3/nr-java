@@ -16,21 +16,21 @@ public class Fitlin {
     // fitting functions. Then call any combination of hold, free, and fit as
     // often as desired. fit sets the output quantities a, covar, and chisq.
     private int ndat, ma;
-    private double[] x, y, sig;
+    private final double[] x, y, sig;
     private Func_Doub_To_DoubArr funcs;
     private boolean[] ia;
-    private double[] a; // Output values. a is the vector of fitted
+    private final double[] a; // Output values. a is the vector of fitted
                         // coefficients,
     // covar is its covariance matrix, and chisq is the value of 2 for the fit.
-    private double[][] covar;
+    private final double[][] covar;
     @SuppressWarnings("unused")
     private double chisq;
     
-    public double[] a() {
+    public final double[] a() {
         return a;
     }
     
-    public double[][] covar() {
+    public final double[][] covar() {
         return covar;
     }
 
@@ -80,14 +80,14 @@ public class Fitlin {
         // will return zero covariances.)
         int i, j, k, l, m, mfit = 0;
         double ym, wt, sum, sig2i;
-        //double[] afunc = doub_arr(ma);
-        $double1d afunc = $(new double[ma]);
+        //final double[] afunc = doub_arr(ma);
+        $$double1d afunc = $$(new double[ma]);
         for (j = 0; j < ma; j++)
             if (ia[j])
                 mfit++;
         if (mfit == 0)
             throw new NRException("lfit: no parameters to be fitted");
-        double[][] temp = doub_mat(mfit, mfit, 0.), beta = doub_mat(mfit, 1, 0.);
+        final double[][] temp = doub_mat(mfit, mfit, 0.), beta = doub_mat(mfit, 1, 0.);
         for (i = 0; i < ndat; i++) { // Loop over data to accumulate
                                      // coefficients of
             $$(afunc, funcs.eval(x[i])); // the normal equations.

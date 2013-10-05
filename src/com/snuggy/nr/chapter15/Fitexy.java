@@ -29,7 +29,7 @@ public class Fitexy {
     
     private double a, b, siga, sigb, chi2, q; // Answers.
     private int ndat;
-    private double[] xx, yy, sx, sy, ww; // Variables that communicate with
+    private final double[] xx, yy, sx, sy, ww; // Variables that communicate with
                                          // Chixy.
     private $double aa_ref = $(0.0);
     private $double offs_ref = $(0.0);
@@ -161,7 +161,7 @@ public class Fitexy {
         // Captive functor of Fitexy, returns the value of .2 offs/ for the
         // slope b=tan(bang). Scaled data and offs are communicated via bound
         // references.
-        private double[] xx, yy, sx, sy, ww;
+        private final double[] xx, yy, sx, sy, ww;
         private $double aa_ref, offs_ref;
 
         public Chixy(final double[] xxx, final double[] yyy, final double[] ssx, final double[] ssy,
