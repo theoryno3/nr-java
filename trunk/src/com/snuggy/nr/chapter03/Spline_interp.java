@@ -26,7 +26,7 @@ public class Spline_interp extends Base_interp {
     public Spline_interp(final double[] xv, final double[] yv, final double yp1, final double ypn) throws NRException {
         super(xv, $(yv, 0), 2);
         y2 = doub_arr(xv.length);
-        sety2($(xv, 0), $(yv, 0), yp1, ypn);
+        sety2(xv, yv, yp1, ypn);
     }
 
     // public Spline_interp(final double[] xv, final double yv_arr, final int yv_off,
@@ -47,7 +47,7 @@ public class Spline_interp extends Base_interp {
     // constructors invoke sety2 to do the actual work of computing, and
     // storing, the second derivatives.
 
-    public void sety2(final $double xv,  final $double yv, 
+    public void sety2(final double[] xv,  final double[] yv, 
             final double yp1, final double ypn) throws NRException {
         // This routine stores an array y2[0..n-1] with second derivatives of
         // the interpolating function at the tabulated points pointed to by xv,
@@ -65,34 +65,34 @@ public class Spline_interp extends Base_interp {
             y2[0] = u[0] = 0.0; // natural”
         else { // or else to have a specified first derivative.
             y2[0] = -0.5;
-            u[0] = (3.0 / (xv.$(1) - xv.$(0)))
-                    * ((yv.$(1) - yv.$(0)) / 
-                            (xv.$(1) - xv.$(0)) - yp1);
+            u[0] = (3.0 / (xv[1] - xv[0]))
+                    * ((yv[1] - yv[0]) / 
+                            (xv[1] - xv[0]) - yp1);
         }
         for (i = 1; i < n - 1; i++) { // This is the decomposition loop of the
                                       // tridiagonal algorithm.
             // y2 and u are used for temporary
             // storage of the decomposed
             // factors.
-            sig = (xv.$(i) - xv.$(i - 1)) / 
-                    (xv.$(i + 1) - xv.$(i - 1));
+            sig = (xv[i] - xv[i - 1]) / 
+                    (xv[i + 1] - xv[i - 1]);
             p = sig * y2[i - 1] + 2.0;
             y2[i] = (sig - 1.0) / p;
-            u[i] = (yv.$(i + 1) - yv.$(i)) / 
-                    (xv.$(i + 1) - xv.$(i))
-                    - (yv.$(i) - yv.$(i - 1)) / 
-                    (xv.$(i) - xv.$(i - 1));
+            u[i] = (yv[i + 1] - yv[i]) / 
+                    (xv[i + 1] - xv[i])
+                    - (yv[i] - yv[i - 1]) / 
+                    (xv[i] - xv[i - 1]);
             u[i] = (6.0 * u[i] / 
-                    (xv.$(i + 1) - xv.$(i - 1)) - 
+                    (xv[i + 1] - xv[i - 1]) - 
                     sig * u[i - 1]) / p;
         }
         if (ypn > 0.99e99) // The upper boundary condition is set either to be
             qn = un = 0.0; // “natural”
         else { // or else to have a specified first derivative.
             qn = 0.5;
-            un = (3.0 / (xv.$(n - 1) - xv.$(n - 2)))
-                    * (ypn - (yv.$(n - 1) - yv.$(n - 2))
-                        / (xv.$(n - 1) - xv.$(n - 2)));
+            un = (3.0 / (xv[n - 1] - xv[n - 2]))
+                    * (ypn - (yv[n - 1] - yv[n - 2])
+                        / (xv[n - 1] - xv[n - 2]));
         }
         y2[n - 1] = (un - qn * u[n - 2]) / (qn * y2[n - 2] + 1.0);
         for (k = n - 2; k >= 0; k--)
