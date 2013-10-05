@@ -18,8 +18,8 @@ public class Plog {
         // of logP. The data are assumed to be sorted in ascending order.
         dat = (data);
         ndat = (data.length);
-        stau = doub_arr(ndat);
-        slogtau = doub_arr(ndat);
+        stau = doub_vec(ndat);
+        slogtau = doub_vec(ndat);
         int i;
         stau[0] = slogtau[0] = 0.;
         for (i = 1; i < ndat; i++) {

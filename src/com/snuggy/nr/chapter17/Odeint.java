@@ -55,8 +55,8 @@ public class Odeint {
             final Output outt, final Dtype derivss) throws InstantiationException, IllegalAccessException, NRException,
             NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
         nvar = (ystartt.length);
-        y = doub_arr(nvar);
-        dydx = doub_arr(nvar);
+        y = doub_vec(nvar);
+        dydx = doub_vec(nvar);
         ystart = (ystartt);
         x = $(xx1);
         nok = (0);

@@ -25,7 +25,7 @@ public class Poly2D_interp {
         mm = (mp);
         nn = (np);
         y = doub_mat(ym);
-        yv = doub_arr(m);
+        yv = doub_vec(m);
         x1terp = new Poly_interp(x1v, yv, mm);
         x2terp = new Poly_interp(x2v, x2v, nn);
     }

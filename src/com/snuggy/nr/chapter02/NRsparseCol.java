@@ -25,8 +25,8 @@ public class NRsparseCol {
     public NRsparseCol(final int m, final int nnvals) {
         nrows = (m);
         nvals = (nnvals);
-        row_ind = int_arr(nnvals);
-        val = doub_arr(nnvals);
+        row_ind = int_vec(nnvals);
+        val = doub_vec(nnvals);
     } // Constructor. Initializes vector to zero.
 
     public NRsparseCol() {
@@ -39,7 +39,7 @@ public class NRsparseCol {
     public void resize(final int m, final int nnvals) {
         nrows = m;
         nvals = nnvals;
-        row_ind = int_arr(nnvals);
-        val = doub_arr(nnvals);
+        row_ind = int_vec(nnvals);
+        val = doub_vec(nnvals);
     }
 }

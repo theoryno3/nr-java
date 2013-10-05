@@ -108,7 +108,7 @@ public class Static {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] obj_arr(Class<T> type, int n) throws InstantiationException, IllegalAccessException {
+    public static <T> T[] obj_vec(Class<T> type, int n) throws InstantiationException, IllegalAccessException {
         T[] arr = (T[]) Array.newInstance(type, n);
         for (int i = 0; i < n; i++)
             arr[i] = type.newInstance();
@@ -116,14 +116,14 @@ public class Static {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] obj_arr(Class<T> type, final T[] a) throws InstantiationException, IllegalAccessException {
+    public static <T> T[] obj_vec(Class<T> type, final T[] a) throws InstantiationException, IllegalAccessException {
         T[] arr = (T[]) Array.newInstance(type, a.length);
         for (int i = 0; i < a.length; i++)
             arr[i] = a[i];
         return arr;
     }
 
-    public static <T> T[] obj_null_arr(Class<T> type, int n) throws InstantiationException, IllegalAccessException {
+    public static <T> T[] obj_vec_nulls(Class<T> type, int n) throws InstantiationException, IllegalAccessException {
         @SuppressWarnings("unchecked")
         T[] arr = (T[]) Array.newInstance(type, n);
         for (int i = 0; i < n; i++)
@@ -131,11 +131,11 @@ public class Static {
         return arr;
     }
 
-    public static boolean[] bool_arr(int n) {
+    public static boolean[] bool_vec(int n) {
         return new boolean[n];
     }
 
-    public static final int[] int_arr(int n) {
+    public static final int[] int_vec(int n) {
         return new int[n];
     }
 
@@ -143,7 +143,7 @@ public class Static {
         return new int[m][n];
     }
 
-    public static final double[] doub_arr(int n) {
+    public static final double[] doub_vec(int n) {
         return new double[n];
     }
 
@@ -170,14 +170,14 @@ public class Static {
         return r;
     }
 
-    public static final double[] doub_arr(int n, double x) {
+    public static final double[] doub_vec(int n, double x) {
         final double[] r = new double[n];
         for (int i = 0; i < n; i++)
             r[i] = x;
         return r;
     }
 
-    public static long[] long_arr(int n) {
+    public static long[] long_vec(int n) {
         return new long[n];
     }
 
@@ -288,14 +288,14 @@ public class Static {
         return r;
     }
 
-    public static final int[] int_arr(final int n, final int x) {
+    public static final int[] int_vec(final int n, final int x) {
         final int[] r = new int[n];
         for (int i = 0; i < n; i++)
             r[i] = x;
         return r;
     }
 
-    public static final int[] int_arr(final int n, final int[] from, final int offset) {
+    public static final int[] int_vec(final int n, final int[] from, final int offset) {
         final int[] r = new int[n];
         for (int i = 0; i < n; i++)
             r[i] = from[offset + i];
@@ -311,13 +311,13 @@ public class Static {
         return r;
     }
 
-    public static final double[] doub_arr(final double[] a) {
+    public static final double[] doub_vec(final double[] a) {
         final double[] r = new double[a.length];
         System.arraycopy(a, 0, r, 0, a.length);
         return r;
     }
 
-    public static final int[] int_arr(final int[] a) {
+    public static final int[] int_vec(final int[] a) {
         final int[] r = new int[a.length];
         System.arraycopy(a, 0, r, 0, a.length);
         return r;

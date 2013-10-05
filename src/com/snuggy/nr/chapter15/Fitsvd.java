@@ -70,10 +70,10 @@ public class Fitsvd {
         else
             ma = funcsmd.eval(row(xmd.$(), 0)).length; // (Discussed in
                                                                 // 15.4.4.)
-        a = $$(doub_arr(ma));
+        a = $$(doub_vec(ma));
         covar = $$(doub_mat(ma, ma));
         final double[][] aa = doub_mat(ndat, ma);
-        final double[] b = doub_arr(ndat);
+        final double[] b = doub_vec(ndat);
         $$double1d afunc = $$(new double[ma]); 
         for (i = 0; i < ndat; i++) { // Accumulate coefficients of the
             if (x != null)
@@ -136,7 +136,7 @@ public class Fitsvd {
     private final double[] row(final double[][] a, final int i) {
         // Utility. Returns the row of a MatDoub as a VecDoub.
         int j, n = ncols(a);
-        final double[] ans = doub_arr(n);
+        final double[] ans = doub_vec(n);
         for (j = 0; j < n; j++)
             ans[j] = a[i][j];
         return ans;

@@ -39,7 +39,7 @@ public abstract class Phylagglom {
     public Phylagglom(final double[][] dist, final int fsr) throws InstantiationException, IllegalAccessException {
         n = (nrows(dist));
         fsroot = (fsr);
-        t = obj_arr(Phylagglomnode.class, 2 * n - 1);
+        t = obj_vec(Phylagglomnode.class, 2 * n - 1);
     }
 
     public void makethetree(final double[][] dist) {
@@ -50,8 +50,8 @@ public abstract class Phylagglom {
         int ncurr;
         double dd, dmin;
         final double[][] d = doub_mat(dist); // Matrix d is initialized with dist.
-        final int[] tp = int_arr(n), nextp = int_arr(n), prevp = int_arr(n), tasklist = int_arr(2 * n + 1);
-        final double[] tmp = doub_arr(n);
+        final int[] tp = int_vec(n), nextp = int_vec(n), prevp = int_vec(n), tasklist = int_vec(2 * n + 1);
+        final double[] tmp = doub_vec(n);
         for (i = 0; i < n; i++) { // Initializations on leaf elements.
             nextp[i] = i + 1; // nextp and prevp are for looping on the distance
             prevp[i] = i - 1; // matrix even as it becomes sparse.

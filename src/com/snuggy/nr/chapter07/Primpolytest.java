@@ -16,10 +16,10 @@ public class Primpolytest {
         // Constructor. The constants are specific to 32-bit LFSRs.
         N = (32);
         nfactors = (5);
-        factors = long_arr(nfactors);
-        t = int_arr(N * N);
-        a = int_arr(N * N);
-        p = int_arr(N * N);
+        factors = long_vec(nfactors);
+        t = int_vec(N * N);
+        a = int_vec(N * N);
+        p = int_vec(N * N);
         long factordata[] = { 3, 5, 17, 257, 65537 };
         for (int i = 0; i < nfactors; i++)
             factors[i] = factordata[i];
@@ -44,7 +44,7 @@ public class Primpolytest {
     public void mattimeseq(final int[] a, final int[] b) {
         // Utility for a *= b on matrices a and b.
         int i, j, k, sum;
-        final int[] tmp = int_arr(N * N);
+        final int[] tmp = int_vec(N * N);
         for (i = 0; i < N; i++)
             for (j = 0; j < N; j++) {
                 sum = 0;

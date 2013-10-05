@@ -13,7 +13,7 @@ public class Indexx<T extends Comparable<T>> {
     public Indexx(final T[] arr) throws NRException {
         // Constructor. Calls index and stores an index to the array
         // arr[0..n-1].
-        indx = int_arr(arr.length);
+        indx = int_vec(arr.length);
         index(arr, 0, arr.length);
     }
 
@@ -26,7 +26,7 @@ public class Indexx<T extends Comparable<T>> {
         // brr is replaced on output by its sorted rearrangement.
         if (brr.length != n)
             throw new NRException("bad size in Index sort");
-        T[] tmp = obj_arr(type, brr);
+        T[] tmp = obj_vec(type, brr);
         for (int j = 0; j < n; j++)
             brr[j] = tmp[indx[j]];
     }
@@ -52,7 +52,7 @@ public class Indexx<T extends Comparable<T>> {
         // Returns a rank table, whose jth element is the rank of arr[j],
         // where arr is the vector originally indexed. The smallest arr[j]
         // has rank 0.
-        irank_ref[0] = int_arr(n);
+        irank_ref[0] = int_vec(n);
         for (int j = 0; j < n; j++)
             irank_ref[0][indx[j]] = j;
     }
@@ -65,7 +65,7 @@ public class Indexx<T extends Comparable<T>> {
         final int M = 7, NSTACK = 64;
         int i, indxt, ir, j, k, jstack = -1, l = 0;
         T a;
-        final int[] istack = int_arr(NSTACK);
+        final int[] istack = int_vec(NSTACK);
         n = nn;
         //indx = int_arr(n);
         ir = n - 1;

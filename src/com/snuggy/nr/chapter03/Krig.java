@@ -35,11 +35,11 @@ public class Krig<T extends Func_Doub_To_Doub> {
         vgram = (vargram);
         npt = (nrows(xx));
         ndim = (ncols(xx));
-        dstar = doub_arr(npt + 1);
-        vstar = doub_arr(npt + 1);
+        dstar = doub_vec(npt + 1);
+        vstar = doub_vec(npt + 1);
         v = doub_mat(npt + 1, npt + 1);
-        y = doub_arr(npt + 1);
-        yvi = doub_arr(npt + 1);
+        y = doub_vec(npt + 1);
+        yvi = doub_vec(npt + 1);
         int i, j;
         for (i = 0; i < npt; i++) { // Fill Y and V.
             y[i] = yy[i];

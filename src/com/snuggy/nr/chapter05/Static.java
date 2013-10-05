@@ -156,8 +156,8 @@ public class Static {
         @SuppressWarnings("unused")
         final double[][] qlu = doub_mat(n, n);
         @SuppressWarnings("unused")
-        final int[] indx = int_arr(n);
-        final double[] x = doub_arr(n), y = doub_arr(n), num = doub_arr(n + 1), denom = doub_arr(n + 1);
+        final int[] indx = int_vec(n);
+        final double[] x = doub_vec(n), y = doub_vec(n), num = doub_vec(n + 1), denom = doub_vec(n + 1);
         for (j = 0; j < n; j++) { // Set up matrix for solving.
             y[j] = cof[n + j + 1];
             for (k = 0; k < n; k++)
@@ -194,7 +194,7 @@ public class Static {
         // Number of points where function is evaluated, i.e., fineness of the
         // mesh.
         double devmax, e, hth, power, sum;
-        final double[] bb = doub_arr(npt), coff = doub_arr(ncof), ee = doub_arr(npt), fs = doub_arr(npt), wt = doub_arr(npt), xs = doub_arr(npt);
+        final double[] bb = doub_vec(npt), coff = doub_vec(ncof), ee = doub_vec(npt), fs = doub_vec(npt), wt = doub_vec(npt), xs = doub_vec(npt);
         final double[][] u = doub_mat(npt, ncof);
         $$<Ratfn> ratbest = $$(new Ratfn(coff, mm + 1, kk + 1));
         dev_ref[0] = BIG;

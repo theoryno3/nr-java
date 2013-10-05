@@ -52,16 +52,16 @@ public class StepperBS extends StepperBase implements IStepperBS {
         // and rtol, and the boolean dense, which is true if dense output is
         // required.
         super(yy, dydxx, xx, atoll, rtoll, dense);
-        nseq = int_arr(IMAXX);
-        cost = int_arr(IMAXX);
+        nseq = int_vec(IMAXX);
+        cost = int_vec(IMAXX);
         table = doub_mat(KMAXX, n);
-        dydxnew = doub_arr(n);
+        dydxnew = doub_vec(n);
         coeff = doub_mat(IMAXX, IMAXX);
-        errfac = doub_arr(2 * IMAXX + 2);
+        errfac = doub_vec(2 * IMAXX + 2);
         ysave = doub_mat(IMAXX, n);
         fsave = doub_mat(IMAXX * (2 * IMAXX + 1), n);
-        ipoint = int_arr(IMAXX + 1);
-        dens = doub_arr((2 * IMAXX + 5) * n);
+        ipoint = int_vec(IMAXX + 1);
+        dens = doub_vec((2 * IMAXX + 5) * n);
         EPS = EPS(); // numeric_limits<Doub>::epsilon();
         if (dense) // Choose the sequence (17.3.23) ...
             for (int i = 0; i < IMAXX; i++)
@@ -123,11 +123,11 @@ public class StepperBS extends StepperBase implements IStepperBS {
         double fac, h, hnew, hopt_int = 0.0;
         $double err = $(0.0);
         boolean firstk;
-        final $$double1d hopt = $$(doub_arr(IMAXX)), work = $$(doub_arr(IMAXX));
-        final $$double1d ysav = $$(doub_arr(n)), yseq = $$(doub_arr(n));
+        final $$double1d hopt = $$(doub_vec(IMAXX)), work = $$(doub_vec(IMAXX));
+        final $$double1d ysav = $$(doub_vec(n)), yseq = $$(doub_vec(n));
         @SuppressWarnings("unused")
-        final $$double1d ymid = $$(doub_arr(n));
-        final $$double1d scale = $$(doub_arr(n));
+        final $$double1d ymid = $$(doub_vec(n));
+        final $$double1d scale = $$(doub_vec(n));
         $(work, 0, 0);
         h = htry;
         forward = h > 0 ? true : false;
@@ -297,7 +297,7 @@ interp_error: // Restart here if interpolation error too big.
         // Modi ed midpoint step. Inputs are y, H, and k. The output is
         // returned as yend[0..n-1]. The counter ipt keeps track of saving the
         // right-hand sides in the correct locations for dense output.
-        final double[] ym = doub_arr(n), yn = doub_arr(n);
+        final double[] ym = doub_vec(n), yn = doub_vec(n);
         int nstep = nseq[k];
         double h = htot / nstep; // Stepsize this trip.
         for (int i = 0; i < n; i++) { // First step.
@@ -491,7 +491,7 @@ interp_error: // Restart here if interpolation error too big.
         // y[0..n*(imit+5)-1] contains the dens array from prepare_dense. On
         // output, these coecients have been updated to the required values.
         double y0, y1, yp0, yp1, ydiff, aspl, bspl, ph0, ph1, ph2, ph3, fac1, fac2;
-        final double[] a = doub_arr(31);
+        final double[] a = doub_vec(31);
         for (int i = 0; i < n; i++) {
             y0 = y[i];
             y1 = y[2 * n + i];

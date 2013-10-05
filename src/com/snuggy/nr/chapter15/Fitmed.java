@@ -99,7 +99,7 @@ public class Fitmed {
         final double EPS = EPS(); // numeric_limits<Doub>::epsilon();
         int j;
         double d, sum = 0.0;
-        final double[] arr = doub_arr(ndata);
+        final double[] arr = doub_vec(ndata);
         for (j = 0; j < ndata; j++)
             arr[j] = y[j] - b * x[j];
         if ((ndata & 1) == 1) {

@@ -67,7 +67,7 @@ public class Static {
         // FileOutputStream OUT = fopen(filename,"wb");
         PrintStream OUT = new PrintStream(filename);
         int i, s, ntask = 0, n = p.n, root = p.root;
-        final int[] tasklist = int_arr(2 * n + 1);
+        final int[] tasklist = int_vec(2 * n + 1);
         tasklist[ntask++] = (1 << 16) + root;
         while (ntask-- > 0) { // Depth-first traversal of the tree.
             s = tasklist[ntask] >> 16; // Code indicating context.

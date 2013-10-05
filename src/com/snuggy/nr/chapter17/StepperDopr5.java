@@ -87,17 +87,17 @@ public class StepperDopr5 extends StepperBS {
     public StepperDopr5(final double[] yy, final double[] dydxx, final $double xx, final double atoll,
             final double rtoll, final boolean dens) throws NRException {
         super(yy, dydxx, xx, atoll, rtoll, dens);
-        k2 = doub_arr(n);
-        k3 = doub_arr(n);
-        k4 = doub_arr(n);
-        k5 = doub_arr(n);
-        k6 = doub_arr(n);
-        rcont1 = doub_arr(n);
-        rcont2 = doub_arr(n);
-        rcont3 = doub_arr(n);
-        rcont4 = doub_arr(n);
-        rcont5 = doub_arr(n);
-        dydxnew = doub_arr(n);
+        k2 = doub_vec(n);
+        k3 = doub_vec(n);
+        k4 = doub_vec(n);
+        k5 = doub_vec(n);
+        k6 = doub_vec(n);
+        rcont1 = doub_vec(n);
+        rcont2 = doub_vec(n);
+        rcont3 = doub_vec(n);
+        rcont4 = doub_vec(n);
+        rcont5 = doub_vec(n);
+        dydxnew = doub_vec(n);
         // Input to the constructor are the dependent variable y[0..n-1] and
         // its derivative dydx[0..n-1] at the starting value of the independent
         // variable x. Also input are the absolute and relative tolerances,
@@ -152,7 +152,7 @@ public class StepperDopr5 extends StepperBS {
         // store the incremented variables in yout[0..n-1]. Also store an
         // estimate of the local truncation error in yerr using the
         // embedded fourth-order method.
-        final double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_vec(n);
         int i;
         for (i = 0; i < n; i++)
             // First step.
@@ -195,7 +195,7 @@ public class StepperDopr5 extends StepperBS {
         // Store coefficients of interpolating polynomial for dense output
         // in rcont1...rcont5.
         @SuppressWarnings("unused")
-        final double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_vec(n);
         for (int i = 0; i < n; i++) {
             rcont1[i] = y[i];
             double ydiff = yout[i] - y[i];

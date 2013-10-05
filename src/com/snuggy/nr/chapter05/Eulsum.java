@@ -20,7 +20,7 @@ public class Eulsum {
     private double sum, eps, lastval, lasteps;
 
     public Eulsum(final int nmax, final double epss) {
-        wksp = doub_arr(nmax);
+        wksp = doub_vec(nmax);
         n = (0);
         ncv = (0);
         cnvgd = (0);

@@ -23,7 +23,7 @@ public class Spline2D_interp {
         m = (x1v.length);
         n = (x2v.length);
         y = doub_mat(ym);
-        yv = doub_arr(m);
+        yv = doub_vec(m);
         x1 = (x1v);
         srp = new ArrayList<Spline_interp>();
         for (int i = 0; i < m; i++)

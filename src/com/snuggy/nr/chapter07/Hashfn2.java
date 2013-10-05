@@ -10,7 +10,7 @@ import com.snuggy.nr.util.*;
 
 public abstract class Hashfn2<keyT,elT> implements HfnT<keyT,elT> {
 
-    private static long[] hashfn_tab = long_arr(256); // Defines storage for the
+    private static long[] hashfn_tab = long_vec(256); // Defines storage for the
                                                       // lookup table.
 
     // Another example of an object encapsulating a hash function, allowing

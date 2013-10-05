@@ -15,7 +15,7 @@ public class Svmlinkernel extends Svmgenkernel {
         // of yi ’s, length m.
         super(yy, ddata);
         n = (ncols(data));
-        mu = doub_arr(n);
+        mu = doub_vec(n);
         int i, j;
         for (j = 0; j < n; j++)
             mu[j] = 0.;

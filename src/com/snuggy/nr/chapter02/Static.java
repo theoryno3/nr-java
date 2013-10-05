@@ -16,9 +16,9 @@ public class Static {
         // the corresponding set of solution vectors.
         int i, icol = 0, irow = 0, j, k, l, ll, n = nrows(a), m = ncols(b);
         double big, dum, pivinv;
-        final int[] indxc = int_arr(n);
-        final int[] indxr = int_arr(n);
-        final int[] ipiv = int_arr(n); // These integer arrays are used
+        final int[] indxc = int_vec(n);
+        final int[] indxr = int_vec(n);
+        final int[] ipiv = int_vec(n); // These integer arrays are used
                                  // for bookkeeping on the pivoting.
         for (j = 0; j < n; j++)
             ipiv[j] = 0;
@@ -105,7 +105,7 @@ public class Static {
         // input vectors and are not modified.
         int j, n = a.length;
         double bet;
-        final double[] gam = doub_arr(n); // One vector of workspace, gam, is
+        final double[] gam = doub_vec(n); // One vector of workspace, gam, is
                                       // needed.
         if (b[0] == 0.0)
             throw new NRException("Error 1 in tridag");
@@ -153,7 +153,7 @@ public class Static {
         double fact, gamma;
         if (n <= 2)
             throw new NRException("n too small in cyclic");
-        final double[] bb = doub_arr(n), u = doub_arr(n), z = doub_arr(n);
+        final double[] bb = doub_vec(n), u = doub_vec(n), z = doub_vec(n);
         gamma = -b[0]; // Avoid subtraction error in forming bb[0].
         bb[0] = b[0] - gamma; // Set up the diagonal of the modified tridi
         bb[n - 1] = b[n - 1] - alpha * beta / gamma; // agonal system.
@@ -178,7 +178,7 @@ public class Static {
         // output.
         int i, j, k, n = q.length;
         double b, s, t, xx;
-        final double[] c = doub_arr(n);
+        final double[] c = doub_vec(n);
         if (n == 1)
             w[0] = q[0];
         else {
@@ -221,7 +221,7 @@ public class Static {
         x[0] = y[0] / r[n1]; // Initialize for the recursion.
         if (n1 == 0)
             return;
-        final double[] g = doub_arr(n1), h = doub_arr(n1);
+        final double[] g = doub_vec(n1), h = doub_vec(n1);
         g[0] = r[n1 - 1] / r[n1];
         h[0] = r[n1 + 1] / r[n1];
         for (m = 0; m < n; m++) { // Main loop over the recursion.

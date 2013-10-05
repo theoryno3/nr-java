@@ -58,7 +58,7 @@ public class Phylo_nj extends Phylagglom {
 
     Phylo_nj(final double[][] dist, final int fsr) throws InstantiationException, IllegalAccessException {
         super(dist, fsr);
-        u = doub_arr(n);
+        u = doub_vec(n);
         makethetree(dist);
     }
 

@@ -22,7 +22,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
     public Chebyshev(final double[] cc, final double aa, final double bb) {
         n = (cc.length);
         m = (n);
-        c = doub_arr(cc);
+        c = doub_vec(cc);
         a = (aa);
         b = (bb);
     }
@@ -92,13 +92,13 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // m such that cm and subsequent elements are negligible.
         n = (nn);
         m = (nn);
-        c = doub_arr(n);
+        c = doub_vec(n);
         a = (aa);
         b = (bb);
         final double pi = 3.141592653589793;
         int k, j;
         double fac, bpa, bma, y, sum;
-        final double[] f = doub_arr(n);
+        final double[] f = doub_vec(n);
         bma = 0.5 * (b - a);
         bpa = 0.5 * (b + a);
         for (k = 0; k < n; k++) { // We evaluate the function at the n points
@@ -139,7 +139,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // of the existing function over the same range [a,b].
         int j;
         double con;
-        final double[] cder = doub_arr(n);
+        final double[] cder = doub_vec(n);
         cder[n - 1] = 0.0; // n-1 and n-2 are special cases.
         cder[n - 2] = 2 * (n - 1) * c[n - 1];
         for (j = n - 2; j > 0; j--)
@@ -157,7 +157,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // constant of integration is set so that the integral vanishes at a.
         int j;
         double sum = 0.0, fac = 1.0, con;
-        final double[] cint = doub_arr(n);
+        final double[] cint = doub_vec(n);
         con = 0.25 * (b - a); // Factor that normalizes to the interval b-a.
         for (j = 1; j < n - 1; j++) {
             cint[j] = con * (c[j - 1] - c[j + 1]) / j; // Equation (5.9.1).
@@ -182,7 +182,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // but now applied algebraically rather than arithmetically.
         int k, j;
         double sv;
-        final double[] d = doub_arr(m), dd = doub_arr(m);
+        final double[] d = doub_vec(m), dd = doub_vec(m);
         for (j = 0; j < m; j++)
             d[j] = dd[j] = 0.0;
         d[0] = c[m - 1];
@@ -208,7 +208,7 @@ public class Chebyshev implements Func_Doub_To_Doub, ByValue<Chebyshev> {
         // Chebyshev object.
         n = (d.length);
         m = (n);
-        c = doub_arr(n);
+        c = doub_vec(n);
         a = (-1.);
         b = (1.);
         c[n - 1] = d[n - 1];

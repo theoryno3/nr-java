@@ -9,12 +9,12 @@ import com.snuggy.nr.refs.*;
 
 public class Bessik {
 
-    private static final double[] i0p = doub_arr(14), i0q = doub_arr(5), i0pp = doub_arr(5), i0qq = doub_arr(6);
-    private static final double[] i1p = doub_arr(14), i1q = doub_arr(5), i1pp = doub_arr(5), i1qq = doub_arr(6);
-    private static final double[] k0pi = doub_arr(5), k0qi = doub_arr(3), k0p = doub_arr(5), k0q = doub_arr(3),
-            k0pp = doub_arr(8), k0qq = doub_arr(8);
-    private static final double[] k1pi = doub_arr(5), k1qi = doub_arr(3), k1p = doub_arr(5), k1q = doub_arr(3),
-            k1pp = doub_arr(8), k1qq = doub_arr(8);
+    private static final double[] i0p = doub_vec(14), i0q = doub_vec(5), i0pp = doub_vec(5), i0qq = doub_vec(6);
+    private static final double[] i1p = doub_vec(14), i1q = doub_vec(5), i1pp = doub_vec(5), i1qq = doub_vec(6);
+    private static final double[] k0pi = doub_vec(5), k0qi = doub_vec(3), k0p = doub_vec(5), k0q = doub_vec(3),
+            k0pp = doub_vec(8), k0qq = doub_vec(8);
+    private static final double[] k1pi = doub_vec(5), k1qi = doub_vec(3), k1p = doub_vec(5), k1q = doub_vec(3),
+            k1pp = doub_vec(8), k1qq = doub_vec(8);
 
     private double y, z, ax, term;
 

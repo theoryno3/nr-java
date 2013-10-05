@@ -45,9 +45,9 @@ public class Fitlin {
         sig = (ssig);
         funcs = (funks);
         ma = funcs.eval(x[0]).length;
-        a = doub_arr(ma);
+        a = doub_vec(ma);
         covar = doub_mat(ma, ma);
-        ia = bool_arr(ma);
+        ia = bool_vec(ma);
         for (int i = 0; i < ma; i++)
             ia[i] = true;
     }

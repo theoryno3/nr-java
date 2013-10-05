@@ -20,8 +20,8 @@ public class Kmeans {
         kk = (nrows(mmeans));
         data = (ddata);
         means = (mmeans);
-        assign = int_arr(nn);
-        count = int_arr(kk);
+        assign = int_vec(nn);
+        count = int_vec(kk);
         estep(); // Perform one initial E-step and M-step. User is responsible
         // for calling additional steps until convergence is obtained.
         mstep();

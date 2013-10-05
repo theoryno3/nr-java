@@ -47,8 +47,8 @@ public abstract class Linbcg {
                zm1nrm, znrm = 0.0;
         final double EPS = 1.0e-14;
         int j, n = b.length;
-        final double[] p = doub_arr(n), pp = doub_arr(n), 
-                 rr = doub_arr(n);
+        final double[] p = doub_vec(n), pp = doub_vec(n), 
+                 rr = doub_vec(n);
         $$double1d r = $$(new double[n]); 
         $$double1d z = $$(new double[n]); 
         $$double1d zz = $$(new double[n]);

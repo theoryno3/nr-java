@@ -23,7 +23,7 @@ public class Svm {
     public Svm(final Svmgenkernel inker) throws NRException {
         gker = (inker);
         m = (gker.y().length);
-        alph = $$(doub_arr(m));
+        alph = $$(doub_vec(m));
         alphold = $$(new double[m]);
         ran = new Ran(21);
         alphinit = (false);
@@ -36,7 +36,7 @@ public class Svm {
         // the ?’s, and multiple steps over only the interior ?’s.
         int iter, j, jj, k, kk;
         double sum; // Index when ?’s are sorted by value.
-        final double[] pinsum = doub_arr(m); // Stored sums over noninterior
+        final double[] pinsum = doub_vec(m); // Stored sums over noninterior
                                         // variables.
         if (alphinit == false) { // Start all ?’s at 0.
             for (j = 0; j < m; j++)

@@ -21,7 +21,7 @@ public class Static {
 
         int k, j, i, n = x.length;
         double phi, ff, b;
-        final double[] s = doub_arr(n);
+        final double[] s = doub_vec(n);
         for (i = 0; i < n; i++)
             s[i] = cof[i] = 0.0;
         s[n - 1] = -x[0];
@@ -62,7 +62,7 @@ public class Static {
 
         int k, j, i, n = xa.length;
         double xmin;
-        final double[] x = doub_arr(n), y = doub_arr(n);
+        final double[] x = doub_vec(n), y = doub_vec(n);
         for (j = 0; j < n; j++) {
             x[j] = xa[j];
             y[j] = ya[j];
@@ -70,7 +70,7 @@ public class Static {
         for (j = 0; j < n; j++) { // Fill a temporary vector whose size
             // decreases as each coefficient is
             // found.
-            final double[] x_t = doub_arr(n - j), y_t = doub_arr(n - j);
+            final double[] x_t = doub_vec(n - j), y_t = doub_vec(n - j);
             for (k = 0; k < n - j; k++) {
                 x_t[k] = x[k];
                 y_t[k] = y[k];
@@ -128,7 +128,7 @@ public class Static {
 
         int l, k, j, i;
         double xx, d1d2 = d1 * d2;
-        final double[] cl = doub_arr(16), x = doub_arr(16);
+        final double[] cl = doub_vec(16), x = doub_vec(16);
         for (i = 0; i < 4; i++) { // Pack a temporary vector x.
             x[i] = y[i];
             x[i + 4] = y1[i] * d1;

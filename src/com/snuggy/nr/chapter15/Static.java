@@ -16,7 +16,7 @@ public class Static {
     public static final double[] fpoly(final double x) {
         // Fitting routine for a polynomial of degree fpoly_np-1.
         int j;
-        final double[] p = doub_arr(fpoly_np);
+        final double[] p = doub_vec(fpoly_np);
         p[0] = 1.0;
         for (j = 1; j < fpoly_np; j++)
             p[j] = p[j - 1] * x;
@@ -35,7 +35,7 @@ public class Static {
         // evaluated using the recurrence relation as in 5.4.
         int j;
         double twox, f2, f1, d;
-        final double[] pl = doub_arr(fleg_nl);
+        final double[] pl = doub_vec(fleg_nl);
         pl[0] = 1.;
         pl[1] = x;
         if (fleg_nl > 2) {
@@ -52,7 +52,7 @@ public class Static {
     }
 
     public static final double[] quadratic2d(final double[] xx) {
-        final double[] ans = doub_arr(6);
+        final double[] ans = doub_vec(6);
         double x = xx[0], y = xx[1];
         ans[0] = 1;
         ans[1] = x;

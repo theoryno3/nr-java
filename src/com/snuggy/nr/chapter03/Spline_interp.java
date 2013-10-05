@@ -25,7 +25,7 @@ public class Spline_interp extends Base_interp {
 
     public Spline_interp(final double[] xv, final double[] yv, final double yp1, final double ypn) throws NRException {
         super(xv, $(yv, 0), 2);
-        y2 = doub_arr(xv.length);
+        y2 = doub_vec(xv.length);
         sety2(xv, yv, yp1, ypn);
     }
 
@@ -60,7 +60,7 @@ public class Spline_interp extends Base_interp {
         int i, k;
         double p, qn, sig, un;
         int n = y2.length;
-        final double[] u = doub_arr(n - 1);
+        final double[] u = doub_vec(n - 1);
         if (yp1 > 0.99e99) // The lower boundary condition is set either to be “
             y2[0] = u[0] = 0.0; // natural”
         else { // or else to have a specified first derivative.

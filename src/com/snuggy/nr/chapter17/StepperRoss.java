@@ -98,17 +98,17 @@ public class StepperRoss extends StepperBS {
             final double rtoll, final boolean dens) throws NRException {
         super(yy, dydxx, xx, atoll, rtoll, dens);
         dfdy = doub_mat(n, n);
-        dfdx = doub_arr(n);
-        k1 = doub_arr(n);
-        k2 = doub_arr(n);
-        k3 = doub_arr(n);
-        k4 = doub_arr(n);
-        k5 = doub_arr(n);
-        k6 = doub_arr(n);
-        cont1 = doub_arr(n);
-        cont2 = doub_arr(n);
-        cont3 = doub_arr(n);
-        cont4 = doub_arr(n);
+        dfdx = doub_vec(n);
+        k1 = doub_vec(n);
+        k2 = doub_vec(n);
+        k3 = doub_vec(n);
+        k4 = doub_vec(n);
+        k5 = doub_vec(n);
+        k6 = doub_vec(n);
+        cont1 = doub_vec(n);
+        cont2 = doub_vec(n);
+        cont3 = doub_vec(n);
+        cont4 = doub_vec(n);
         a = doub_mat(n, n);
         // Input to the finalructor are the dependent variable y[0..n-1] and
         // its derivative dydx[0..n-1] at the starting value of the independent
@@ -122,7 +122,7 @@ public class StepperRoss extends StepperBS {
         // Attempts a step with stepsize htry. On output, y and x are replaced
         // by their new values, hdid is the stepsize that was actually
         // accomplished, and hnext is the estimated next stepsize.
-        final double[] dydxnew = doub_arr(n);
+        final double[] dydxnew = doub_vec(n);
         $double h = $(htry); // Set stepsize to the initial trial value.
         derivs.jacobian(x.$(), y, dfdx, dfdy); // Compute the Jacobian and
                                                    // @f=@x.
@@ -151,7 +151,7 @@ public class StepperRoss extends StepperBS {
         // store the incremented variables in yout[0..n-1]. Also store an
         // estimate of the local truncation error in yerr using the embedded
         // third-order method.
-        final double[] ytemp = doub_arr(n), dydxnew = doub_arr(n);
+        final double[] ytemp = doub_vec(n), dydxnew = doub_vec(n);
         int i;
         for (i = 0; i < n; i++) { // Set up the matrix 1=h  f 0.
             for (int j = 0; j < n; j++)

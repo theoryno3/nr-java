@@ -25,8 +25,8 @@ public class Multinormaldev extends Ran {
         mean = (mmean);
         var = (vvar);
         chol = new Cholesky(var);
-        spt = doub_arr(mm);
-        pt = doub_arr(mm);
+        spt = doub_vec(mm);
+        pt = doub_vec(mm);
         if (ncols(var) != mm || nrows(var) != mm)
             throw new NRException("bad sizes");
     }

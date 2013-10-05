@@ -32,7 +32,7 @@ public class DoubleIndexx {
         // brr is replaced on output by its sorted rearrangement.
         if (brr.length != n)
             throw new NRException("bad size in Index sort");
-        final double[] tmp = doub_arr(brr);
+        final double[] tmp = doub_vec(brr);
         for (int j = 0; j < n; j++)
             brr[j] = tmp[indx.$()[j]];
     }
@@ -58,7 +58,7 @@ public class DoubleIndexx {
         // Returns a rank table, whose jth element is the rank of arr[j],
         // where arr is the vector originally indexed. The smallest arr[j]
         // has rank 0.
-        irank_ref[0] = int_arr(n);
+        irank_ref[0] = int_vec(n);
         for (int j = 0; j < n; j++)
             irank_ref[0][indx.$()[j]] = j;
     }
@@ -71,9 +71,9 @@ public class DoubleIndexx {
         final int M = 7, NSTACK = 64;
         int i, indxt, ir, j, k, jstack = -1, l = 0;
         double a;
-        final int[] istack = int_arr(NSTACK);
+        final int[] istack = int_vec(NSTACK);
         n = nn;
-        indx.$(int_arr(n));
+        indx.$(int_vec(n));
         ir = n - 1;
         for (j = 0; j < n; j++)
             indx.$()[j] = j;
