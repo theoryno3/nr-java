@@ -10,7 +10,7 @@ public class Cholesky {
 
     // Object for Cholesky decomposition of a matrix A, and related functions.
     private int n;
-    private double[][] el; // Stores the decomposition.
+    private final double[][] el; // Stores the decomposition.
 
     public Cholesky(final double[][] a) throws NRException {
         n = (nrows(a));
@@ -19,7 +19,7 @@ public class Cholesky {
         // a[0..n-1][0..n-1], construct and store its Cholesky 
         // decomposition, A D L  LT .
         int i, j, k;
-        //double[] tmp;
+        //final double[] tmp;
         double sum;
         if (ncols(el) != n)
             throw new NRException("need square matrix");
@@ -93,7 +93,7 @@ public class Cholesky {
         }
     }
 
-    public void inverse(double[][] ainv_ref[]) {
+    public void inverse(final double[][] ainv_ref[]) {
         // Set ainv[0..n-1][0..n-1] to the matrix inverse of A,
         // the matrix whose Cholesky decomposition has been stored.
         int i, j, k;

@@ -13,7 +13,7 @@ public class Levin {
     // returns the current estimate of the limit of the sequence. The flag
     // cnvgd is set when convergence is detected.
 
-    private double[] numer, denom; // Numerator and denominator computed via
+    private final double[] numer, denom; // Numerator and denominator computed via
                                    // (5.3.16).
     private int n, ncv;
     protected boolean cnvgd;

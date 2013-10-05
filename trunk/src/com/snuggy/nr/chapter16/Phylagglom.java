@@ -49,9 +49,9 @@ public abstract class Phylagglom {
         @SuppressWarnings("unused")
         int ncurr;
         double dd, dmin;
-        double[][] d = doub_mat(dist); // Matrix d is initialized with dist.
-        int[] tp = int_arr(n), nextp = int_arr(n), prevp = int_arr(n), tasklist = int_arr(2 * n + 1);
-        double[] tmp = doub_arr(n);
+        final double[][] d = doub_mat(dist); // Matrix d is initialized with dist.
+        final int[] tp = int_arr(n), nextp = int_arr(n), prevp = int_arr(n), tasklist = int_arr(2 * n + 1);
+        final double[] tmp = doub_arr(n);
         for (i = 0; i < n; i++) { // Initializations on leaf elements.
             nextp[i] = i + 1; // nextp and prevp are for looping on the distance
             prevp[i] = i - 1; // matrix even as it becomes sparse.

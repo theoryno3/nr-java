@@ -15,7 +15,7 @@ public class RBF_interp {
     private int dim, n;
     private final double[][] pts;
     private final double[] vals;
-    private double[] w;
+    private final double[] w;
     private RBF_fn fn;
     private boolean norm;
 
@@ -39,8 +39,8 @@ public class RBF_interp {
         norm = (nrbf);
         int i, j;
         double sum;
-        double[][] rbf = doub_mat(n, n);
-        double[] rhs = doub_arr(n);
+        final double[][] rbf = doub_mat(n, n);
+        final double[] rhs = doub_arr(n);
         for (i = 0; i < n; i++) { // Fill the matrix .jri rj j/ and the r.h.s.
                                   // vector.
             sum = 0.;

@@ -16,11 +16,11 @@ public class Spline2D_interp {
     protected int m, n;
     protected final double[][] y;
     protected final double[] x1;
-    protected double[] yv_arr;
+    protected final double[] yv_arr;
     protected int yv_off;
     protected List<Spline_interp> srp;
 
-    public Spline2D_interp(final double[] x1v, final double[] x2v, final double[][] ym) {
+    public Spline2D_interp(final double[] x1v, final double[] x2v, final double[][] ym) throws NRException {
         m = (x1v.length);
         n = (x2v.length);
         y = doub_mat(ym);

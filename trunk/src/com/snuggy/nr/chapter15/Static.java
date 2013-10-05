@@ -13,10 +13,10 @@ public class Static {
     private static int fpoly_np = 10; // Global variable for the degree plus
                                       // one. fit examples.h
 
-    public static double[] fpoly(final double x) {
+    public static final double[] fpoly(final double x) {
         // Fitting routine for a polynomial of degree fpoly_np-1.
         int j;
-        double[] p = doub_arr(fpoly_np);
+        final double[] p = doub_arr(fpoly_np);
         p[0] = 1.0;
         for (j = 1; j < fpoly_np; j++)
             p[j] = p[j - 1] * x;
@@ -30,12 +30,12 @@ public class Static {
     private static int fleg_nl = 10; // Global variable for the degree plus one.
                                      // fit examples.h
 
-    public static double[] fleg(final double x) {
+    public static final double[] fleg(final double x) {
         // Fitting routine for an expansion with nl Legendre polynomials,
         // evaluated using the recurrence relation as in 5.4.
         int j;
         double twox, f2, f1, d;
-        double[] pl = doub_arr(fleg_nl);
+        final double[] pl = doub_arr(fleg_nl);
         pl[0] = 1.;
         pl[1] = x;
         if (fleg_nl > 2) {
@@ -51,8 +51,8 @@ public class Static {
         return pl;
     }
 
-    public static double[] quadratic2d(final double[] xx) {
-        double[] ans = doub_arr(6);
+    public static final double[] quadratic2d(final double[] xx) {
+        final double[] ans = doub_arr(6);
         double x = xx[0], y = xx[1];
         ans[0] = 1;
         ans[1] = x;

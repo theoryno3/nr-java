@@ -2,7 +2,6 @@
 package com.snuggy.nr.chapter02;
 
 import static com.snuggy.nr.refs.Refs.*;
-
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
@@ -18,7 +17,7 @@ public abstract class Linbcg {
 
     public abstract void asolve(final double[] b, final double[] x, final int itrnsp);
 
-    public abstract void atimes(final double[] x, final $double1d r, final int itrnsp) throws NRException;
+    public abstract void atimes(final double[] x, final $$double1d r, final int itrnsp) throws NRException;
 
     // void solve(VecDoub_I &b, VecDoub_IO &x, final int  itol, final double tol,
     // final int  itmax, Int &iter, Doub &err);
@@ -48,11 +47,11 @@ public abstract class Linbcg {
                zm1nrm, znrm = 0.0;
         final double EPS = 1.0e-14;
         int j, n = b.length;
-        double[] p = doub_arr(n), pp = doub_arr(n), 
+        final double[] p = doub_arr(n), pp = doub_arr(n), 
                  rr = doub_arr(n);
-        $double1d r = $(new double[n]); 
-        $double1d z = $(new double[n]); 
-        $double1d zz = $(new double[n]);
+        $$double1d r = $$(new double[n]); 
+        $$double1d z = $$(new double[n]); 
+        $$double1d zz = $$(new double[n]);
         $(iter, 0); // Calculate initial residual.
         atimes(x, r, 0); // Input to atimes is x[0..n-1], output is r[0..n-1];
         // the final 0 indicates that the matrix (not its

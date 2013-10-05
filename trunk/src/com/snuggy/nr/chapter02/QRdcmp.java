@@ -10,7 +10,7 @@ public class QRdcmp {
 
     // Object for QR decomposition of a matrix A, and related functions.
     private int n;
-    private double[][] qt, r; // Stored QT and R.
+    private final double[][] qt, r; // Stored QT and R.
     private boolean sing; // Indicates whether A is singular.
 
     // QRdcmp(MatDoub_I &a); Constructor from A.
@@ -20,11 +20,11 @@ public class QRdcmp {
     // void update(VecDoub_I &u, VecDoub_I &v); See next subsection.
     // void rotate(final int  i, final double a, final double b); Used by update.
     
-    public double[][] qt() {
+    public final double[][] qt() {
         return qt;
     }
     
-    public double[][] r() {
+    public final double[][] r() {
         return r;
     }
 
@@ -40,7 +40,7 @@ public class QRdcmp {
         r = doub_mat(a);
         sing = (false);
         int i, j, k;
-        double[] c = doub_arr(n), d = doub_arr(n);
+        final double[] c = doub_arr(n), d = doub_arr(n);
         double scale, sigma, sum, tau;
         for (k = 0; k < n - 1; k++) {
             scale = 0.0;
@@ -174,7 +174,7 @@ public class QRdcmp {
         // it to be the QR decomposition of the matrix Q .RCu?v/.
         // Input quantities are u[0..n-1], and v[0..n-1].
         int i, k;
-        double[] w = doub_arr(u);
+        final double[] w = doub_arr(u);
         for (k = n - 1; k >= 0; k--)
             // Find largest k such that u[k] ¤ 0.
             if (w[k] != 0.0)

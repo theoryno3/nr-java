@@ -6,7 +6,7 @@ public class Poly implements Func_Doub_To_Doub {
 
     // Polynomial function object that binds a reference to a vector of
     // coefficients.
-    private double[] c;
+    private final double[] c;
 
     public Poly(final double[] cc) {
         c = (cc);

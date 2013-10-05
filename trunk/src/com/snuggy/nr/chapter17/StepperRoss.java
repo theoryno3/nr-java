@@ -9,24 +9,23 @@ import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class StepperRoss extends StepperBS {
 
     // Fourth-order stiffly stable Rosenbrock step for integrating stiff ODEs,
     // with monitoring of local truncation error to adjust stepsize.
     // typedef D Dtype; Make the type of derivs available to odeint.
-    private double[][] dfdy; // f 0
-    private double[] dfdx; // @f=@x
-    private double[] k1, k2, k3, k4, k5, k6;
-    private double[] cont1, cont2, cont3, cont4;
-    private double[][] a;
+    private final double[][] dfdy; // f 0
+    private final double[] dfdx; // @f=@x
+    private final double[] k1, k2, k3, k4, k5, k6;
+    private final double[] cont1, cont2, cont3, cont4;
+    private final double[][] a;
 
-    // StepperRoss(double[]_IO &yy, double[]_IO &dydxx, double &xx, final double
+    // StepperRoss(final double[]_IO &yy, final double[]_IO &dydxx, double &xx, final double
     // atoll,
     // final double rtoll, boolean dens);
     // void step(final double htry,D &derivs);
     // void dy(final double h,D &derivs);
-    // void prepare_dense(final double h,double[]_I &dydxnew);
+    // void prepare_dense(final double h,final double[]_I &dydxnew);
     // double dense_out(final int i, final double x, final double h);
     // double error();
 
@@ -64,7 +63,7 @@ public class StepperRoss extends StepperBS {
                 first_step = false;
                 hold = h.$();
                 errold = MAX(0.01, err);
-                if (reject) // Don’t let step increase if last one was rejected.
+                if (reject) // Donï¿½t let step increase if last one was rejected.
                     hnew = (h.$() >= 0.0 ? MIN(hnew, h.$()) : MAX(hnew, h.$()));
                 hnext = hnew;
                 reject = false;
@@ -77,9 +76,9 @@ public class StepperRoss extends StepperBS {
         }
     }
 
-    Controller con;
+    Controller con = new Controller();
 
-    // The implementation will seem very familiar if you’ve looked at
+    // The implementation will seem very familiar if youï¿½ve looked at
     // StepperDopr5, the explicit Runge-Kutta routine. Note that in the
     // algorithm
     // routine dy of StepperRoss, the linear equations (17.5.32) are solved by
@@ -123,9 +122,9 @@ public class StepperRoss extends StepperBS {
         // Attempts a step with stepsize htry. On output, y and x are replaced
         // by their new values, hdid is the stepsize that was actually
         // accomplished, and hnext is the estimated next stepsize.
-        double[] dydxnew = doub_arr(n);
+        final double[] dydxnew = doub_arr(n);
         $double h = $(htry); // Set stepsize to the initial trial value.
-        derivs.jacobian(x.$(), y.$(), dfdx, dfdy); // Compute the Jacobian and
+        derivs.jacobian(x.$(), y, dfdx, dfdy); // Compute the Jacobian and
                                                    // @f=@x.
         for (;;) {
             dy(h.$(), derivs); // Take a step.
@@ -139,7 +138,7 @@ public class StepperRoss extends StepperBS {
         if (dense) // Compute coefficients for dense output.
             prepare_dense(h.$(), dydxnew);
         $$(dydx, dydxnew); // Reuse last derivative evaluation for next step.
-        y.$(yout);
+        $$(y, yout);
         xold = x.$(); // Used for dense output.
         x.$(x.$() + (hdid = h.$()));
         hnext = con.hnext;
@@ -152,7 +151,7 @@ public class StepperRoss extends StepperBS {
         // store the incremented variables in yout[0..n-1]. Also store an
         // estimate of the local truncation error in yerr using the embedded
         // third-order method.
-        double[] ytemp = doub_arr(n), dydxnew = doub_arr(n);
+        final double[] ytemp = doub_arr(n), dydxnew = doub_arr(n);
         int i;
         for (i = 0; i < n; i++) { // Set up the matrix 1=h  f 0.
             for (int j = 0; j < n; j++)
@@ -162,11 +161,11 @@ public class StepperRoss extends StepperBS {
         LUdcmp alu = new LUdcmp(a); // LU decomposition of the matrix.
         for (i = 0; i < n; i++)
             // Set up right-hand side for g1.
-            ytemp[i] = dydx.$()[i] + h * d1 * dfdx[i];
+            ytemp[i] = dydx[i] + h * d1 * dfdx[i];
         alu.solve(ytemp, k1); // Solve for g1.
         for (i = 0; i < n; i++)
             // Compute intermediate values of y.
-            ytemp[i] = y.$()[i] + a21 * k1[i];
+            ytemp[i] = y[i] + a21 * k1[i];
         derivs.eval(x.$() + c2 * h, ytemp, dydxnew); // Compute dydx at the
                                                      // intermediate values.
         for (i = 0; i < n; i++)
@@ -175,7 +174,7 @@ public class StepperRoss extends StepperBS {
         alu.solve(ytemp, k2); // Solve for g2.
         for (i = 0; i < n; i++)
             // Compute intermediate values of y.
-            ytemp[i] = y.$()[i] + a31 * k1[i] + a32 * k2[i];
+            ytemp[i] = y[i] + a31 * k1[i] + a32 * k2[i];
         derivs.eval(x.$() + c3 * h, ytemp, dydxnew); // Compute dydx at the
                                                      // intermediate values.
         for (i = 0; i < n; i++)
@@ -184,7 +183,7 @@ public class StepperRoss extends StepperBS {
         alu.solve(ytemp, k3); // Solve for g3.
         for (i = 0; i < n; i++)
             // Compute intermediate values of y.
-            ytemp[i] = y.$()[i] + a41 * k1[i] + a42 * k2[i] + a43 * k3[i];
+            ytemp[i] = y[i] + a41 * k1[i] + a42 * k2[i] + a43 * k3[i];
         derivs.eval(x.$() + c4 * h, ytemp, dydxnew); // Compute dydx at the
                                                      // intermediate values.
         for (i = 0; i < n; i++)
@@ -193,7 +192,7 @@ public class StepperRoss extends StepperBS {
         alu.solve(ytemp, k4); // Solve for g4.
         for (i = 0; i < n; i++)
             // Compute intermediate values of y.
-            ytemp[i] = y.$()[i] + a51 * k1[i] + a52 * k2[i] + a53 * k3[i] + a54 * k4[i];
+            ytemp[i] = y[i] + a51 * k1[i] + a52 * k2[i] + a53 * k3[i] + a54 * k4[i];
         double xph = x.$() + h;
         derivs.eval(xph, ytemp, dydxnew); // Compute dydx at the intermediate
                                           // values.
@@ -217,7 +216,7 @@ public class StepperRoss extends StepperBS {
         // Store coefficients of interpolating polynomial for dense output
         // in cont1...cont4.
         for (int i = 0; i < n; i++) {
-            cont1[i] = y.$()[i];
+            cont1[i] = y[i];
             cont2[i] = yout[i];
             cont3[i] = d21 * k1[i] + d22 * k2[i] + d23 * k3[i] + d24 * k4[i] + d25 * k5[i];
             cont4[i] = d31 * k1[i] + d32 * k2[i] + d33 * k3[i] + d34 * k4[i] + d35 * k5[i];
@@ -238,7 +237,7 @@ public class StepperRoss extends StepperBS {
         // than one means the step was successful.
         double err = 0.0, sk;
         for (int i = 0; i < n; i++) {
-            sk = atol + rtol * MAX(abs(y.$()[i]), abs(yout[i]));
+            sk = atol + rtol * MAX(abs(y[i]), abs(yout[i]));
             err += SQR(yerr[i] / sk);
         }
         return sqrt(err / n);

@@ -30,7 +30,7 @@ public class Anneal {
                                    // factor on each
         boolean ans; // step.
         int i, i1, i2, nn;
-        int[] n = int_arr(6);
+        final int[] n = int_arr(6);
         double de, t = 0.5; // 0.5 is the initial temperature.
         @SuppressWarnings("unused")
         double path = 0.0; 
@@ -103,7 +103,7 @@ public class Anneal {
         // and ending cities along the path segment to be reversed. On output,
         // the function value returns the cost of making the reversal. The
         // actual reversal is not performed by this routine.
-        double[] xx = doub_arr(4), yy = doub_arr(4);
+        final double[] xx = doub_arr(4), yy = doub_arr(4);
         int ncity = x.length;
         n[2] = (n[0] + ncity - 1) % ncity; // Find the city before n[0] ..
         n[3] = (n[1] + 1) & ncity; // .. and the city after n[1].
@@ -152,7 +152,7 @@ public class Anneal {
         // point among the remaining cities after which it is to be inserted.
         // On output, the function value returns the cost of the change. The
         // actual transport is not performed by this routine.
-        double[] xx = doub_arr(6), yy = doub_arr(6);
+        final double[] xx = doub_arr(6), yy = doub_arr(6);
         int ncity = x.length;
         n[3] = (n[2] + 1) % ncity; // Find the city following n[2]..
         n[4] = (n[0] + ncity - 1) % ncity; // ..and the one preceding n[0]..
@@ -185,7 +185,7 @@ public class Anneal {
         // calculated by function trncst. On output, iorder is modi ed to re ect
         // the movement of the path segment.
         int ncity = iorder.length;
-        int[] jorder = int_arr(ncity);
+        final int[] jorder = int_arr(ncity);
         int m1 = (n[1] - n[0] + ncity) % ncity; // Find number of cities from
                                                 // n[0] to n[1]
         int m2 = (n[4] - n[3] + ncity) % ncity; // ...and the number from n[3]

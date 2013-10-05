@@ -15,7 +15,7 @@ public abstract class preGaumixmod {
 	
 	protected preGaumixmod(final int mm) {mmstat = mm;}
 	
-	protected double[][] Mat_mm() {
+	protected final double[][] Mat_mm() {
 	    return doub_mat(mmstat, mmstat);
 	}
 }

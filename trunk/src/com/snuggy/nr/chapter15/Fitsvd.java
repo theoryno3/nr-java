@@ -16,30 +16,29 @@ public class Fitsvd {
     // and chisq.
     private int ndat, ma;
     private double tol;
-    private $double1d x; // (Why is x a pointer? Explained in 15.4.4.)
-    private int x_off;
-    private double[] y, sig; 
+    private double[] x; // (Why is x a pointer? Explained in 15.4.4.)
+    private final double[] y, sig; 
     private Func_Doub_To_DoubArr funcs;
-    private double[] a; // Output values. a is the vector of fitted
+    private $$double1d a; // Output values. a is the vector of fitted
                         // coefficients,
     // covar is its covariance matrix, and chisq is the value of 2 for the fit.
-    private double[][] covar;
+    private $$double2d covar;
     @SuppressWarnings("unused")
     private double chisq;
     
-    public double[][] covar() {
-        return covar;
+    public Fitsvd(final double[] xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks) throws NRException {
+        this(xx, yy, ssig, funks, 1.e-12);
     }
     
     public double[] a() {
-        return a;
+        return a.$();
+    }
+    
+    public double[][] covar() {
+        return covar.$();
     }
 
-    public Fitsvd(final $double1d xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks) throws NRException {
-        this(xx, yy, ssig, funks, 1.e-12);
-    }
-
-    public Fitsvd(final $double1d xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks,
+    public Fitsvd(final double[] xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks,
             final double TOL) throws NRException {
         // Constructor. Binds references to the data arrays xx, yy, and ssig,
         // and to a user-supplied function funks(x) that returns a VecDoub
@@ -49,7 +48,7 @@ public class Fitsvd {
         // SVD is used.
         ndat = (yy.length);
         // x = (&xx);
-        x = $(xx.$());
+        x = xx;
         xmd = null;
         y = (yy);
         sig = (ssig);
@@ -67,18 +66,18 @@ public class Fitsvd {
         int i, j, k;
         double tmp, thresh, sum;
         if (x != null)
-            ma = funcs.eval(x.$()[0]).length;
+            ma = funcs.eval(x[0]).length;
         else
             ma = funcsmd.eval(row(xmd.$(), 0)).length; // (Discussed in
                                                                 // 15.4.4.)
-        a = doub_arr(ma);
-        covar = doub_mat(ma, ma);
-        double[][] aa = doub_mat(ndat, ma);
-        double[] b = doub_arr(ndat);
-        $double1d afunc = $(new double[ma]); 
+        a = $$(doub_arr(ma));
+        covar = $$(doub_mat(ma, ma));
+        final double[][] aa = doub_mat(ndat, ma);
+        final double[] b = doub_arr(ndat);
+        $$double1d afunc = $$(new double[ma]); 
         for (i = 0; i < ndat; i++) { // Accumulate coefficients of the
             if (x != null)
-                $$(afunc, funcs.eval(x.$()[i])); // design matrix.
+                $$(afunc, funcs.eval(x[i])); // design matrix.
             else
                 $$(afunc, funcsmd.eval(row(xmd.$(), i))); // (Discussed in
                                                                 // 15.4.4.)
@@ -89,12 +88,12 @@ public class Fitsvd {
         }
         SVD svd = new SVD(aa); // Singular value decomposition.
         thresh = (tol > 0. ? tol * svd.w()[0] : -1.);
-        svd.solve(b, a, thresh); // Solve for the coefficients.
+        svd.solve(b, a.$(), thresh); // Solve for the coefficients.
         chisq = 0.0; // Evaluate chi-square.
         for (i = 0; i < ndat; i++) {
             sum = 0.;
             for (j = 0; j < ma; j++)
-                sum += aa[i][j] * a[j];
+                sum += aa[i][j] * a.$()[j];
             chisq += SQR(sum - b[i]);
         }
         for (i = 0; i < ma; i++) { // Sum contributions to covariance
@@ -103,23 +102,23 @@ public class Fitsvd {
                 for (k = 0; k < ma; k++)
                     if (svd.w()[k] > svd.tsh())
                         sum += svd.v()[i][k] * svd.v()[j][k] / SQR(svd.w()[k]);
-                covar[j][i] = covar[i][j] = sum;
+                $(covar, j, i, $(covar, i, j, sum));
             }
         }
     }
 
     // From here on, code for multidimensional fits, to be discussed in 15.4.4.
 
-    private $double2d xmd;
+    private $$double2d xmd;
 
     // VecDoub (*funcsmd)(VecDoub_I &);
     private Func_DoubArr_To_DoubArr funcsmd;
 
-    public Fitsvd(final $double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks) throws NRException {
+    public Fitsvd(final $$double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks) throws NRException {
         this(xx, yy, ssig, funks, 1.e-12);
     }
 
-    public Fitsvd(final $double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks,
+    public Fitsvd(final $$double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks,
             final double TOL) throws NRException {
         // Constructor for multidimensional fits. Exactly the same as the
         // previous constructor, except that xx is now a matrix whose rows are
@@ -134,10 +133,10 @@ public class Fitsvd {
         tol = (TOL);
     }
 
-    private double[] row(final double[][] a, final int i) {
+    private final double[] row(final double[][] a, final int i) {
         // Utility. Returns the row of a MatDoub as a VecDoub.
         int j, n = ncols(a);
-        double[] ans = doub_arr(n);
+        final double[] ans = doub_arr(n);
         for (j = 0; j < n; j++)
             ans[j] = a[i][j];
         return ans;

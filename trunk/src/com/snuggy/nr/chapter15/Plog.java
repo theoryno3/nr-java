@@ -9,9 +9,9 @@ import com.snuggy.nr.util.*;
 public class Plog {
 
     // Functor that calculates logP of a State.
-    private double[] dat; // Bind to data vector.
+    private final double[] dat; // Bind to data vector.
     private int ndat;
-    private double[] stau, slogtau;
+    private final double[] stau, slogtau;
 
     public Plog(final double[] data) {
         // Constructor. Digest the data vector for subsequent fast calculation

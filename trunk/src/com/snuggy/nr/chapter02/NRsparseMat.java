@@ -13,9 +13,9 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
     private int nrows; // Number of rows.
     private int ncols; // Number of columns.
     private int nvals; // Maximum number of nonzeros.
-    private int[] col_ptr; // Pointers to start of columns. Length is ncols+1.
-    private int[] row_ind; // Row indices of nonzeros.
-    private double[] val; // Array of nonzero values.
+    private final int[] col_ptr; // Pointers to start of columns. Length is ncols+1.
+    private final int[] row_ind; // Row indices of nonzeros.
+    private final double[] val; // Array of nonzero values.
     
     @Override
     public NRsparseMat copyOut() {
@@ -47,15 +47,15 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
         return nvals;
     }
 
-    public int[] row_ind() {
+    public final int[] row_ind() {
         return row_ind;
     }
 
-    public int[] col_ptr() {
+    public final int[] col_ptr() {
         return col_ptr;
     }
 
-    public double[] val() {
+    public final double[] val() {
         return val;
     }
 
@@ -104,8 +104,8 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
     // traversing the rows of A, which is extremely inefficient in this storage
     // mode. Here’s the right way to do it:
 
-    public double[] ax(final double[] x) {
-        double[] y = doub_arr(nrows);
+    public final double[] ax(final double[] x) {
+        final double[] y = doub_arr(nrows);
         for (int j = 0; j < ncols; j++) {
             for (int i = col_ptr[j]; i < col_ptr[j + 1]; i++)
                 y[row_ind[i]] += val[i] * x[j];
@@ -121,8 +121,8 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
     // addressing is still required.) Note that the transpose matrix is not
     // actually constructed.
 
-    public double[] atx(final double[] x) {
-        double[] y = doub_arr(ncols);
+    public final double[] atx(final double[] x) {
+        final double[] y = doub_arr(ncols);
         for (int i = 0; i < ncols; i++) {
             y[i] = 0.0;
             for (int j = col_ptr[i]; j < col_ptr[i + 1]; j++)
@@ -140,7 +140,7 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
         int i, j, k, index, m = nrows, n = ncols;
         NRsparseMat at = new NRsparseMat(n, m, nvals); // Initialized to zero.
         // First find the column lengths for AT , i.e. the row lengths of A.
-        int[] count = int_arr(m); // Temporary counters for each row of A.
+        final int[] count = int_arr(m); // Temporary counters for each row of A.
         for (i = 0; i < n; i++)
             for (j = col_ptr[i]; j < col_ptr[i + 1]; j++) {
                 k = row_ind[j];

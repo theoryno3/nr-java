@@ -17,7 +17,7 @@ public class Fitmed {
     // line).
     private int ndata;
     private double a, b, abdev; // Answers.
-    private double[] x, y;
+    private final double[] x, y;
 
     public double a() {
         return a;
@@ -99,7 +99,7 @@ public class Fitmed {
         final double EPS = EPS(); // numeric_limits<Doub>::epsilon();
         int j;
         double d, sum = 0.0;
-        double[] arr = doub_arr(ndata);
+        final double[] arr = doub_arr(ndata);
         for (j = 0; j < ndata; j++)
             arr[j] = y[j] - b * x[j];
         if ((ndata & 1) == 1) {

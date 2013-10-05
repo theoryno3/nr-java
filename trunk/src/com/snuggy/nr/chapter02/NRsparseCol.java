@@ -10,7 +10,7 @@ public class NRsparseCol {
     protected int[] row_ind; // Row indices of nonzeros.
     protected double[] val; // Array of nonzero values.
     
-    public double[] val() {
+    public final double[] val() {
         return val;
     }
     
@@ -18,7 +18,7 @@ public class NRsparseCol {
         return nvals;
     }
     
-    public int[] row_ind() {
+    public final int[] row_ind() {
         return row_ind;
     }
     

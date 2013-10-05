@@ -15,7 +15,7 @@ public class Static {
         // variables as yout[0..n-1]. The user supplies the routine
         // derivs(x,y,dydx), which returns derivatives dydx at x.
         int n = y.length;
-        double[] dym = doub_arr(n), dyt = doub_arr(n), yt = doub_arr(n);
+        final double[] dym = doub_arr(n), dyt = doub_arr(n), yt = doub_arr(n);
         double hh = h * 0.5;
         double h6 = h / 6.0;
         double xh = x + hh;
@@ -36,7 +36,7 @@ public class Static {
                                                                      // weights.
     }
 
-    public static void sparmatfill(NRsparseCol[] sparmat, double[][] fullmat) throws NRException {
+    public static void sparmatfill(NRsparseCol[] sparmat, final double[][] fullmat) throws NRException {
         // Utility that fills a sparse matrix from a full one. See 2.7.
         int n, m, nz, nn = nrows(fullmat), mm = ncols(fullmat);
         if (sparmat.length != mm)

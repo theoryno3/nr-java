@@ -59,7 +59,7 @@ public class Static {
         // data arrays are assumed to be drawn from populations with the same
         // true variance.
         Beta beta = new Beta();
-        double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
+        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
         double svar, df;
         int n1 = data1.length, n2 = data2.length;
         avevar(data1, ave1_ref, var1_ref);
@@ -100,7 +100,7 @@ public class Static {
         // The data arrays are allowed to be drawn from populations with
         // unequal variances.
         Beta beta = new Beta();
-        double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
+        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
         double df;
         int n1 = data1.length, n2 = data2.length;
         avevar(data1, ave1_ref, var1_ref);
@@ -119,13 +119,13 @@ public class Static {
         Beta beta = new Beta();
         int j, n = data1.length;
         double sd, df, cov = 0.0;
-        double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
+        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
         @SuppressWarnings("unused")
-        double[] sd_ref = doub_ref();
+        final double[] sd_ref = doub_ref();
         @SuppressWarnings("unused")
-        double[] df_ref = doub_ref();
+        final double[] df_ref = doub_ref();
         @SuppressWarnings("unused")
-        double[] cov_ref = doub_ref(0.0);
+        final double[] cov_ref = doub_ref(0.0);
         avevar(data1, ave1_ref, var1_ref);
         avevar(data2, ave2_ref, var2_ref);
         for (j = 0; j < n; j++)
@@ -144,9 +144,9 @@ public class Static {
         // variances.
         Beta beta = new Beta();
         double df1, df2;
-        double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
+        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
         @SuppressWarnings("unused")
-        double[] df1_ref = doub_ref(), df2_ref = doub_ref();
+        final double[] df1_ref = doub_ref(), df2_ref = doub_ref();
         int n1 = data1.length, n2 = data2.length;
         avevar(data1, ave1_ref, var1_ref);
         avevar(data2, ave2_ref, var2_ref);
@@ -312,7 +312,7 @@ public class Static {
         Gamma gam = new Gamma();
         int i, j, nnj, nni, minij, ni = nn.length, nj = nn.length;
         double sum = 0.0, expctd, temp;
-        double[] sumi = doub_arr(ni), sumj = doub_arr(nj);
+        final double[] sumi = doub_arr(ni), sumj = doub_arr(nj);
         nni = ni; // Number of rows...
         nnj = nj; // ...and columns.
         for (i = 0; i < ni; i++) { // Get the row totals.
@@ -409,7 +409,7 @@ public class Static {
         double vard, t, fac, en3n, en, df, aved;
         double sf_ref[] = doub_ref();
         double sg_ref[] = doub_ref();
-        double[] wksp1 = doub_arr(n), wksp2 = doub_arr(n);
+        final double[] wksp1 = doub_arr(n), wksp2 = doub_arr(n);
         for (j = 0; j < n; j++) {
             wksp1[j] = data1[j];
             wksp2[j] = data2[j];
@@ -577,10 +577,10 @@ public class Static {
         // so prob is only an estimate.
         int j, n1 = x1.length;
         double rr, sqen;
-        double[] dum_ref = doub_ref(), dumm_ref = doub_ref();
-        double[] r1_ref = doub_ref();
-        double[] ga_ref = doub_ref(), gb_ref = doub_ref(), gc_ref = doub_ref(), gd_ref = doub_ref();
-        double[] fa_ref = doub_ref(), fb_ref = doub_ref(), fc_ref = doub_ref(), fd_ref = doub_ref();
+        final double[] dum_ref = doub_ref(), dumm_ref = doub_ref();
+        final double[] r1_ref = doub_ref();
+        final double[] ga_ref = doub_ref(), gb_ref = doub_ref(), gc_ref = doub_ref(), gd_ref = doub_ref();
+        final double[] fa_ref = doub_ref(), fb_ref = doub_ref(), fc_ref = doub_ref(), fd_ref = doub_ref();
         KSdist ks = new KSdist();
         d1_ref[0] = 0.0;
         for (j = 0; j < n1; j++) { // Loop over the data points.
@@ -682,8 +682,8 @@ public class Static {
         // distribution-dependent, so prob is only an estimate.
         int j, n1 = x1.length, n2 = x2.length;
         double d1, d2, rr, sqen;
-        double[] dum_ref = doub_ref(), dumm_ref = doub_ref(), r1_ref = doub_ref(), r2_ref = doub_ref();
-        double[] fa_ref = doub_ref(), fb_ref = doub_ref(), fc_ref = doub_ref(), fd_ref = doub_ref(), ga_ref = doub_ref(), gb_ref = doub_ref(), gc_ref = doub_ref(), gd_ref = doub_ref();
+        final double[] dum_ref = doub_ref(), dumm_ref = doub_ref(), r1_ref = doub_ref(), r2_ref = doub_ref();
+        final double[] fa_ref = doub_ref(), fb_ref = doub_ref(), fc_ref = doub_ref(), fd_ref = doub_ref(), ga_ref = doub_ref(), gb_ref = doub_ref(), gc_ref = doub_ref(), gd_ref = doub_ref();
         KSdist ks = new KSdist();
         d1 = 0.0;
         for (j = 0; j < n1; j++) { // First, use points in the first sample as
@@ -746,9 +746,9 @@ public class Static {
         if (np < nl + nr + 1 || nl < 0 || nr < 0 || ld > m || nl + nr < m)
             throw new NRException("bad args in savgol");
         @SuppressWarnings("unused")
-        int[] indx = int_arr(m + 1);
-        double[][] a = doub_mat(m + 1, m + 1);
-        double[] b = doub_arr(m + 1);
+        final int[] indx = int_arr(m + 1);
+        final double[][] a = doub_mat(m + 1, m + 1);
+        final double[] b = doub_arr(m + 1);
         for (ipj = 0; ipj <= (m << 1); ipj++) { // Set up the normal equations
                                                 // of the desired
             sum = ((ipj != 0) ? 0.0 : 1.0); // least-squares fit.

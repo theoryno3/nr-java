@@ -8,15 +8,17 @@ import com.snuggy.nr.util.*;
 public class Indexx<T extends Comparable<T>> {
 
     private int n;
-    private int[] indx;
+    private final int[] indx;
 
     public Indexx(final T[] arr) throws NRException {
         // Constructor. Calls index and stores an index to the array
         // arr[0..n-1].
+        indx = int_arr(arr.length);
         index(arr, 0, arr.length);
     }
 
     public Indexx() {
+        indx = null;
     } // Empty constructor. See text.
 
     public void sort(Class<T> type, final T[] brr) throws NRException, InstantiationException, IllegalAccessException {
@@ -63,9 +65,9 @@ public class Indexx<T extends Comparable<T>> {
         final int M = 7, NSTACK = 64;
         int i, indxt, ir, j, k, jstack = -1, l = 0;
         T a;
-        int[] istack = int_arr(NSTACK);
+        final int[] istack = int_arr(NSTACK);
         n = nn;
-        indx = int_arr(n);
+        //indx = int_arr(n);
         ir = n - 1;
         for (j = 0; j < n; j++)
             indx[j] = j;

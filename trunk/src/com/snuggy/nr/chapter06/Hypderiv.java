@@ -40,7 +40,7 @@ public class Hypderiv implements Dtype {
     }
 
     @Override
-    public void jacobian(double x, double[] y, double[] dfdx, double[][] dfdy) throws NRException {
+    public void jacobian(double x, final double[] y, final double[] dfdx, final double[][] dfdy) throws NRException {
         throw new NRException();
     }
 

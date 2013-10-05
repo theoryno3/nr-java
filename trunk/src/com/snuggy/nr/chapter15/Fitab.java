@@ -15,7 +15,7 @@ public class Fitab {
     // the variables a, b, siga, sigb, chi2, and either q or sigdat.
     private int ndata;
     private double a, b, siga, sigb, chi2, q, sigdat; // Answers.
-    private double[] x, y, sig;
+    private final double[] x, y, sig;
     
     public double chi2() {
         return chi2;

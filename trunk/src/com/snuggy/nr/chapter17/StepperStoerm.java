@@ -10,7 +10,7 @@ import com.snuggy.nr.util.*;
 @Deprecated @Broken
 public class StepperStoerm extends StepperBS {
 
-    // Stoermer’s rule for integrating y00 D f.x;y/ for a system of equations.
+    // Stoermerï¿½s rule for integrating y00 D f.x;y/ for a system of equations.
     // using StepperBS<D>::x; using StepperBS<D>::xold; using StepperBS<D>::y;
     // using StepperBS<D>::dydx; using StepperBS<D>::dense; using
     // StepperBS<D>::n;
@@ -21,7 +21,7 @@ public class StepperStoerm extends StepperBS {
     // using StepperBS<D>::ysave; using StepperBS<D>::fsave;
     // using StepperBS<D>::dens; using StepperBS<D>::neqn;
 
-    private double[][] ysavep;
+    private final double[][] ysavep;
 
     // StepperStoerm(VecDoub_IO &yy, VecDoub_IO &dydxx, Doub &xx,
     // final double atol, final double rtol, bool dens);
@@ -61,20 +61,20 @@ public class StepperStoerm extends StepperBS {
         }
     }
 
-    // Here is the routine dy that implements Stoermer’s rule:
+    // Here is the routine dy that implements Stoermerï¿½s rule:
     public boolean dy(final double[] y, final double htot, final int k, final double[] yend, final int ipt_ref[],
             final Dtype derivs) throws NRException {
         // Stoermer step. Inputs are y, H, and k. The output is returned
         // as yend[0..2n-1]. The counter ipt keeps track of saving the
         // right-hand sides in the correct locations for dense output.
-        double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_arr(n);
         int nstep = nseq[k];
         double h = htot / nstep; // Stepsize this trip.
         double h2 = 2.0 * h;
         for (int i = 0; i < neqn; i++) { // First step.
             ytemp[i] = y[i];
             int ni = neqn + i;
-            ytemp[ni] = y[ni] + h * dydx.$()[i];
+            ytemp[ni] = y[ni] + h * dydx[i];
         }
         double xnew = x.$();
         int nstp2 = nstep / 2;
@@ -122,9 +122,9 @@ public class StepperStoerm extends StepperBS {
                                          // interval.
             dens[i] = ysav[i];
             dens[neqn + i] = h * ysav[neqn + i];
-            dens[2 * neqn + i] = h2 * dydx.$()[i];
-            dens[3 * neqn + i] = y.$()[i];
-            dens[4 * neqn + i] = h * y.$()[neqn + i];
+            dens[2 * neqn + i] = h2 * dydx[i];
+            dens[3 * neqn + i] = y[i];
+            dens[4 * neqn + i] = h * y[neqn + i];
             dens[5 * neqn + i] = h2 * dydxnew[i];
         }
         for (int j = 1; j <= k; j++) { // Compute y and y0 at midpoint.
@@ -187,7 +187,7 @@ public class StepperStoerm extends StepperBS {
                 if (kmi == 2) {
                     int l = lbeg - 1;
                     for (int i = 0; i < neqn; i++)
-                        fsave[l][i] = fsave[l][i] - dydx.$()[i];
+                        fsave[l][i] = fsave[l][i] - dydx[i];
                 }
             }
         }
@@ -231,7 +231,7 @@ public class StepperStoerm extends StepperBS {
         // y[0..neqn*(imit+7)-1] contains the dens array from prepare_dense.
         // On output, these coecients have been updated to the required values.
         double y0, y1, yp0, yp1, ypp0, ypp1, ydiff, ah, bh, ch, dh, eh, fh, gh, abh, gfh, gmf, ph0, ph1, ph2, ph3, ph4, ph5, fc1, fc2, fc3;
-        double[] a = doub_arr(41);
+        final double[] a = doub_arr(41);
         for (int i = 0; i < n; i++) {
             y0 = y[i];
             y1 = y[3 * n + i];

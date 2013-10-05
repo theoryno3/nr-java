@@ -9,7 +9,6 @@ import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class StepperSie extends StepperBS {
 
     // Semi-implicit extrapolation step for integrating sti ODEs, with
@@ -33,7 +32,7 @@ public class StepperSie extends StepperBS {
     private final double[][] fsave; // Stores right-hand sides for dense output.
     private final double[] dens; // Stores quantities for dense interpolating
                            // polynomial.
-    private double[] factrl; // Factorials.
+    private final double[] factrl; // Factorials.
 
     private static final double costfunc = 1.0, costjac = 5.0, costlu = 1.0, costsolve = 1.0;
 
@@ -110,16 +109,16 @@ public class StepperSie extends StepperBS {
         double fac, h, hnew;
         $double err = $(0.0);
         boolean firstk;
-        double[] hopt = doub_arr(IMAXX), work = doub_arr(IMAXX);
-        double[] ysav = doub_arr(n), yseq = doub_arr(n);
+        final double[] hopt = doub_arr(IMAXX), work = doub_arr(IMAXX);
+        final double[] ysav = doub_arr(n), yseq = doub_arr(n);
         @SuppressWarnings("unused")
-        double[] ymid = doub_arr(n);
-        double[] scale = doub_arr(n);
+        final double[] ymid = doub_arr(n);
+        final double[] scale = doub_arr(n);
         work[0] = 1.e30;
         h = htry;
         forward = h > 0 ? true : false;
         for (i = 0; i < n; i++)
-            ysav[i] = y.$()[i]; // Save the starting values.
+            ysav[i] = y[i]; // Save the starting values.
         if (h != hnext && !first_step) { // h gets reset in Odeint for the last
                                          // step.
             last_step = true;
@@ -131,14 +130,14 @@ public class StepperSie extends StepperBS {
         }
         for (i = 0; i < n; i++)
             // Initial scaling.
-            scale[i] = atol + rtol * abs(y.$()[i]);
+            scale[i] = atol + rtol * abs(y[i]);
         reject = false;
         firstk = true;
         hnew = abs(h);
         compute_jac: // Restart here if Jacobian error too big.
         while (true) {
 	        if (theta > jac_redo && !calcjac) { // Evaluate Jacobian.
-	            derivs.jacobian(x.$(), y.$(), dfdx, dfdy);
+	            derivs.jacobian(x.$(), y, dfdx, dfdy);
 	            calcjac = true;
 	        }
 	        while (firstk || reject) { // Loop until step accepted.
@@ -163,11 +162,11 @@ public class StepperSie extends StepperBS {
 	                    for (i = 0; i < n; i++)
 	                        table[k - 1][i] = yseq[i];
 	                if (k != 0) {
-	                    polyextr(k, table, y.$()); // Perform extrapolation.
+	                    polyextr(k, table, y); // Perform extrapolation.
 	                    $(err, 0.0); // Compute normalized error estimate errk.
 	                    for (i = 0; i < n; i++) {
 	                        scale[i] = atol + rtol * abs(ysav[i]);
-	                        err.$(err.$() + SQR((y.$()[i] - table[0][i]) / scale[i]));
+	                        err.$(err.$() + SQR((y[i] - table[0][i]) / scale[i]));
 	                    }
 	                    err.$(sqrt(err.$() / n));
 	                    if (err.$() > 1.0 / EPS || (k > 1 && err.$() >= errold)) {
@@ -281,13 +280,13 @@ public class StepperSie extends StepperBS {
             hnext = -hnew;
     }
 
-    public boolean dy(final double[] y, final double htot, final int k, double[] yend, final $int ipt,
+    public boolean dy(final double[] y, final double htot, final int k, final double[] yend, final $int ipt,
             final double[] scale, final Dtype derivs) throws NRException {
         // Semi-implicit Euler step. Inputs are y, H, k and scale[0..n-1]. The
         // output is returned as yend[0..n-1]. The counter ipt keeps track of
         // saving the right-hand sides in the correct locations for dense
         // output.
-        double[] del = doub_arr(n), ytemp = doub_arr(n), dytemp = doub_arr(n);
+        final double[] del = doub_arr(n), ytemp = doub_arr(n), dytemp = doub_arr(n);
         int nstep = nseq[k];
         double h = htot / nstep; // Stepsize this trip.
         for (int i = 0; i < n; i++) { // Set up the matrix 1=h f 0.
@@ -363,7 +362,7 @@ public class StepperSie extends StepperBS {
         kright = k;
         for (int i = 0; i < n; i++) {
             dens[i] = ysav[i];
-            dens[n + i] = y.$()[i];
+            dens[n + i] = y[i];
         }
         for (int klr = 0; klr < kright; klr++) { // Compute dierences.
             if (klr >= 1) {

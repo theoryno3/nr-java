@@ -22,7 +22,7 @@ public class Static {
         // of arr are sorted.
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         double a;
-        int[] istack = int_arr(sort_NSTACK);
+        final int[] istack = int_arr(sort_NSTACK);
         if (m > 0)
             n = MIN(m, n); // Use optional argument.
         ir = n - 1;
@@ -103,7 +103,7 @@ public class Static {
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         double a;
         U b;
-        int[] istack = int_arr(sort2_NSTACK);
+        final int[] istack = int_arr(sort2_NSTACK);
         ir = n - 1;
         for (;;) { // Insertion sort when subarray small enough.
             if (ir - l < sort2_M) {
@@ -198,7 +198,7 @@ public class Static {
         // of arr are sorted.
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         int a;
-        int[] istack = int_arr(int_sort_NSTACK);
+        final int[] istack = int_arr(int_sort_NSTACK);
         if (m > 0)
             n = MIN(m, n); // Use optional argument.
         ir = n - 1;
@@ -279,7 +279,7 @@ public class Static {
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         int a;
         U b;
-        int[] istack = int_arr(int_sort2_NSTACK);
+        final int[] istack = int_arr(int_sort2_NSTACK);
         ir = n - 1;
         for (;;) { // Insertion sort when subarray small enough.
             if (ir - l < int_sort2_M) {
@@ -374,7 +374,7 @@ public class Static {
         // of arr are sorted.
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         T a;
-        int[] istack = int_arr(T_sort_NSTACK);
+        final int[] istack = int_arr(T_sort_NSTACK);
         if (m > 0)
             n = MIN(m, n); // Use optional argument.
         ir = n - 1;
@@ -459,7 +459,7 @@ public class Static {
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         T a;
         U b;
-        int[] istack = int_arr(T_sort2_NSTACK);
+        final int[] istack = int_arr(T_sort2_NSTACK);
         ir = n - 1;
         for (;;) { // Insertion sort when subarray small enough.
             if (ir - l < T_sort2_M) {
@@ -549,7 +549,7 @@ public class Static {
         int i, ir, j, k, jstack = -1, l = 0, n = arr.length;
         double a;
         double b;
-        int[] istack = int_arr(dd_sort2_NSTACK);
+        final int[] istack = int_arr(dd_sort2_NSTACK);
         ir = n - 1;
         for (;;) { // Insertion sort when subarray small enough.
             if (ir - l < dd_sort2_M) {

@@ -12,7 +12,7 @@ public class StepperDopr5_rhs implements Dtype {
         dydx[3] = y[2] - (3.0 / x) * y[3];
     }
     @Override
-    public void jacobian(final double x, double[] y, double[] dfdx, double[][] dfdy) throws NRException {
+    public void jacobian(final double x, final double[] y, final double[] dfdx, final double[][] dfdy) throws NRException {
         throw new NRException();
     }
 }

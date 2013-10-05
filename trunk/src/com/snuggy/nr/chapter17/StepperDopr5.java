@@ -8,15 +8,14 @@ import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class StepperDopr5 extends StepperBS {
 
     // Dormand-Prince fifth-order Runge-Kutta step with monitoring of local
     // truncation error to ensure accuracy and adjust stepsize.
     // typedef D Dtype; Make the type of derivs available to odeint.
-    private double[] k2, k3, k4, k5, k6;
-    private double[] rcont1, rcont2, rcont3, rcont4, rcont5;
-    private double[] dydxnew;
+    private final double[] k2, k3, k4, k5, k6;
+    private final double[] rcont1, rcont2, rcont3, rcont4, rcont5;
+    private final double[] dydxnew;
 
     // StepperDopr5(VecDoub_IO &yy, VecDoub_IO &dydxx, Doub &xx,
     // const Doub atoll, const Doub rtoll, bool dens);
@@ -49,13 +48,13 @@ public class StepperDopr5 extends StepperBS {
             // Returns true if err  1, false otherwise. If step was successful,
             // sets hnext to the estimated optimal stepsize for the next step.
             // If the step failed, reduces h appropriately for another try.
-            // Set beta to a nonzero value for PI control. beta D 0:04–0.08 is a
+            // Set beta to a nonzero value for PI control. beta D 0:04ï¿½0.08 is a
             // good default.
             double scale;
             if (err <= 1.0) { // Step succeeded. Compute hnext.
                 if (err == 0.0)
                     scale = maxscale;
-                else { // PI control if beta ¤ 0.
+                else { // PI control if beta ï¿½ 0.
                     scale = safe * pow(err, -alpha) * pow(errold, beta);
                     if (scale < minscale)
                         scale = minscale; // Ensure minscale  hnext=h 
@@ -63,7 +62,7 @@ public class StepperDopr5 extends StepperBS {
                     if (scale > maxscale)
                         scale = maxscale;
                 }
-                if (reject) // Don’t let step increase if last one was re
+                if (reject) // Donï¿½t let step increase if last one was re
                     hnext = h.$() * MIN(scale, 1.0); // jected.
                 else
                     hnext = h.$() * scale;
@@ -80,7 +79,7 @@ public class StepperDopr5 extends StepperBS {
 
     }
 
-    Controller con;
+    Controller con = new Controller();
 
     // The constructor simply invokes the base class instructor and initializes
     // variables:
@@ -129,7 +128,7 @@ public class StepperDopr5 extends StepperBS {
         if (dense) // Step succeeded. Compute coefficients for dense
             prepare_dense(h.$(), derivs); // output.
         $$(dydx, dydxnew); // Reuse last derivative evaluation for next step.
-        y.$(yout);
+        $$(y, yout);
         xold = x.$(); // Used for dense output.
         x.$(x.$() + (hdid = h.$()));
         hnext = con.hnext;
@@ -153,34 +152,34 @@ public class StepperDopr5 extends StepperBS {
         // store the incremented variables in yout[0..n-1]. Also store an
         // estimate of the local truncation error in yerr using the
         // embedded fourth-order method.
-        double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_arr(n);
         int i;
         for (i = 0; i < n; i++)
             // First step.
-            ytemp[i] = y.$()[i] + h * a21 * dydx.$()[i];
+            ytemp[i] = y[i] + h * a21 * dydx[i];
         derivs.eval(x.$() + c2 * h, ytemp, k2); // Second step.
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a31 * dydx.$()[i] + a32 * k2[i]);
+            ytemp[i] = y[i] + h * (a31 * dydx[i] + a32 * k2[i]);
         derivs.eval(x.$() + c3 * h, ytemp, k3); // Third step.
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a41 * dydx.$()[i] + a42 * k2[i] + a43 * k3[i]);
+            ytemp[i] = y[i] + h * (a41 * dydx[i] + a42 * k2[i] + a43 * k3[i]);
         derivs.eval(x.$() + c4 * h, ytemp, k4); // Fourth step.
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a51 * dydx.$()[i] + a52 * k2[i] + a53 * k3[i] + a54 * k4[i]);
+            ytemp[i] = y[i] + h * (a51 * dydx[i] + a52 * k2[i] + a53 * k3[i] + a54 * k4[i]);
         derivs.eval(x.$() + c5 * h, ytemp, k5); // Fifth step.
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a61 * dydx.$()[i] + a62 * k2[i] + a63 * k3[i] + a64 * k4[i] + a65 * k5[i]);
+            ytemp[i] = y[i] + h * (a61 * dydx[i] + a62 * k2[i] + a63 * k3[i] + a64 * k4[i] + a65 * k5[i]);
         double xph = x.$() + h;
         derivs.eval(xph, ytemp, k6); // Sixth step.
         for (i = 0; i < n; i++)
             // Accumulate increments with proper weights.
-            yout[i] = y.$()[i] + h * (a71 * dydx.$()[i] + a73 * k3[i] + a74 * k4[i] + a75 * k5[i] + a76 * k6[i]);
+            yout[i] = y[i] + h * (a71 * dydx[i] + a73 * k3[i] + a74 * k4[i] + a75 * k5[i] + a76 * k6[i]);
         derivs.eval(xph, yout, dydxnew); // Will also be first evaluation for
                                          // next step.
         for (i = 0; i < n; i++) {
             // Estimate error as difference between fourth- and fifth-order
             // methods.
-            yerr[i] = h * (e1 * dydx.$()[i] + e3 * k3[i] + e4 * k4[i] + e5 * k5[i] + e6 * k6[i] + e7 * dydxnew[i]);
+            yerr[i] = h * (e1 * dydx[i] + e3 * k3[i] + e4 * k4[i] + e5 * k5[i] + e6 * k6[i] + e7 * dydxnew[i]);
         }
     }
 
@@ -196,15 +195,15 @@ public class StepperDopr5 extends StepperBS {
         // Store coefficients of interpolating polynomial for dense output
         // in rcont1...rcont5.
         @SuppressWarnings("unused")
-        double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_arr(n);
         for (int i = 0; i < n; i++) {
-            rcont1[i] = y.$()[i];
-            double ydiff = yout[i] - y.$()[i];
+            rcont1[i] = y[i];
+            double ydiff = yout[i] - y[i];
             rcont2[i] = ydiff;
-            double bspl = h * dydx.$()[i] - ydiff;
+            double bspl = h * dydx[i] - ydiff;
             rcont3[i] = bspl;
             rcont4[i] = ydiff - h * dydxnew[i] - bspl;
-            rcont5[i] = h * (d1 * dydx.$()[i] + d3 * k3[i] + d4 * k4[i] + d5 * k5[i] + d6 * k6[i] + d7 * dydxnew[i]);
+            rcont5[i] = h * (d1 * dydx[i] + d3 * k3[i] + d4 * k4[i] + d5 * k5[i] + d6 * k6[i] + d7 * dydxnew[i]);
         }
     }
 
@@ -225,7 +224,7 @@ public class StepperDopr5 extends StepperBS {
         // one means the step was successful.
         double err = 0.0, sk;
         for (int i = 0; i < n; i++) {
-            sk = atol + rtol * MAX(abs(y.$()[i]), abs(yout[i]));
+            sk = atol + rtol * MAX(abs(y[i]), abs(yout[i]));
             err += SQR(yerr[i] / sk);
         }
         return sqrt(err / n);

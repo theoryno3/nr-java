@@ -76,10 +76,10 @@ public class Static {
         // Final mix needed only if m is not a power of 2.
     }
 
-    public static double[] torusfuncs(final double[] x) {
+    public static final double[] torusfuncs(final double[] x) {
         // Return the integrands in equation (7.7.5), with  D 1.
         double den = 1.;
-        double[] f = doub_arr(4);
+        final double[] f = doub_arr(4);
         f[0] = den;
         for (int i = 1; i < 4; i++)
             f[i] = x[i - 1] * den;
@@ -91,10 +91,10 @@ public class Static {
         return SQR(x[2]) + SQR(sqrt(SQR(x[0]) + SQR(x[1])) - 3.) <= 1.;
     }
 
-    public static double[] torusmap(final double[] s) {
+    public static final double[] torusmap(final double[] s) {
         // Return the mapping from s to z defined by the last equation in
         // (7.7.7), mapping the other coordinates by the identity map.
-        double[] xx = doub_arr(s);
+        final double[] xx = doub_arr(s);
         xx[2] = 0.2 * log(5. * s[2]);
         return xx;
     }
@@ -110,12 +110,12 @@ public class Static {
     private static final int MAXBIT = 30, MAXDIM = 6;
     private static int mdeg[] = { 1, 2, 3, 3, 4, 4 };
     private static int in;
-    private static int[] ix = int_arr(MAXDIM);
+    private static final int[] ix = int_arr(MAXDIM);
     // private static NRvector<Uint*> iu(MAXBIT);
 
     private static IntPointer[] iu;
-    private static int[] ip = { 0, 1, 1, 2, 1, 4 };
-    private static int[] iv = new int[/*MAXDIM*MAXBIT*/] {
+    private static final int[] ip = { 0, 1, 1, 2, 1, 4 };
+    private static final int[] iv = new int[/*MAXDIM*MAXBIT*/] {
          1,  1,  1,  1,  1,  1, 
          3,  1,  3,  3,  1,  1, 
          5,  7,  7,  3,  3,  5, 
@@ -220,10 +220,10 @@ public class Static {
     private static int i, it, j, k, mds, nd, ndo, ng, npg;
     private static double calls, dv2g, dxg, f, f2, f2b, fb, rc, ti;
     private static double tsi, wgt, xjac, xn, xnd, xo, schi, si, swgt;
-    private static int[] ia = int_arr(MXDIM), kg = int_arr(MXDIM);
-    private static double[] dt = doub_arr(MXDIM), dx = doub_arr(MXDIM), r = doub_arr(NDMX), x = doub_arr(MXDIM),
+    private static final int[] ia = int_arr(MXDIM), kg = int_arr(MXDIM);
+    private static final double[] dt = doub_arr(MXDIM), dx = doub_arr(MXDIM), r = doub_arr(NDMX), x = doub_arr(MXDIM),
             xin = doub_arr(NDMX);
-    private static double[][] d = doub_mat(NDMX, MXDIM), di = doub_mat(NDMX, MXDIM), xi = doub_mat(MXDIM, NDMX);
+    private static final double[][] d = doub_mat(NDMX, MXDIM), di = doub_mat(NDMX, MXDIM), xi = doub_mat(MXDIM, NDMX);
     private static Ran ran_vegas = new Ran(vegas_RANSEED); // Initialize a
                                                            // captive,
 
@@ -480,7 +480,7 @@ public class Static {
         double varl_ref[] = doub_ref();
         double sum, sumb, summ, summ2;
         ndim = regn.length / 2;
-        double[] pt = doub_arr(ndim);
+        final double[] pt = doub_arr(ndim);
         if (npts < MNBS) { // Too few points to bisect; do straight
             summ = summ2 = 0.0; // Monte Carlo.
             for (n = 0; n < npts; n++) {
@@ -492,9 +492,9 @@ public class Static {
             ave_ref[0] = summ / npts;
             var_ref[0] = MAX(TINY, (summ2 - summ * summ / npts) / (npts * npts));
         } else { // Do the preliminary (uniform) sampling.
-            double[] rmid = doub_arr(ndim);
+            final double[] rmid = doub_arr(ndim);
             npre = MAX(Int(npts * PFAC), Int(MNPT));
-            double[] fmaxl = doub_arr(ndim), fmaxr = doub_arr(ndim), fminl = doub_arr(ndim), fminr = doub_arr(ndim);
+            final double[] fmaxl = doub_arr(ndim), fmaxr = doub_arr(ndim), fminl = doub_arr(ndim), fminr = doub_arr(ndim);
             for (j = 0; j < ndim; j++) { // Initialize the left and right bounds
                                          // for
                 iran = (iran * 2661 + 36979) % 175000; // each dimension.
@@ -542,7 +542,7 @@ public class Static {
             nptl = Int(MNPT + (npts - npre - 2 * MNPT) * fracl * siglb / (fracl * siglb + (1.0 - fracl) * sigrb)); // Equation
                                                                                                                    // (7.9.23).
             nptr = npts - npre - nptl;
-            double[] regn_temp = doub_arr(2 * ndim); // Now allocate and
+            final double[] regn_temp = doub_arr(2 * ndim); // Now allocate and
                                                      // integrate the two sub
             for (j = 0; j < ndim; j++) { // regions.
                 regn_temp[j] = regn[j];

@@ -14,9 +14,9 @@ public class StepperDopr853 extends StepperBS {
     // truncation error to ensure accuracy and adjust stepsize. Only important
     // dierences from StepperDopr5 are commented.
     // typedef D Dtype;
-    private double[] yerr2; // Use a second error estimator.
-    private double[] k2, k3, k4, k5, k6, k7, k8, k9, k10;
-    private double[] rcont1, rcont2, rcont3, rcont4, rcont5, rcont6, rcont7, rcont8;
+    private final double[] yerr2; // Use a second error estimator.
+    private final double[] k2, k3, k4, k5, k6, k7, k8, k9, k10;
+    private final double[] rcont1, rcont2, rcont3, rcont4, rcont5, rcont6, rcont7, rcont8;
 
     // StepperDopr853(VecDoub_IO &yy, VecDoub_IO &dydxx, Doub &xx,
     // const Doub atoll, const Doub rtoll, bool dens);
@@ -100,7 +100,7 @@ public class StepperDopr853 extends StepperBS {
         // This routine is essentially the same as the one in StepperDopr5
         // except that derivs is called here rather than in dy because this
         // method does not use FSAL.
-        double[] dydxnew = doub_arr(n);
+        final double[] dydxnew = doub_arr(n);
         $double h = $(htry);
         for (;;) {
             dy(h.$(), derivs);
@@ -121,61 +121,61 @@ public class StepperDopr853 extends StepperBS {
     }
 
     public void dy(final double h, final Dtype derivs) throws NRException {
-        double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_arr(n);
         int i;
         for (i = 0; i < n; i++)
             // Twelve stages.
-            ytemp[i] = y.$()[i] + h * a21 * dydx.$()[i];
+            ytemp[i] = y[i] + h * a21 * dydx[i];
         derivs.eval(x.$() + c2 * h, ytemp, k2);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a31 * dydx.$()[i] + a32 * k2[i]);
+            ytemp[i] = y[i] + h * (a31 * dydx[i] + a32 * k2[i]);
         derivs.eval(x.$() + c3 * h, ytemp, k3);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a41 * dydx.$()[i] + a43 * k3[i]);
+            ytemp[i] = y[i] + h * (a41 * dydx[i] + a43 * k3[i]);
         derivs.eval(x.$() + c4 * h, ytemp, k4);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a51 * dydx.$()[i] + a53 * k3[i] + a54 * k4[i]);
+            ytemp[i] = y[i] + h * (a51 * dydx[i] + a53 * k3[i] + a54 * k4[i]);
         derivs.eval(x.$() + c5 * h, ytemp, k5);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a61 * dydx.$()[i] + a64 * k4[i] + a65 * k5[i]);
+            ytemp[i] = y[i] + h * (a61 * dydx[i] + a64 * k4[i] + a65 * k5[i]);
         derivs.eval(x.$() + c6 * h, ytemp, k6);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a71 * dydx.$()[i] + a74 * k4[i] + a75 * k5[i] + a76 * k6[i]);
+            ytemp[i] = y[i] + h * (a71 * dydx[i] + a74 * k4[i] + a75 * k5[i] + a76 * k6[i]);
         derivs.eval(x.$() + c7 * h, ytemp, k7);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h * (a81 * dydx.$()[i] + a84 * k4[i] + a85 * k5[i] + a86 * k6[i] + a87 * k7[i]);
+            ytemp[i] = y[i] + h * (a81 * dydx[i] + a84 * k4[i] + a85 * k5[i] + a86 * k6[i] + a87 * k7[i]);
         derivs.eval(x.$() + c8 * h, ytemp, k8);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i] + h
-                    * (a91 * dydx.$()[i] + a94 * k4[i] + a95 * k5[i] + a96 * k6[i] + a97 * k7[i] + a98 * k8[i]);
+            ytemp[i] = y[i] + h
+                    * (a91 * dydx[i] + a94 * k4[i] + a95 * k5[i] + a96 * k6[i] + a97 * k7[i] + a98 * k8[i]);
         derivs.eval(x.$() + c9 * h, ytemp, k9);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i]
+            ytemp[i] = y[i]
                     + h
-                    * (a101 * dydx.$()[i] + a104 * k4[i] + a105 * k5[i] + a106 * k6[i] + a107 * k7[i] + a108 * k8[i] + a109
+                    * (a101 * dydx[i] + a104 * k4[i] + a105 * k5[i] + a106 * k6[i] + a107 * k7[i] + a108 * k8[i] + a109
                             * k9[i]);
         derivs.eval(x.$() + c10 * h, ytemp, k10);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i]
+            ytemp[i] = y[i]
                     + h
-                    * (a111 * dydx.$()[i] + a114 * k4[i] + a115 * k5[i] + a116 * k6[i] + a117 * k7[i] + a118 * k8[i]
+                    * (a111 * dydx[i] + a114 * k4[i] + a115 * k5[i] + a116 * k6[i] + a117 * k7[i] + a118 * k8[i]
                             + a119 * k9[i] + a1110 * k10[i]);
         derivs.eval(x.$() + c11 * h, ytemp, k2);
         double xph = x.$() + h;
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i]
+            ytemp[i] = y[i]
                     + h
-                    * (a121 * dydx.$()[i] + a124 * k4[i] + a125 * k5[i] + a126 * k6[i] + a127 * k7[i] + a128 * k8[i]
+                    * (a121 * dydx[i] + a124 * k4[i] + a125 * k5[i] + a126 * k6[i] + a127 * k7[i] + a128 * k8[i]
                             + a129 * k9[i] + a1210 * k10[i] + a1211 * k2[i]);
         derivs.eval(xph, ytemp, k3);
         for (i = 0; i < n; i++) {
-            k4[i] = b1 * dydx.$()[i] + b6 * k6[i] + b7 * k7[i] + b8 * k8[i] + b9 * k9[i] + b10 * k10[i] + b11 * k2[i]
+            k4[i] = b1 * dydx[i] + b6 * k6[i] + b7 * k7[i] + b8 * k8[i] + b9 * k9[i] + b10 * k10[i] + b11 * k2[i]
                     + b12 * k3[i];
-            yout[i] = y.$()[i] + h * k4[i];
+            yout[i] = y[i] + h * k4[i];
         }
         for (i = 0; i < n; i++) { // Two error estimators.
-            yerr[i] = k4[i] - bhh1 * dydx.$()[i] - bhh2 * k9[i] - bhh3 * k3[i];
-            yerr2[i] = er1 * dydx.$()[i] + er6 * k6[i] + er7 * k7[i] + er8 * k8[i] + er9 * k9[i] + er10 * k10[i] + er11
+            yerr[i] = k4[i] - bhh1 * dydx[i] - bhh2 * k9[i] - bhh3 * k3[i];
+            yerr2[i] = er1 * dydx[i] + er6 * k6[i] + er7 * k7[i] + er8 * k8[i] + er9 * k9[i] + er10 * k10[i] + er11
                     * k2[i] + er12 * k3[i];
         }
     }
@@ -183,40 +183,40 @@ public class StepperDopr853 extends StepperBS {
     public void prepare_dense(final double h, final double[] dydxnew, final Dtype derivs) throws NRException {
         int i;
         double ydiff, bspl;
-        double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_arr(n);
         for (i = 0; i < n; i++) {
-            rcont1[i] = y.$()[i];
-            ydiff = yout[i] - y.$()[i];
+            rcont1[i] = y[i];
+            ydiff = yout[i] - y[i];
             rcont2[i] = ydiff;
-            bspl = h * dydx.$()[i] - ydiff;
+            bspl = h * dydx[i] - ydiff;
             rcont3[i] = bspl;
             rcont4[i] = ydiff - h * dydxnew[i] - bspl;
-            rcont5[i] = d41 * dydx.$()[i] + d46 * k6[i] + d47 * k7[i] + d48 * k8[i] + d49 * k9[i] + d410 * k10[i]
+            rcont5[i] = d41 * dydx[i] + d46 * k6[i] + d47 * k7[i] + d48 * k8[i] + d49 * k9[i] + d410 * k10[i]
                     + d411 * k2[i] + d412 * k3[i];
-            rcont6[i] = d51 * dydx.$()[i] + d56 * k6[i] + d57 * k7[i] + d58 * k8[i] + d59 * k9[i] + d510 * k10[i]
+            rcont6[i] = d51 * dydx[i] + d56 * k6[i] + d57 * k7[i] + d58 * k8[i] + d59 * k9[i] + d510 * k10[i]
                     + d511 * k2[i] + d512 * k3[i];
-            rcont7[i] = d61 * dydx.$()[i] + d66 * k6[i] + d67 * k7[i] + d68 * k8[i] + d69 * k9[i] + d610 * k10[i]
+            rcont7[i] = d61 * dydx[i] + d66 * k6[i] + d67 * k7[i] + d68 * k8[i] + d69 * k9[i] + d610 * k10[i]
                     + d611 * k2[i] + d612 * k3[i];
-            rcont8[i] = d71 * dydx.$()[i] + d76 * k6[i] + d77 * k7[i] + d78 * k8[i] + d79 * k9[i] + d710 * k10[i]
+            rcont8[i] = d71 * dydx[i] + d76 * k6[i] + d77 * k7[i] + d78 * k8[i] + d79 * k9[i] + d710 * k10[i]
                     + d711 * k2[i] + d712 * k3[i];
         }
         for (i = 0; i < n; i++)
             // The three extra function evaluations.
-            ytemp[i] = y.$()[i]
+            ytemp[i] = y[i]
                     + h
-                    * (a141 * dydx.$()[i] + a147 * k7[i] + a148 * k8[i] + a149 * k9[i] + a1410 * k10[i] + a1411 * k2[i]
+                    * (a141 * dydx[i] + a147 * k7[i] + a148 * k8[i] + a149 * k9[i] + a1410 * k10[i] + a1411 * k2[i]
                             + a1412 * k3[i] + a1413 * dydxnew[i]);
         derivs.eval(x.$() + c14 * h, ytemp, k10);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i]
+            ytemp[i] = y[i]
                     + h
-                    * (a151 * dydx.$()[i] + a156 * k6[i] + a157 * k7[i] + a158 * k8[i] + a1511 * k2[i] + a1512 * k3[i]
+                    * (a151 * dydx[i] + a156 * k6[i] + a157 * k7[i] + a158 * k8[i] + a1511 * k2[i] + a1512 * k3[i]
                             + a1513 * dydxnew[i] + a1514 * k10[i]);
         derivs.eval(x.$() + c15 * h, ytemp, k2);
         for (i = 0; i < n; i++)
-            ytemp[i] = y.$()[i]
+            ytemp[i] = y[i]
                     + h
-                    * (a161 * dydx.$()[i] + a166 * k6[i] + a167 * k7[i] + a168 * k8[i] + a169 * k9[i] + a1613
+                    * (a161 * dydx[i] + a166 * k6[i] + a167 * k7[i] + a168 * k8[i] + a169 * k9[i] + a1613
                             * dydxnew[i] + a1614 * k10[i] + a1615 * k2[i]);
         derivs.eval(x.$() + c16 * h, ytemp, k3);
         for (i = 0; i < n; i++) {
@@ -240,7 +240,7 @@ public class StepperDopr853 extends StepperBS {
     public double error(final double h) {
         double err = 0.0, err2 = 0.0, sk, deno;
         for (int i = 0; i < n; i++) {
-            sk = atol + rtol * MAX(abs(y.$()[i]), abs(yout[i]));
+            sk = atol + rtol * MAX(abs(y[i]), abs(yout[i]));
             err2 += SQR(yerr[i] / sk);
             err += SQR(yerr2[i] / sk);
         }

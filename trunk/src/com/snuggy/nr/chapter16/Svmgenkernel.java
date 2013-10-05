@@ -9,9 +9,9 @@ public abstract class Svmgenkernel {
     protected int m; // No. of data points; counter for kernel calls.
     @SuppressWarnings("unused")
     private int kcalls;
-    private double[][] ker; // Locally stored kernel matrix.
-    private double[] y; // Must provide reference to the yi ’s.
-    protected double[][] data; // Must provide reference to the xi ’s.
+    private final double[][] ker; // Locally stored kernel matrix.
+    private final double[] y; // Must provide reference to the yi ’s.
+    protected final double[][] data; // Must provide reference to the xi ’s.
 
     public Svmgenkernel(final double[] yy, final double[][] ddata) {
         // Every kernel structure must provide a kernel function that returns
@@ -23,7 +23,7 @@ public abstract class Svmgenkernel {
         data = (ddata);
     }
     
-    public double[][] ker() {
+    public final double[][] ker() {
         return ker;
     }
     
@@ -44,12 +44,14 @@ public abstract class Svmgenkernel {
             }
     }
 
-    public double[] y() {
+    public final double[] y() {
         return y;
     }
 
-    public void set_t(double[] y) {
+    /*
+    public void set_t(final double[] y) {
         this.y = y;
     }
+    */
 
 }

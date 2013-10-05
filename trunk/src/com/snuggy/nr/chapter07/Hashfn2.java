@@ -54,7 +54,7 @@ public abstract class Hashfn2<keyT,elT> implements HfnT<keyT,elT> {
         // char *k = (char *)key; // Cast the key pointer to char pointer.
         byte[] key_arr_bytes = 
             ByteBuffer.allocate(keySize()).put(keyToBytes(key)).array();
-        int[] key_arr = new int[key_arr_bytes.length];
+        final int[] key_arr = new int[key_arr_bytes.length];
         for (int m = 0; m < key_arr_bytes.length; m++)
             key_arr[m] = ((int) key_arr_bytes[m]) & 0xFF;
         int key_off = 0;

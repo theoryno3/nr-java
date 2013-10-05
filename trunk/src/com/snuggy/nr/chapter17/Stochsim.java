@@ -15,15 +15,15 @@ public class Stochsim {
     private static final int nn = 4; // Set number of species.
 
     // Object for stochastic simulation of a set of chemical reactions.
-    private double[] s; // Vector of species numbers.
-    private double[] a; // Vector of rates.
+    private final double[] s; // Vector of species numbers.
+    private final double[] a; // Vector of rates.
     private double[][] instate, outstate;
     private NRsparseCol[] outchg, depend; // Sparse matrices ij and Gij
-    private int[] pr; // Priority list.
+    private final int[] pr; // Priority list.
     private double t, asum;
     private Ran ran;
     
-    public double[] s() {
+    public final double[] s() {
         return s;
     }
 
@@ -93,11 +93,11 @@ public class Stochsim {
 
     // end user section
 
-    public Stochsim(double[] sinit) throws NRException, InstantiationException, IllegalAccessException {
+    public Stochsim(final double[] sinit) throws NRException, InstantiationException, IllegalAccessException {
         this(sinit, 1);
     }
 
-    public Stochsim(double[] sinit, final int seed) throws NRException, InstantiationException, IllegalAccessException {
+    public Stochsim(final double[] sinit, final int seed) throws NRException, InstantiationException, IllegalAccessException {
         // Constructor. Input initial species numbers and an optional random
         // seed.
         s = (sinit);
@@ -114,7 +114,7 @@ public class Stochsim {
         int i, j, k, d;
         describereactions();
         sparmatfill(outchg, outstate);
-        double[][] dep = doub_mat(mm, mm);
+        final double[][] dep = doub_mat(mm, mm);
         for (i = 0; i < mm; i++)
             for (j = 0; j < mm; j++) { // Logical matrix multiply calculates the
                 d = 0; // dependency matrix.
