@@ -40,8 +40,8 @@ public class Gaumixmod extends preGaumixmod {
         data = (ddata);
         means = (mmeans);
         resp = doub_mat(nn, kk);
-        frac = doub_arr(kk);
-        lndets = doub_arr(kk);
+        frac = doub_vec(kk);
+        lndets = doub_vec(kk);
         sig_arr = new double[kk][][];
         int i, j, k;
         for (k = 0; k < kk; k++) {
@@ -63,7 +63,7 @@ public class Gaumixmod extends preGaumixmod {
         // Perform one E-step of the EM algorithm.
         int k, m, n;
         double tmp, sum, max, oldloglike;
-        final double[] u = doub_arr(mm), v = doub_arr(mm);
+        final double[] u = doub_vec(mm), v = doub_vec(mm);
         oldloglike = loglike;
         for (k = 0; k < kk; k++) { // Outer loop for computing the pnk’s.
             Cholesky choltmp = new Cholesky(sig_arr[k]); // Decompose †k in the

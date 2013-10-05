@@ -30,8 +30,8 @@ public class Mhash<hfnT extends HfnT<keyT, elT>, keyT, elT> extends Hashtable<hf
         super(hashFuncClass, nh, nm);
         nextget = (-1);
         // els(nm);
-        els = obj_arr(elementClass, nm);
-        nextsis = int_arr(nm);
+        els = obj_vec(elementClass, nm);
+        nextsis = int_vec(nm);
         for (int j = 0; j < nm; j++) {
             nextsis[j] = -2;
         } // Initialize to “empty”.

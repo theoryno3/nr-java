@@ -62,11 +62,11 @@ public class Fitexy {
         // Constructor. Call with the input data x[0..ndat-1], y[0..ndat-1],
         // sigx[0..ndat-1], and sigy[0..ndat-1].
         ndat = (x.length);
-        xx = doub_arr(ndat);
-        yy = doub_arr(ndat);
-        sx = doub_arr(ndat);
-        sy = doub_arr(ndat);
-        ww = doub_arr(ndat);
+        xx = doub_vec(ndat);
+        yy = doub_vec(ndat);
+        sx = doub_vec(ndat);
+        sy = doub_vec(ndat);
+        ww = doub_vec(ndat);
         final double POTN = 1.571000, BIG = 1.0e30, ACC = 1.0e-6;
         final double PI = 3.141592653589793238;
         Gamma gam = new Gamma();

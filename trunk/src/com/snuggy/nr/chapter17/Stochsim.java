@@ -101,10 +101,10 @@ public class Stochsim {
         // Constructor. Input initial species numbers and an optional random
         // seed.
         s = (sinit);
-        a = doub_arr(mm, 0.);
-        outchg = obj_arr(NRsparseCol.class, mm);
-        depend = obj_arr(NRsparseCol.class, mm);
-        pr = int_arr(mm);
+        a = doub_vec(mm, 0.);
+        outchg = obj_vec(NRsparseCol.class, mm);
+        depend = obj_vec(NRsparseCol.class, mm);
+        pr = int_vec(mm);
         t = (0.);
         asum = (0.);
         ran = new Ran(seed);

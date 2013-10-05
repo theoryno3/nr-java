@@ -34,7 +34,7 @@ public class Rat_interp extends Base_interp {
         double y, w, t, hh, h, dd;
         final $double xa = $(xx, jl); 
         final $double ya = $(yy, jl); 
-        final double[] c = doub_arr(mm), d = doub_arr(mm);
+        final double[] c = doub_vec(mm), d = doub_vec(mm);
         hh = abs(x - xa.$(0));
         for (i = 0; i < mm; i++) {
             h = abs(x - xa.$(i));

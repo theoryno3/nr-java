@@ -98,8 +98,8 @@ public class Stiel {
         bb = (bbb);
         hmax = (hmaxx);
         wt1 = (wwt1);
-        a = doub_arr(nn);
-        b = doub_arr(nn);
+        a = doub_vec(nn);
+        b = doub_vec(nn);
         ppfunc.st = this;
         ppxfunc.st = this;
         s1 = new DErule<pp>(ppfunc, aa, bb, hmax);
@@ -113,8 +113,8 @@ public class Stiel {
         n = (nn);
         aa = (aaa);
         bb = (bbb);
-        a = doub_arr(nn);
-        b = doub_arr(nn);
+        a = doub_vec(nn);
+        b = doub_vec(nn);
         wt2 = (wwt2);
         fx = (ffx);
         fdxdt = (ffdxdt);

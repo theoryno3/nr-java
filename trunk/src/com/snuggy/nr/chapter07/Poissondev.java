@@ -18,7 +18,7 @@ public class Poissondev extends Ran {
     public Poissondev(final double llambda, final long i) {
         super(i);
         lambda = (llambda);
-        logfact = doub_arr(1024, -1.);
+        logfact = doub_vec(1024, -1.);
         lambold = (-1.);
     }
 

@@ -14,9 +14,9 @@ public class Binomialdev extends Ran {
     private double expnp;
     private int n, swch;
     private long uz, uo, unfin, diff, rltp;
-    private final int[] pbits = int_arr(5);
-    private final double[] cdf = doub_arr(64);
-    private final double[] logfact = doub_arr(1024);
+    private final int[] pbits = int_vec(5);
+    private final double[] cdf = doub_vec(64);
+    private final double[] logfact = doub_vec(1024);
 
     public Binomialdev(final int nn, final double ppp, final long i) throws NRException {
         // Constructor arguments are n, p, and a random sequence seed.

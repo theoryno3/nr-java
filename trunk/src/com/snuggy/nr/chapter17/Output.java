@@ -53,7 +53,7 @@ public class Output {
         kmax = (500);
         nsave = (nsavee);
         count = (0);
-        xsave = doub_arr(kmax);
+        xsave = doub_vec(kmax);
         dense = nsave > 0 ? true : false;
     }
 
@@ -77,8 +77,8 @@ public class Output {
         // Resize storage arrays by a factor of two, keeping saved data.
         int kold = kmax;
         kmax *= 2;
-        final double[] tempvec = doub_arr(xsave);
-        xsave = doub_arr(kmax);
+        final double[] tempvec = doub_vec(xsave);
+        xsave = doub_vec(kmax);
         for (int k = 0; k < kold; k++)
             xsave[k] = tempvec[k];
         final double[][] tempmat = doub_mat(ysave);

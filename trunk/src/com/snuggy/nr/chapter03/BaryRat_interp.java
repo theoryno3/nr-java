@@ -23,7 +23,7 @@ public class BaryRat_interp extends Base_interp {
         // Constructor arguments are x and y vectors of length n, and order d of
         // desired approximation.
         super(xv, $(yv, 0), xv.length);
-        w = doub_arr(n);
+        w = doub_vec(n);
         d = (dd);
 
         if (n <= d)

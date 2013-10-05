@@ -5,7 +5,7 @@ import static com.snuggy.nr.util.Static.*;
 public class Ranbyte {
 
     // Generator for random bytes using the algorithm generally known as RC4.
-    private long[] s = long_arr(256);
+    private long[] s = long_vec(256);
     private int i, j;
     private long ss;
     private long v;

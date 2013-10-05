@@ -21,7 +21,7 @@ public class SVD {
         n = (ncols(a));
         u = doub_mat(a);
         v = doub_mat(n, n);
-        w = doub_arr(n);
+        w = doub_vec(n);
         eps = EPS();
         decompose();
         reorder();
@@ -74,7 +74,7 @@ public class SVD {
         double x = 0.0;
         double y = 0.0;
         double z = 0.0;
-        final double[] rv1 = doub_arr(n);
+        final double[] rv1 = doub_vec(n);
         g = scale = anorm = 0.0;
         for (i = 0; i < n; i++) {
             l = i + 2;
@@ -275,8 +275,8 @@ public class SVD {
         int s = 0;
         int inc = 1;
         double sw = 0.0;
-        final double[] su = doub_arr(m);
-        final double[] sv = doub_arr(n);
+        final double[] su = doub_vec(m);
+        final double[] sv = doub_vec(n);
         do {
             inc *= 3;
             inc++;
@@ -419,7 +419,7 @@ public class SVD {
         double s;
         if (b.length != m || x.length != n)
             throw new NRException("SVD::solve bad sizes");
-        final double[] tmp = doub_arr(n);
+        final double[] tmp = doub_vec(n);
         tsh = (thresh >= 0. ? thresh : 0.5 * sqrt(m + n + 1.) * w[0] * eps);
         for (j = 0; j < n; j++) { // Calculate UT B.
             s = 0.0;
@@ -449,7 +449,7 @@ public class SVD {
         int i, j, m = ncols(b);
         if (nrows(b) != n || nrows(x) != n || ncols(b) != ncols(x))
             throw new NRException("SVD::solve bad sizes");
-        final double[] xx = doub_arr(n);
+        final double[] xx = doub_vec(n);
         for (j = 0; j < m; j++) { // Copy and solve each column in turn.
             for (i = 0; i < n; i++)
                 xx[i] = b[i][j];

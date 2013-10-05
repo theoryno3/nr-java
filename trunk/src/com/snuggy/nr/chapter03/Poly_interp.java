@@ -37,7 +37,7 @@ public class Poly_interp extends Base_interp {
         double y, den, dif, dift, ho, hp, w;
         final $double xa = $(xx, jl); 
         final $double ya = $(yy, jl);
-        final double[] c = doub_arr(mm), d = doub_arr(mm);
+        final double[] c = doub_vec(mm), d = doub_vec(mm);
         dif = abs(x - xa.$(0));
         for (i = 0; i < mm; i++) { // Here we find the index ns of the closest
                                    // table entry,

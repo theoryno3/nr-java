@@ -7,7 +7,7 @@ public class Ranfib {
 
     // Implements Knuth’s subtractive generator using only floating operations.
     // See text for cautions.
-    private final double[] dtab = doub_arr(55);
+    private final double[] dtab = doub_vec(55);
     private double dd;
     private int inext, inextp;
 

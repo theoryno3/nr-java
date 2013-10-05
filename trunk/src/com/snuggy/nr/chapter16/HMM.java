@@ -50,8 +50,8 @@ public class HMM {
         alpha = $$(doub_mat(nobs, mstat));
         beta = $$(doub_mat(nobs, mstat));
         pstate = $$(doub_mat(nobs, mstat));
-        arnrm = $$(int_arr(nobs));
-        brnrm = $$(int_arr(nobs));
+        arnrm = $$(int_vec(nobs));
+        brnrm = $$(int_vec(nobs));
         BIG = (1.e20);
         BIGI = (1. / BIG);
         int i, j, k;
@@ -180,7 +180,7 @@ public class HMM {
         int i, j, k, t;
         double num, denom, term;
         final double[][] bnew = doub_mat(mstat, ksym);
-        final int[] powtab = int_arr(10); // Fill table of powers of BIGI.
+        final int[] powtab = int_vec(10); // Fill table of powers of BIGI.
         for (i = 0; i < 10; i++)
             powtab[i] = (int) pow(BIGI, i - 6);
         if (fbdone != 1)

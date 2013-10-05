@@ -39,7 +39,7 @@ public class Bandec {
         m1 = (mm1);
         m2 = (mm2);
         al = doub_mat(n, m1);
-        indx = int_arr(n);
+        indx = int_vec(n);
 
         final double TINY = 1.0e-40;
         int i, j, k, l, mm;

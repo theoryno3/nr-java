@@ -40,7 +40,7 @@ public class QRdcmp {
         r = doub_mat(a);
         sing = (false);
         int i, j, k;
-        final double[] c = doub_arr(n), d = doub_arr(n);
+        final double[] c = doub_vec(n), d = doub_vec(n);
         double scale, sigma, sum, tau;
         for (k = 0; k < n - 1; k++) {
             scale = 0.0;
@@ -174,7 +174,7 @@ public class QRdcmp {
         // it to be the QR decomposition of the matrix Q .RCu?v/.
         // Input quantities are u[0..n-1], and v[0..n-1].
         int i, k;
-        final double[] w = doub_arr(u);
+        final double[] w = doub_vec(u);
         for (k = n - 1; k >= 0; k--)
             // Find largest k such that u[k] ¤ 0.
             if (w[k] != 0.0)

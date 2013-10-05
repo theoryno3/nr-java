@@ -22,7 +22,7 @@ public class Epsalg {
     // overflow limits.
 
     public Epsalg(final int nmax, final double epss) {
-        e = doub_arr(nmax);
+        e = doub_vec(nmax);
         n = (0);
         ncv = (0);
         cnvgd = (false);

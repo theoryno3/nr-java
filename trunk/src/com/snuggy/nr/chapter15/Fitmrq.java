@@ -57,7 +57,7 @@ public class Fitmrq {
         sig = (ssig);
         tol = (TOL);
         funcs = (funks);
-        ia = bool_arr(ma);
+        ia = bool_vec(ma);
         alpha = doub_mat(ma, ma);
         a = (aa);
         covar = doub_mat(ma, ma);
@@ -90,7 +90,7 @@ public class Fitmrq {
         // (Parameters held fixed will return zero covariances.)
         int j, k, l, iter, done = 0;
         double alamda = .001, ochisq;
-        final double[] atry = doub_arr(ma), beta = doub_arr(ma), da = doub_arr(ma);
+        final double[] atry = doub_vec(ma), beta = doub_vec(ma), da = doub_vec(ma);
         mfit = 0;
         for (j = 0; j < ma; j++)
             if (ia[j])
@@ -154,7 +154,7 @@ public class Fitmrq {
         int i, j, k, l, m;
         double wt, sig2i, dy;
         final double[] ymod_ref = doub_ref();
-        final double[] dyda = doub_arr(ma);
+        final double[] dyda = doub_vec(ma);
         for (j = 0; j < mfit; j++) { // Initialize (symmetric) alpha, beta.
             for (k = 0; k <= j; k++)
                 alpha[j][k] = 0.0;

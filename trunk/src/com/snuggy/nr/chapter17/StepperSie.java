@@ -50,17 +50,17 @@ public class StepperSie extends StepperBS {
     public StepperSie(final double[] yy, final double[] dydxx, final $double xx, final double atoll, final double rtoll,
             boolean densflag) throws NRException {
         super(yy, dydxx, xx, atoll, rtoll, densflag);
-        nseq = int_arr(IMAXX);
-        cost = doub_arr(IMAXX);
+        nseq = int_vec(IMAXX);
+        cost = doub_vec(IMAXX);
         table = doub_mat(KMAXX, n);
         dfdy = doub_mat(n, n);
-        dfdx = doub_arr(n);
+        dfdx = doub_vec(n);
         calcjac = (false);
         a = doub_mat(n, n);
         coeff = doub_mat(IMAXX, IMAXX);
         fsave = doub_mat((IMAXX - 1) * (IMAXX + 1) / 2 + 2, n);
-        dens = doub_arr((IMAXX + 2) * n);
-        factrl = doub_arr(IMAXX);
+        dens = doub_vec((IMAXX + 2) * n);
+        factrl = doub_vec(IMAXX);
         // Input to the constructor are the dependent variable y[0..n-1] and
         // its derivative dydx[0..n-1] at the starting value of the independent
         // variable x. Also input are the absolute and relative tolerances,
@@ -109,11 +109,11 @@ public class StepperSie extends StepperBS {
         double fac, h, hnew;
         $double err = $(0.0);
         boolean firstk;
-        final double[] hopt = doub_arr(IMAXX), work = doub_arr(IMAXX);
-        final double[] ysav = doub_arr(n), yseq = doub_arr(n);
+        final double[] hopt = doub_vec(IMAXX), work = doub_vec(IMAXX);
+        final double[] ysav = doub_vec(n), yseq = doub_vec(n);
         @SuppressWarnings("unused")
-        final double[] ymid = doub_arr(n);
-        final double[] scale = doub_arr(n);
+        final double[] ymid = doub_vec(n);
+        final double[] scale = doub_vec(n);
         work[0] = 1.e30;
         h = htry;
         forward = h > 0 ? true : false;
@@ -286,7 +286,7 @@ public class StepperSie extends StepperBS {
         // output is returned as yend[0..n-1]. The counter ipt keeps track of
         // saving the right-hand sides in the correct locations for dense
         // output.
-        final double[] del = doub_arr(n), ytemp = doub_arr(n), dytemp = doub_arr(n);
+        final double[] del = doub_vec(n), ytemp = doub_vec(n), dytemp = doub_vec(n);
         int nstep = nseq[k];
         double h = htot / nstep; // Stepsize this trip.
         for (int i = 0; i < n; i++) { // Set up the matrix 1=h f 0.

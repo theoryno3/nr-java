@@ -29,9 +29,9 @@ public class Laplace_interp extends Linbcg {
         jj = (ncols(mat));
         nn = (ii * jj);
         iter = $(0);
-        b = doub_arr(nn);
-        y = doub_arr(nn);
-        mask = doub_arr(nn);
+        b = doub_vec(nn);
+        y = doub_vec(nn);
+        mask = doub_vec(nn);
         int i, j, k;
         double vl = 0.;
         for (k = 0; k < nn; k++) { // Fill the r.h.s. vector, the initial guess,

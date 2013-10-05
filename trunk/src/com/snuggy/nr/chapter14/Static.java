@@ -312,7 +312,7 @@ public class Static {
         Gamma gam = new Gamma();
         int i, j, nnj, nni, minij, ni = nn.length, nj = nn.length;
         double sum = 0.0, expctd, temp;
-        final double[] sumi = doub_arr(ni), sumj = doub_arr(nj);
+        final double[] sumi = doub_vec(ni), sumj = doub_vec(nj);
         nni = ni; // Number of rows...
         nnj = nj; // ...and columns.
         for (i = 0; i < ni; i++) { // Get the row totals.
@@ -409,7 +409,7 @@ public class Static {
         double vard, t, fac, en3n, en, df, aved;
         double sf_ref[] = doub_ref();
         double sg_ref[] = doub_ref();
-        final double[] wksp1 = doub_arr(n), wksp2 = doub_arr(n);
+        final double[] wksp1 = doub_vec(n), wksp2 = doub_vec(n);
         for (j = 0; j < n; j++) {
             wksp1[j] = data1[j];
             wksp2[j] = data2[j];
@@ -746,9 +746,9 @@ public class Static {
         if (np < nl + nr + 1 || nl < 0 || nr < 0 || ld > m || nl + nr < m)
             throw new NRException("bad args in savgol");
         @SuppressWarnings("unused")
-        final int[] indx = int_arr(m + 1);
+        final int[] indx = int_vec(m + 1);
         final double[][] a = doub_mat(m + 1, m + 1);
-        final double[] b = doub_arr(m + 1);
+        final double[] b = doub_vec(m + 1);
         for (ipj = 0; ipj <= (m << 1); ipj++) { // Set up the normal equations
                                                 // of the desired
             sum = ((ipj != 0) ? 0.0 : 1.0); // least-squares fit.

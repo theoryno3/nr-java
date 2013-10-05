@@ -35,7 +35,7 @@ public class Ratfn implements ByValue<Ratfn> {
     public Ratfn(final double[] num, final double[] den) {
         // Constructor from numerator, denominator polyomials (as coefficient
         // vectors).
-        cofs = doub_arr(num.length + den.length - 1);
+        cofs = doub_vec(num.length + den.length - 1);
         nn = (num.length);
         dd = (den.length);
         int j;

@@ -32,9 +32,9 @@ public class Curve_interp {
         in = (close ? 2 * n : n);
         cls = (close);
         pts = doub_mat(dim, in);
-        s = doub_arr(in);
-        ans = doub_arr(dim);
-        srp = obj_null_arr(Spline_interp.class, dim);
+        s = doub_vec(in);
+        ans = doub_vec(dim);
+        srp = obj_vec_nulls(Spline_interp.class, dim);
 
         int i, ii, im, j, ofs;
         double ss, soff, db, de;

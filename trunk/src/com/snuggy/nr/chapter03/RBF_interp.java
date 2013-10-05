@@ -34,13 +34,13 @@ public class RBF_interp {
         n = (nrows(ptss));
         pts = (ptss);
         vals = (valss);
-        w = doub_arr(n);
+        w = doub_vec(n);
         fn = (func);
         norm = (nrbf);
         int i, j;
         double sum;
         final double[][] rbf = doub_mat(n, n);
-        final double[] rhs = doub_arr(n);
+        final double[] rhs = doub_vec(n);
         for (i = 0; i < n; i++) { // Fill the matrix .jri rj j/ and the r.h.s.
                                   // vector.
             sum = 0.;

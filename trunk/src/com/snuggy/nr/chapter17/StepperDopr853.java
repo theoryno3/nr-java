@@ -75,24 +75,24 @@ public class StepperDopr853 extends StepperBS {
     public StepperDopr853(final double[] yy, final double[] dydxx, final $double xx, final double atoll,
             final double rtoll, final boolean dens) throws NRException {
         super(yy, dydxx, xx, atoll, rtoll, dens);
-        yerr2 = doub_arr(n);
-        k2 = doub_arr(n);
-        k3 = doub_arr(n);
-        k4 = doub_arr(n);
-        k5 = doub_arr(n);
-        k6 = doub_arr(n);
-        k7 = doub_arr(n);
-        k8 = doub_arr(n);
-        k9 = doub_arr(n);
-        k10 = doub_arr(n);
-        rcont1 = doub_arr(n);
-        rcont2 = doub_arr(n);
-        rcont3 = doub_arr(n);
-        rcont4 = doub_arr(n);
-        rcont5 = doub_arr(n);
-        rcont6 = doub_arr(n);
-        rcont7 = doub_arr(n);
-        rcont8 = doub_arr(n);
+        yerr2 = doub_vec(n);
+        k2 = doub_vec(n);
+        k3 = doub_vec(n);
+        k4 = doub_vec(n);
+        k5 = doub_vec(n);
+        k6 = doub_vec(n);
+        k7 = doub_vec(n);
+        k8 = doub_vec(n);
+        k9 = doub_vec(n);
+        k10 = doub_vec(n);
+        rcont1 = doub_vec(n);
+        rcont2 = doub_vec(n);
+        rcont3 = doub_vec(n);
+        rcont4 = doub_vec(n);
+        rcont5 = doub_vec(n);
+        rcont6 = doub_vec(n);
+        rcont7 = doub_vec(n);
+        rcont8 = doub_vec(n);
         EPS = EPS(); // numeric_limits<Doub>::epsilon();
     }
 
@@ -100,7 +100,7 @@ public class StepperDopr853 extends StepperBS {
         // This routine is essentially the same as the one in StepperDopr5
         // except that derivs is called here rather than in dy because this
         // method does not use FSAL.
-        final double[] dydxnew = doub_arr(n);
+        final double[] dydxnew = doub_vec(n);
         $double h = $(htry);
         for (;;) {
             dy(h.$(), derivs);
@@ -121,7 +121,7 @@ public class StepperDopr853 extends StepperBS {
     }
 
     public void dy(final double h, final Dtype derivs) throws NRException {
-        final double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_vec(n);
         int i;
         for (i = 0; i < n; i++)
             // Twelve stages.
@@ -183,7 +183,7 @@ public class StepperDopr853 extends StepperBS {
     public void prepare_dense(final double h, final double[] dydxnew, final Dtype derivs) throws NRException {
         int i;
         double ydiff, bspl;
-        final double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_vec(n);
         for (i = 0; i < n; i++) {
             rcont1[i] = y[i];
             ydiff = yout[i] - y[i];

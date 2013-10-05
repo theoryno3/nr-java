@@ -82,20 +82,20 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
         nrows = (m);
         ncols = (n);
         nvals = (nnvals);
-        col_ptr = int_arr(n + 1);
-        row_ind = int_arr(nnvals);
-        val = doub_arr(nnvals);
+        col_ptr = int_vec(n + 1);
+        row_ind = int_vec(nnvals);
+        val = doub_vec(nnvals);
     }
 
     public NRsparseMat(final NRsparseMat mat) {
         nrows = mat.nrows;
         ncols = mat.ncols;
         nvals = mat.nvals;
-        col_ptr = int_arr(mat.col_ptr.length);
+        col_ptr = int_vec(mat.col_ptr.length);
         System.arraycopy(mat.col_ptr, 0, col_ptr, 0, col_ptr.length);
-        row_ind = int_arr(mat.row_ind.length);
+        row_ind = int_vec(mat.row_ind.length);
         System.arraycopy(mat.row_ind, 0, row_ind, 0, row_ind.length);
-        val = doub_arr(mat.val.length);
+        val = doub_vec(mat.val.length);
         System.arraycopy(mat.val, 0, val, 0, val.length);
     }
 
@@ -105,7 +105,7 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
     // mode. Here’s the right way to do it:
 
     public final double[] ax(final double[] x) {
-        final double[] y = doub_arr(nrows);
+        final double[] y = doub_vec(nrows);
         for (int j = 0; j < ncols; j++) {
             for (int i = col_ptr[j]; i < col_ptr[j + 1]; i++)
                 y[row_ind[i]] += val[i] * x[j];
@@ -122,7 +122,7 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
     // actually constructed.
 
     public final double[] atx(final double[] x) {
-        final double[] y = doub_arr(ncols);
+        final double[] y = doub_vec(ncols);
         for (int i = 0; i < ncols; i++) {
             y[i] = 0.0;
             for (int j = col_ptr[i]; j < col_ptr[i + 1]; j++)
@@ -140,7 +140,7 @@ public class NRsparseMat implements ByValue<NRsparseMat> {
         int i, j, k, index, m = nrows, n = ncols;
         NRsparseMat at = new NRsparseMat(n, m, nvals); // Initialized to zero.
         // First find the column lengths for AT , i.e. the row lengths of A.
-        final int[] count = int_arr(m); // Temporary counters for each row of A.
+        final int[] count = int_vec(m); // Temporary counters for each row of A.
         for (i = 0; i < n; i++)
             for (j = col_ptr[i]; j < col_ptr[i + 1]; j++) {
                 k = row_ind[j];

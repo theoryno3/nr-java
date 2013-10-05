@@ -40,8 +40,8 @@ public class Symmeig {
 
         n = (nrows(a));
         z = doub_mat(a);
-        d = doub_arr(n);
-        e = doub_arr(n);
+        d = doub_vec(n);
+        e = doub_vec(n);
         yesvecs = (yesvec);
 
         tred2(); // Reduction to tridiagonal form; see 11.3.

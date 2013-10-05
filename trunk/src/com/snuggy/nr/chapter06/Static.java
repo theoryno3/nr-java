@@ -74,7 +74,7 @@ public class Static {
         return tmp + log(2.5066282746310005 * ser / x);
     }
 
-    private static final double[] factrl_a = doub_arr(171);
+    private static final double[] factrl_a = doub_vec(171);
     private static boolean factrl_init = true;
 
     public static double factrl(final int n) throws NRException {
@@ -91,7 +91,7 @@ public class Static {
     }
 
     private static final int NTOP = 2000;
-    private static final double[] a = doub_arr(NTOP);
+    private static final double[] a = doub_vec(NTOP);
     private static boolean factln_init = true;
 
     public static double factln(final int n) throws NRException {
@@ -431,7 +431,7 @@ public class Static {
     }
 
     private static final int NMAX = 6;
-    private static final double[] c = doub_arr(NMAX);
+    private static final double[] c = doub_vec(NMAX);
     private static boolean init = true;
     private static final double H = 0.4, A1 = 2.0 / 3.0, A2 = 0.4, A3 = 2.0 / 7.0;
 
@@ -722,7 +722,7 @@ public class Static {
         boolean bo;
         int i, ii, l = 0;
         double a, b, c = 0.0, d = 0.0, emc, u;
-        final double[] em = doub_arr(13), en = doub_arr(13);
+        final double[] em = doub_vec(13), en = doub_vec(13);
         emc = emmc;
         u = uu;
         if (emc != 0.0) {
@@ -783,7 +783,7 @@ public class Static {
         final double atol = 1.0e-14, rtol = 1.0e-14; // Accuracy parameters.
         Complex ans = complex(), dz = complex(), z0 = complex();
         Complex[] y = new Complex[2];
-        final double[] yy = doub_arr(4);
+        final double[] yy = doub_vec(4);
         if (norm(z) <= 0.25) { // Use series...
             hypser(a, b, c, z, ans, y[1]);
             return ans;

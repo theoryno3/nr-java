@@ -67,7 +67,7 @@ public class StepperStoerm extends StepperBS {
         // Stoermer step. Inputs are y, H, and k. The output is returned
         // as yend[0..2n-1]. The counter ipt keeps track of saving the
         // right-hand sides in the correct locations for dense output.
-        final double[] ytemp = doub_arr(n);
+        final double[] ytemp = doub_vec(n);
         int nstep = nseq[k];
         double h = htot / nstep; // Stepsize this trip.
         double h2 = 2.0 * h;
@@ -231,7 +231,7 @@ public class StepperStoerm extends StepperBS {
         // y[0..neqn*(imit+7)-1] contains the dens array from prepare_dense.
         // On output, these coecients have been updated to the required values.
         double y0, y1, yp0, yp1, ypp0, ypp1, ydiff, ah, bh, ch, dh, eh, fh, gh, abh, gfh, gmf, ph0, ph1, ph2, ph3, ph4, ph5, fc1, fc2, fc3;
-        final double[] a = doub_arr(41);
+        final double[] a = doub_vec(41);
         for (int i = 0; i < n; i++) {
             y0 = y[i];
             y1 = y[3 * n + i];

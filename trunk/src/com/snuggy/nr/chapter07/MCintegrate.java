@@ -42,7 +42,7 @@ public class MCintegrate {
         n = (0);
         xlo = $$(xlow);
         xhi = $$(xhigh);
-        x = (doub_arr(ndim));
+        x = (doub_vec(ndim));
         xx = (new double[ndim]);
         funcsp = (funcs);
         xmapp = (xmap);
@@ -53,11 +53,11 @@ public class MCintegrate {
             nfun = funcs.eval(xmapp.eval(xlo.$())).length;
         else
             nfun = funcs.eval(xlo.$()).length;
-        ff = (doub_arr(nfun));
-        fferr = (doub_arr(nfun));
+        ff = (doub_vec(nfun));
+        fferr = (doub_vec(nfun));
         fn = (new double[nfun]);
-        sf = (doub_arr(nfun, 0.));
-        sferr = (doub_arr(nfun, 0.));
+        sf = (doub_vec(nfun, 0.));
+        sferr = (doub_vec(nfun, 0.));
         for (int j = 0; j < ndim; j++)
             vol *= abs(xhi.$()[j] - xlo.$()[j]);
     }

@@ -38,8 +38,8 @@ public abstract class StepperBase implements IStepperBase {
         dense = (dens);
         n = (y.length);
         neqn = (n);
-        yout = doub_arr(n);
-        yerr = doub_arr(n);
+        yout = doub_vec(n);
+        yerr = doub_vec(n);
     }
     // Input to the constructor are the dependent variable vector y[0..n-1]
     // and its derivative dydx[0..n-1] at the starting value of the independent

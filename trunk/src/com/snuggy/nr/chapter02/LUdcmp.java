@@ -37,12 +37,12 @@ public class LUdcmp {
         n = (nrows(a));
         lu = doub_mat(a);
         aref = doub_mat(a);
-        indx = int_arr(n);
+        indx = int_vec(n);
 
         final double TINY = 1.0e-40; // A small number.
         int i, imax = 0, j, k;
         double big, temp;
-        final double[] vv = doub_arr(n); // vv stores the implicit scaling of each
+        final double[] vv = doub_vec(n); // vv stores the implicit scaling of each
                                      // row.
         d = 1.0; // No row interchanges yet.
         for (i = 0; i < n; i++) { // Loop over rows to get the implicit scaling
@@ -148,7 +148,7 @@ public class LUdcmp {
         if (nrows(b) != n || nrows(x) != n || 
                 ncols(b) != ncols(x))
             throw new NRException("LUdcmp::solve bad sizes");
-        final double[] xx = doub_arr(n);
+        final double[] xx = doub_vec(n);
         for (j = 0; j < m; j++) { // Copy and solve each column in turn.
             for (i = 0; i < n; i++)
                 xx[i] = b[i][j];
@@ -185,7 +185,7 @@ public class LUdcmp {
         // A  x D b. The vectors b[0..n-1] and x[0..n-1] are input. On output,
         // x[0..n-1] is modified, to an improved set of values.
         int i, j;
-        final double[] r = doub_arr(n);
+        final double[] r = doub_vec(n);
         for (i = 0; i < n; i++) { // Calculate the right-hand side, accumulating
             BigDecimal sdp = new BigDecimal(-b[i]); // the residual in higher
                                                     // precision.

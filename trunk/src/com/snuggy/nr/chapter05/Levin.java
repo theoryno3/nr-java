@@ -22,8 +22,8 @@ public class Levin {
     private double eps, lastval, lasteps;
 
     public Levin(final int nmax, final double epss) {
-        numer = doub_arr(nmax);
-        denom = doub_arr(nmax);
+        numer = doub_vec(nmax);
+        denom = doub_vec(nmax);
         n = (0);
         ncv = (0);
         cnvgd = (false);
