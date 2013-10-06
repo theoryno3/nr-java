@@ -2,7 +2,8 @@
 package com.snuggy.nr.chapter08;
 
 import static com.snuggy.nr.util.Static.*;
-
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Indexx<T extends Comparable<T>> {
@@ -48,13 +49,13 @@ public class Indexx<T extends Comparable<T>> {
     // the user, but see
     // text for exceptions.
 
-    public void rank(final int[] irank_ref[]) {
+    public void rank(final $int1d irank) {
         // Returns a rank table, whose jth element is the rank of arr[j],
         // where arr is the vector originally indexed. The smallest arr[j]
         // has rank 0.
-        irank_ref[0] = int_vec(n);
+        irank.$(int_vec(n));
         for (int j = 0; j < n; j++)
-            irank_ref[0][indx[j]] = j;
+            irank.$()[indx[j]] = j;
     }
 
     public void index(final T[] arr_arr, final int arr_off, final int nn) throws NRException {

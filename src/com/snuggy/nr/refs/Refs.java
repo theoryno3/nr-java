@@ -22,6 +22,21 @@ public class Refs {
         return y.$();
     }
     
+    // reference to int[]
+    
+    public static $int1d $(final int[] t) {
+        $int1d r = new Int1DRef(t);
+        return r;
+    }
+    
+    public static void $(final $int1d x, int[] y) {
+        x.$(y);
+    }
+    
+    public static void $(final $int1d x, final $int1d y) {
+        x.$(y.$());
+    }
+    
     // reference to double
     
     public static $double $(final double t) {
@@ -556,6 +571,25 @@ public class Refs {
         }
         @Override
         public double[] $() {
+            return t;
+        }
+        @Override
+        public String toString() {
+            return String.valueOf(t);
+        }
+	}
+	
+	static class Int1DRef implements $int1d {
+        private int[] t;
+        public Int1DRef(int[] t) {
+            this.t = t;
+        }
+        @Override
+        public void $(int[] t) {
+            this.t = t;
+        }
+        @Override
+        public int[] $() {
             return t;
         }
         @Override
