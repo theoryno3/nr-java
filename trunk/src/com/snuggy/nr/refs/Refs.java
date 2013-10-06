@@ -37,6 +37,21 @@ public class Refs {
         x.$(y.$());
     }
     
+    // reference to int[][]
+    
+    public static $int2d $(final int[][] t) {
+        $int2d r = new Int2DRef(t);
+        return r;
+    }
+    
+    public static void $(final $int2d x, int[][] y) {
+        x.$(y);
+    }
+    
+    public static void $(final $int2d x, final $int2d y) {
+        x.$(y.$());
+    }
+    
     // reference to double
     
     public static $double $(final double t) {
@@ -590,6 +605,25 @@ public class Refs {
         }
         @Override
         public int[] $() {
+            return t;
+        }
+        @Override
+        public String toString() {
+            return String.valueOf(t);
+        }
+	}
+	
+	static class Int2DRef implements $int2d {
+        private int[][] t;
+        public Int2DRef(int[][] t) {
+            this.t = t;
+        }
+        @Override
+        public void $(int[][] t) {
+            this.t = t;
+        }
+        @Override
+        public int[][] $() {
             return t;
         }
         @Override
