@@ -5,6 +5,7 @@ import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
 import com.snuggy.nr.chapter02.*;
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Krig<T extends Func_Doub_To_Doub> {
@@ -70,7 +71,7 @@ public class Krig<T extends Func_Doub_To_Doub> {
         return lastval;
     }
 
-    public double interp(final double[] xstar, final double esterr_ref[]) 
+    public double interp(final double[] xstar, final $double esterr) 
             throws NRException {
         // Return an interpolated value at the point xstar, and return its
         // estimated error as esterr.
@@ -79,7 +80,7 @@ public class Krig<T extends Func_Doub_To_Doub> {
         lasterr = 0;
         for (int i = 0; i <= npt; i++)
             lasterr += dstar[i] * vstar[i];
-        esterr_ref[0] = lasterr = sqrt(MAX(0., lasterr));
+        esterr.$(lasterr = sqrt(MAX(0., lasterr)));
         return lastval;
     }
 

@@ -3,13 +3,13 @@ package com.snuggy.nr.chapter14;
 
 import static com.snuggy.nr.chapter06.Static.*;
 import static com.snuggy.nr.chapter08.Static.*;
-import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.refs.Refs.*;
-import com.snuggy.nr.refs.*;
+import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
 import com.snuggy.nr.chapter02.*;
 import com.snuggy.nr.chapter06.*;
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Static {

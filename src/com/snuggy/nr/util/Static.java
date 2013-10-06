@@ -75,6 +75,7 @@ public class Static {
         return r;
     }
     
+    /*
     public static final double[] doub_ref() {
         return new double[1];
     }
@@ -106,6 +107,7 @@ public class Static {
     public static boolean[] bool_ref(boolean x) {
         return new boolean[] { x };
     }
+    */
 
     @SuppressWarnings("unchecked")
     public static <T> T[] obj_vec(Class<T> type, int n) throws InstantiationException, IllegalAccessException {

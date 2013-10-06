@@ -8,8 +8,8 @@ import com.snuggy.nr.util.*;
 public interface IStepperBS extends IStepperBase {
     void step(double htry, Dtype derivs) throws NRException;
 
-    boolean dy(final double[] y, double htot, int k, final double[] yend, int ipt_ref[], Dtype derivs)
-            throws NRException;
+    boolean dy(final double[] y, double htot, int k, final double[] yend, 
+	            $int ipt, Dtype derivs) throws NRException;
 
     void polyextr(int k, final double[][] table, final double[] last);
 

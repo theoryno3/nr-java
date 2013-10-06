@@ -63,41 +63,42 @@ public class Static {
         return ans;
     }
 
-    public static void fgauss(final double x, final double[] a, final double y_ref[], final double[] dyda) {
+    public static void fgauss(final double x, final double[] a, 
+            final $double y, final double[] dyda) {
         // y.xI a/ is the sum of na/3 Gaussians (15.5.16). The amplitude,
         // center, and width of the Gaussians are stored in consecutive
         // locations of a: a[3k] D Bk, a[3kC1] D Ek, a[3kC2] D Gk, k D 0; :::;
         // na/3  1. The dimensions of the arrays are a[0..na-1], dyda[0..na-1].
         int i, na = a.length;
         double fac, ex, arg;
-        y_ref[0] = 0.;
+        y.$(0.);
         for (i = 0; i < na - 1; i += 3) {
             arg = (x - a[i + 1]) / a[i + 2];
             ex = exp(-SQR(arg));
             fac = a[i] * ex * 2. * arg;
-            y_ref[0] += a[i] * ex;
+            y.$(y.$() + a[i] * ex);
             dyda[i] = ex;
             dyda[i + 1] = fac / a[i + 2];
             dyda[i + 2] = fac * arg / a[i + 2];
         }
     }
 
-    public static double mcmcstep(final int m, final $$<State> s_ref, final Plog plog, final Proposal propose)
+    public static double mcmcstep(final int m, final $$<State> s, final Plog plog, final Proposal propose)
             throws NRException {
         // Take m MCMC steps, starting with (and updating) s.
         State sprop = new State(); // Storage for candidate.
         double alph, ran;
-        double qratio_ref[] = doub_ref();
+        $double qratio = $(0.0);
         int accept = 0;
-        plog.func(s_ref.$());
+        plog.func(s.$());
         for (int i = 0; i < m; i++) { // Loop over steps.
-            propose.func(s_ref.$(), sprop, qratio_ref);
-            alph = min(1., qratio_ref[0] * exp(plog.func(sprop) - s_ref.$().plog())); // Equation
+            propose.func(s.$(), sprop, qratio);
+            alph = min(1., qratio.$() * exp(plog.func(sprop) - s.$().plog())); // Equation
                                                                                      // (15.8.5).
             ran = propose.gau().doub();
             if (ran < alph) { // Accept the candidate.
-                $$(s_ref, sprop);
-                plog.func(s_ref.$());
+                $$(s, sprop);
+                plog.func(s.$());
                 accept++;
             }
         }

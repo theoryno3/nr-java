@@ -6,6 +6,7 @@ import static java.lang.Math.*;
 
 import java.math.*;
 
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class LUdcmp {
@@ -158,17 +159,17 @@ public class LUdcmp {
         }
     }
 
-    public void inverse(final double[][] ainv_ref[]) throws NRException {
+    public void inverse(final $double2d ainv) throws NRException {
         // Using the stored LU decomposition, return in ainv the matrix inverse
         // A1.
         int i, j;
-        ainv_ref[0] = doub_mat(n, n);
+        ainv.$(doub_mat(n, n));
         for (i = 0; i < n; i++) {
             for (j = 0; j < n; j++)
-                ainv_ref[0][i][j] = 0.;
-            ainv_ref[0][i][i] = 1.;
+                ainv.$()[i][j] = 0.;
+            ainv.$()[i][i] = 1.;
         }
-        solve(ainv_ref[0], ainv_ref[0]);
+        solve(ainv.$(), ainv.$());
     }
 
     public double det() {

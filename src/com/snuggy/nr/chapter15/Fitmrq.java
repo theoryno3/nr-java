@@ -2,9 +2,11 @@
 package com.snuggy.nr.chapter15;
 
 import static com.snuggy.nr.chapter02.Static.*;
+import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Fitmrq {
@@ -153,7 +155,7 @@ public class Fitmrq {
         // vector beta as in (15.5.8), and to calculate 2.
         int i, j, k, l, m;
         double wt, sig2i, dy;
-        final double[] ymod_ref = doub_ref();
+        final $double ymod = $(0.0);
         final double[] dyda = doub_vec(ma);
         for (j = 0; j < mfit; j++) { // Initialize (symmetric) alpha, beta.
             for (k = 0; k <= j; k++)
@@ -162,9 +164,9 @@ public class Fitmrq {
         }
         chisq = 0.;
         for (i = 0; i < ndat; i++) { // Summation loop over all data.
-            funcs.eval(x[i], a, ymod_ref, dyda);
+            funcs.eval(x[i], a, ymod, dyda);
             sig2i = 1.0 / (sig[i] * sig[i]);
-            dy = y[i] - ymod_ref[0];
+            dy = y[i] - ymod.$();
             for (j = 0, l = 0; l < ma; l++) {
                 if (ia[l]) {
                     wt = dyda[l] * sig2i;

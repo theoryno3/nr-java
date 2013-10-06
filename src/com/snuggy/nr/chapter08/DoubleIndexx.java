@@ -54,13 +54,13 @@ public class DoubleIndexx {
     // the user, but see
     // text for exceptions.
 
-    public void rank(final int[] irank_ref[]) {
+    public void rank(final $int1d irank) {
         // Returns a rank table, whose jth element is the rank of arr[j],
         // where arr is the vector originally indexed. The smallest arr[j]
         // has rank 0.
-        irank_ref[0] = int_vec(n);
+        irank.$(int_vec(n));
         for (int j = 0; j < n; j++)
-            irank_ref[0][indx.$()[j]] = j;
+            irank.$()[indx.$()[j]] = j;
     }
 
     public void index(final double[] arr_arr, final int arr_off, final int nn) throws NRException {
