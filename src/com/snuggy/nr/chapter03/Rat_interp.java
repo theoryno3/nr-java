@@ -35,29 +35,29 @@ public class Rat_interp extends Base_interp {
         final $double xa = $(xx, jl); 
         final $double ya = $(yy, jl); 
         final double[] c = doub_vec(mm), d = doub_vec(mm);
-        hh = abs(x - xa.$(0));
+        hh = abs(x - xa.$_(0));
         for (i = 0; i < mm; i++) {
-            h = abs(x - xa.$(i));
+            h = abs(x - xa.$_(i));
             if (h == 0.0) {
                 dy = 0.0;
-                return ya.$(i);
+                return ya.$_(i);
             } else if (h < hh) {
                 ns = i;
                 hh = h;
             }
-            c[i] = ya.$(i);
-            d[i] = ya.$(i) + TINY; // The TINY part is needed to
+            c[i] = ya.$_(i);
+            d[i] = ya.$_(i) + TINY; // The TINY part is needed to
                                               // prevent a rare
             // zero-over-zero
         } // condition.
-        y = ya.$((ns--));
+        y = ya.$_((ns--));
         for (m = 1; m < mm; m++) {
             for (i = 0; i < mm - m; i++) {
                 w = c[i + 1] - d[i];
-                h = xa.$(i + m) - x; // h will never be zero, since
+                h = xa.$_(i + m) - x; // h will never be zero, since
                                                 // this was tested in the
                                                 // initial
-                t = (xa.$(i) - x) * d[i] / h; // izing loop.
+                t = (xa.$_(i) - x) * d[i] / h; // izing loop.
                 dd = t - c[i + 1];
                 if (dd == 0.0)
                     throw new NRException("Error in routine ratint");

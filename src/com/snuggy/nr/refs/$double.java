@@ -5,8 +5,8 @@ import com.snuggy.nr.util.*;
 
 public interface $double {
     void $(double t);
-    void $(int n, double v) throws NRException;
+    void $_(int n, double v) throws NRException;
     double $();
-    double $(int n) throws NRException;
+    double $_(int n) throws NRException;
     String toString();
 }

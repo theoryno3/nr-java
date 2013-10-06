@@ -78,12 +78,13 @@ public class Fitexy {
                                                                        // bind
                                                                        // it to
         int j; // our variables.
-        double amx, amn, varx_ref[] = doub_ref(), vary_ref[] = doub_ref(), ang[] = new double[7], ch[] = new double[7], scale, bmn, bmx, d1_ref[] = doub_ref(), d2_ref[] = doub_ref(), r2, dum1_ref[] = doub_ref();
-        avevar(x, dum1_ref, varx_ref); // Find the x and y variances, and scale
+        $double varx = $(0.0), vary = $(0.0), d1 = $(0.0), d2 = $(0.0), dum1 = $(0.0);
+        double amx, amn, ang[] = new double[7], ch[] = new double[7], scale, bmn, bmx, r2;
+        avevar(x, dum1, varx); // Find the x and y variances, and scale
         // the data into the global variables for communication with the
         // function chixy.
-        avevar(y, dum1_ref, vary_ref);
-        scale = sqrt(varx_ref[0] / vary_ref[0]);
+        avevar(y, dum1, vary);
+        scale = sqrt(varx.$() / vary.$());
         for (j = 0; j < ndat; j++) {
             xx[j] = x[j];
             yy[j] = y[j] * scale;
@@ -123,16 +124,16 @@ public class Fitexy {
         for (j = 0; j < 6; j++) { // Go through saved values to bracket
             // the desired roots. Note periodicity in slope angles.
             if (ch[j] > offs_ref.$()) {
-                d1_ref[0] = abs(ang[j] - b);
-                while (d1_ref[0] >= PI)
-                    d1_ref[0] -= PI;
-                d2_ref[0] = PI - d1_ref[0];
+                d1.$(abs(ang[j] - b));
+                while (d1.$() >= PI)
+                    d1.$(d1.$() - PI);
+                d2.$(PI - d1.$());
                 if (ang[j] < b)
-                    SWAP(d1_ref, d2_ref);
-                if (d1_ref[0] < bmx)
-                    bmx = d1_ref[0];
-                if (d2_ref[0] < bmn)
-                    bmn = d2_ref[0];
+                    SWAP(d1, d2);
+                if (d1.$() < bmx)
+                    bmx = d1.$();
+                if (d2.$() < bmn)
+                    bmn = d2.$();
             }
         }
         if (bmx < BIG) { // Call zbrent to nd the roots.
@@ -155,6 +156,12 @@ public class Fitexy {
         double t = x_ref[0];
         x_ref[0] = y_ref[0];
         y_ref[0] = t;
+    }
+
+    public void SWAP($double x, $double y) {
+        double t = x.$();
+        x.$(y.$());
+        y.$(t);
     }
 
     class Chixy implements Func_Doub_To_Doub {

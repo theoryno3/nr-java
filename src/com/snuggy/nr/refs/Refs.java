@@ -566,11 +566,11 @@ public class Refs {
             return String.valueOf(t);
         }
         @Override
-        public double $(int n) throws NRException {
+        public double $_(int n) throws NRException {
             throw new NRException("offset used for non-offset $double");
         }
         @Override
-        public void $(int n, double v) throws NRException {
+        public void $_(int n, double v) throws NRException {
             throw new NRException("offset used for non-offset $double");
         }
 	}
@@ -683,13 +683,13 @@ public class Refs {
             return sb.toString();
         }
         @Override
-        public double $(int n) throws NRException {
+        public double $_(int n) throws NRException {
             if (off + n >= arr.length || off + n < 0)
                 throw new NRException("out of range offset used for offset $double");
             return arr[off+n];
         }
         @Override
-        public void $(int n, double v) throws NRException {
+        public void $_(int n, double v) throws NRException {
             if (off + n >= arr.length || off + n < 0)
                 throw new NRException("out of range offset used for offset $double");
             arr[off+n] = v;
@@ -717,12 +717,12 @@ public class Refs {
             return String.valueOf(arr[i][j]);
         }
         @Override
-        public void $(int n, double v) throws NRException {
+        public void $_(int n, double v) throws NRException {
             throw new NRException();
             
         }
         @Override
-        public double $(int n) throws NRException {
+        public double $_(int n) throws NRException {
             throw new NRException();
         }
 	}
