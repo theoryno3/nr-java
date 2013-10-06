@@ -75,40 +75,6 @@ public class Static {
         return r;
     }
     
-    /*
-    public static final double[] doub_ref() {
-        return new double[1];
-    }
-
-    public static final double[] doub_ref(double x) {
-        return new double[] { x };
-    }
-
-    public static final int[] int_ref() {
-        return new int[1];
-    }
-
-    public static final int[] int_ref(int x) {
-        return new int[] { x };
-    }
-
-    public static long[] long_ref() {
-        return new long[1];
-    }
-
-    public static long[] long_ref(long x) {
-        return new long[] { x };
-    }
-
-    public static boolean[] bool_ref() {
-        return new boolean[1];
-    }
-
-    public static boolean[] bool_ref(boolean x) {
-        return new boolean[] { x };
-    }
-    */
-
     @SuppressWarnings("unchecked")
     public static <T> T[] obj_vec(Class<T> type, int n) throws InstantiationException, IllegalAccessException {
         T[] arr = (T[]) Array.newInstance(type, n);
@@ -183,7 +149,7 @@ public class Static {
         return new long[n];
     }
 
-    public static double frexp(double x, $int exp_ref) {
+    public static double frexp(double x, $int exp_out) {
         double y = abs(x);
         int exp = 0;
         while (y < 0.5) {
@@ -194,7 +160,7 @@ public class Static {
             y /= 2.0;
             exp++;
         }
-        exp_ref.$(exp);
+        exp_out.$(exp);
         return signum(x) * y;
     }
 
