@@ -1,8 +1,9 @@
+
 package com.snuggy.nr.chapter07;
 
-
 import static com.snuggy.nr.util.Static.*;
-
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Mhash<hfnT extends HfnT<keyT, elT>, keyT, elT> extends Hashtable<hfnT, keyT, elT> {
@@ -105,14 +106,14 @@ public class Mhash<hfnT extends HfnT<keyT, elT>, keyT, elT> extends Hashtable<hf
         return ((nextget < 0) ? 0 : 1);
     }
 
-    public int getnext(final elT el_ref[]) {
+    public int getnext(final $<elT> el) {
         // If nextget points validly, copy its element into el, update nextget
         // to the next element with the same key, and return 1. Otherwise, do
         // not modify el, and return 0.
         if (nextget < 0) {
             return 0;
         }
-        el_ref[0] = els[nextget];
+        el.$(els[nextget]);
         nextget = nextsis[nextget];
         return 1;
     }
