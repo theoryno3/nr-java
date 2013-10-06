@@ -64,7 +64,7 @@ public class Static {
     }
 
     public static <T extends Func_Doub_To_Doub> double dfridr(T func, final double x, final double h,
-            final double err_ref[]) throws NRException {
+            final $double err) throws NRException {
         // Returns the derivative of a function func at a point x by Ridders’
         // method of polynomial extrapolation. The value h is input as an
         // estimated initial stepsize; it need not be small, but rather should
@@ -82,7 +82,7 @@ public class Static {
             throw new NRException("h must be nonzero in dfridr.");
         hh = h;
         a[0][0] = (func.eval(x + hh) - func.eval(x - hh)) / (2.0 * hh);
-        err_ref[0] = big;
+        err.$(big);
         for (i = 1; i < ntab; i++) {
             // Successive columns in the Neville tableau will go to smaller
             // stepsizes and higher orders of extrapolation.
@@ -100,13 +100,13 @@ public class Static {
                 // one
                 // order lower, both at the present stepsize and the previous
                 // one.
-                if (errt <= err_ref[0]) { // If error is decreased, save the
+                if (errt <= err.$()) { // If error is decreased, save the
                                           // improved answer.
-                    err_ref[0] = errt;
+                    err.$(errt);
                     ans = a[j][i];
                 }
             }
-            if (abs(a[i][i] - a[i - 1][i - 1]) >= safe * err_ref[0])
+            if (abs(a[i][i] - a[i - 1][i - 1]) >= safe * err.$())
                 break;
             // If higher order is worse by a significant factor SAFE, then quit
             // early.
@@ -181,8 +181,9 @@ public class Static {
         return new Ratfn(num, denom);
     }
 
-    public static $$<Ratfn> ratlsq(final Func_Doub_To_Doub fn, final double a, final double b, final int mm,
-            final int kk, final double dev_ref[]) throws NRException {
+    public static $$<Ratfn> ratlsq(final Func_Doub_To_Doub fn, 
+            final double a, final double b, final int mm,
+            final int kk, final $double dev) throws NRException {
         // Returns a rational function approximation to the function fn in the
         // interval .a; b/. Input quantities mm and kk specify the order of the
         // numerator and denominator, respectively. The maximum absolute
@@ -197,7 +198,7 @@ public class Static {
         final double[] bb = doub_vec(npt), coff = doub_vec(ncof), ee = doub_vec(npt), fs = doub_vec(npt), wt = doub_vec(npt), xs = doub_vec(npt);
         final double[][] u = doub_mat(npt, ncof);
         $$<Ratfn> ratbest = $$(new Ratfn(coff, mm + 1, kk + 1));
-        dev_ref[0] = BIG;
+        dev.$(BIG);
         for (i = 0; i < npt; i++) { // Fill arrays with mesh abscissas and
                                     // function val
             if (i < (npt / 2) - 1) { // ues.
@@ -250,10 +251,10 @@ public class Static {
                     devmax = wt[j];
             }
             e = sum / npt; // Update e to be the mean absolute deviation.
-            if (devmax <= dev_ref[0]) { // Save only the best coefficient set
+            if (devmax <= dev.$()) { // Save only the best coefficient set
                                         // found.
                 ratbest.$$(rat);
-                dev_ref[0] = devmax;
+                dev.$(devmax);
             }
             // cout << " ratlsq iteration= " << it;
             // cout << " max error= " << setw(10) << devmax << endl;

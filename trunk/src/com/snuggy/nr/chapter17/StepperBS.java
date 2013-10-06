@@ -152,11 +152,11 @@ interp_error: // Restart here if interpolation error too big.
 	            reject = false;
 	            if (abs(h) <= abs(x.$()) * EPS)
 	                throw new NRException("step size underflow in StepperBS");
-	            int ipt_ref[] = int_ref();
-	            ipt_ref[0] = -1; // Initialize counter for saving stu.
+	            $int ipt = $(0);
+	            ipt.$(-1); // Initialize counter for saving stu.
 	            for (k = 0; k <= k_targ + 1; k++) { // Evaluate the sequence of modi
 	                                                // ed midpoint
-	                dy(ysav.$(), h, k, yseq.$(), ipt_ref, derivs); // integrations.
+	                dy(ysav.$(), h, k, yseq.$(), ipt, derivs); // integrations.
 	                if (k == 0)
 	                    $$(y, yseq); 
 	                else
@@ -292,8 +292,8 @@ interp_error: // Restart here if interpolation error too big.
      * @see com.snuggy.nr.chapter17.IStepperBS#dy(final double[], double, int, final double[], final int[], com.snuggy.nr.chapter17.Dtype)
      */
     @Override
-    public boolean dy(final double[] y, final double htot, final int k, final double[] yend, final int ipt_ref[],
-            final Dtype derivs) throws NRException {
+    public boolean dy(final double[] y, final double htot, final int k, final double[] yend, 
+            final $int ipt, final Dtype derivs) throws NRException {
         // Modi ed midpoint step. Inputs are y, H, and k. The output is
         // returned as yend[0..n-1]. The counter ipt keeps track of saving the
         // right-hand sides in the correct locations for dense output.
@@ -313,9 +313,9 @@ interp_error: // Restart here if interpolation error too big.
                     ysave[k][i] = yn[i];
             }
             if (dense && abs(nn - nstep / 2) <= 2 * k + 1) {
-                ipt_ref[0]++;
+                ipt.$(ipt.$() + 1);
                 for (int i = 0; i < n; i++)
-                    fsave[ipt_ref[0]][i] = yend[i];
+                    fsave[ipt.$()][i] = yend[i];
             }
             for (int i = 0; i < n; i++) { // General step.
                 double swap = ym[i] + h2 * yend[i];
@@ -326,9 +326,9 @@ interp_error: // Restart here if interpolation error too big.
             derivs.eval(xnew, yn, yend);
         }
         if (dense && nstep / 2 <= 2 * k + 1) {
-            ipt_ref[0]++;
+            ipt.$(ipt.$() + 1);
             for (int i = 0; i < n; i++)
-                fsave[ipt_ref[0]][i] = yend[i];
+                fsave[ipt.$()][i] = yend[i];
         }
         for (int i = 0; i < n; i++)
             // Last step.

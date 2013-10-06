@@ -4,6 +4,7 @@ package com.snuggy.nr.chapter15;
 import static java.lang.Math.*;
 
 import com.snuggy.nr.chapter07.*;
+import com.snuggy.nr.refs.*;
 
 public class Proposal {
 
@@ -22,7 +23,7 @@ public class Proposal {
     
     //private static long hit_count = 0;
 
-    public void func(final State s1, final State s2, final double qratio_ref[]) {
+    public void func(final State s1, final State s2, final $double qratio) {
         // Given state s1, set state s2 to a proposed candidate. Also set
         // qratio to q.s1js2/=q.s2js1/.
         //hit_count++;
@@ -35,7 +36,7 @@ public class Proposal {
             s2.set_tc(s1.tc() * exp(logstep * gau.dev()));
             s2.set_k1(s1.k1());
             s2.set_k2(s1.k2());
-            qratio_ref[0] = (s2.lam1() / s1.lam1()) * (s2.lam2() / s1.lam2()) * (s2.tc() / s1.tc());
+            qratio.$((s2.lam1() / s1.lam1()) * (s2.lam2() / s1.lam2()) * (s2.tc() / s1.tc()));
             // Factors for lognormal steps.
         } else { // Steps that change k1 and/or k2.
             r = gau.doub();
@@ -69,7 +70,7 @@ public class Proposal {
             }
             s2.set_lam2(s2.k2() * s1.lam2() / s1.k2());
             s2.set_tc(s1.tc());
-            qratio_ref[0] = 1.;
+            qratio.$(1.);
         }
     }
 

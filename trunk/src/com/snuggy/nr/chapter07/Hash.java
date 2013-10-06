@@ -2,8 +2,9 @@
 package com.snuggy.nr.chapter07;
 
 import java.util.*;
-import com.snuggy.nr.util.*;
+
 import com.snuggy.nr.refs.*;
+import com.snuggy.nr.util.*;
 
 public class Hash<hfnT extends HfnT<keyT,elT>, keyT, elT> extends Hashtable<hfnT, keyT, elT> {
 

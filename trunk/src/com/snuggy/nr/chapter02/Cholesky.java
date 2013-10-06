@@ -2,9 +2,9 @@
 package com.snuggy.nr.chapter02;
 
 import static com.snuggy.nr.util.Static.*;
-import static com.snuggy.nr.refs.Refs.*;
-import com.snuggy.nr.refs.*;
 import static java.lang.Math.*;
+
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Cholesky {

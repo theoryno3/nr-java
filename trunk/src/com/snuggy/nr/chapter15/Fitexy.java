@@ -31,8 +31,8 @@ public class Fitexy {
     private int ndat;
     private final double[] xx, yy, sx, sy, ww; // Variables that communicate with
                                          // Chixy.
-    private $double aa_ref = $(0.0);
-    private $double offs_ref = $(0.0);
+    private $double aa = $(0.0);
+    private $double offs = $(0.0);
     
     public double a() {
         return a;
@@ -71,7 +71,7 @@ public class Fitexy {
         final double PI = 3.141592653589793238;
         Gamma gam = new Gamma();
         Brent brent = new Brent(ACC);
-        Chixy chixy = new Chixy(xx, yy, sx, sy, ww, aa_ref, offs_ref); // Instantiate
+        Chixy chixy = new Chixy(xx, yy, sx, sy, ww, aa, offs); // Instantiate
                                                                        // a
                                                                        // Chixy
                                                                        // and
@@ -95,7 +95,7 @@ public class Fitexy {
         } // trial t.
         Fitab fit = new Fitab(xx, yy, ww);
         b = fit.b(); // Trial t for b.
-        offs_ref.$(ang[0] = 0.0); // Construct several angles for reference
+        offs.$(ang[0] = 0.0); // Construct several angles for reference
         // points, and make b an angle.
         ang[1] = atan(b);
         ang[3] = 0.0;
@@ -113,7 +113,7 @@ public class Fitexy {
         ch[2] = brent.fc();
         b = brent.minimize(chixy);
         chi2 = chixy.eval(b);
-        a = aa_ref.$();
+        a = aa.$();
         q = gam.gammq(0.5 * (ndat - 2), chi2 * 0.5); // Compute 2 probability.
         r2 = 0.0;
         for (j = 0; j < ndat; j++)
@@ -123,7 +123,7 @@ public class Fitexy {
         // points where 2 offs=chi2+1.0; D 1.
         for (j = 0; j < 6; j++) { // Go through saved values to bracket
             // the desired roots. Note periodicity in slope angles.
-            if (ch[j] > offs_ref.$()) {
+            if (ch[j] > offs.$()) {
                 d1.$(abs(ang[j] - b));
                 while (d1.$() >= PI)
                     d1.$(d1.$() - PI);
@@ -138,9 +138,9 @@ public class Fitexy {
         }
         if (bmx < BIG) { // Call zbrent to nd the roots.
             bmx = zbrent(chixy, b, b + bmx, ACC) - b;
-            amx = aa_ref.$() - a;
+            amx = aa.$() - a;
             bmn = zbrent(chixy, b, b - bmn, ACC) - b;
-            amn = aa_ref.$() - a;
+            amn = aa.$() - a;
             sigb = sqrt(0.5 * (bmx * bmx + bmn * bmn)) / (scale * SQR(cos(b)));
             siga = sqrt(0.5 * (amx * amx + amn * amn) + r2) / scale; // Error in
                                                                      // a has
@@ -152,10 +152,10 @@ public class Fitexy {
         b = tan(b) / scale;
     }
 
-    public void SWAP(double x_ref[], double y_ref[]) {
-        double t = x_ref[0];
-        x_ref[0] = y_ref[0];
-        y_ref[0] = t;
+    public void SWAP(double x[], double y[]) {
+        double t = x[0];
+        x[0] = y[0];
+        y[0] = t;
     }
 
     public void SWAP($double x, $double y) {
@@ -169,17 +169,17 @@ public class Fitexy {
         // slope b=tan(bang). Scaled data and offs are communicated via bound
         // references.
         private final double[] xx, yy, sx, sy, ww;
-        private $double aa_ref, offs_ref;
+        private $double aa, offs;
 
         public Chixy(final double[] xxx, final double[] yyy, final double[] ssx, final double[] ssy,
-                final double[] www, final $double aaa_ref, final $double ooffs_ref) {
+                final double[] www, final $double aaa, final $double ooffs) {
             xx = (xxx);
             yy = (yyy);
             sx = (ssx);
             sy = (ssy);
             ww = (www);
-            aa_ref = aaa_ref;
-            offs_ref = (ooffs_ref);
+            aa = aaa;
+            offs = (ooffs);
         }
 
         // Constructor. Bind references back to Fitexy.
@@ -198,9 +198,9 @@ public class Fitexy {
             }
             avex /= sumw;
             avey /= sumw;
-            aa_ref.$(avey - b * avex);
-            for (ans = -offs_ref.$(), j = 0; j < nn; j++)
-                ans += ww[j] * SQR(yy[j] - aa_ref.$() - b * xx[j]);
+            aa.$(avey - b * avex);
+            for (ans = -offs.$(), j = 0; j < nn; j++)
+                ans += ww[j] * SQR(yy[j] - aa.$() - b * xx[j]);
             return ans;
         }
     }

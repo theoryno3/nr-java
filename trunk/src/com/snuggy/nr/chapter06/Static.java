@@ -8,6 +8,7 @@ import static java.lang.Math.*;
 import java.lang.reflect.*;
 
 import com.snuggy.nr.chapter17.*;
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Static {
@@ -715,8 +716,8 @@ public class Static {
     private static final double CA = 1.0e-8; // The accuracy is the square of
                                              // CA.
 
-    public static void sncndn(final double uu, final double emmc, final double sn_ref[], final double cn_ref[],
-            final double dn_ref[]) {
+    public static void sncndn(final double uu, final double emmc, 
+            final $double sn, final $double cn, final $double dn) {
         // Returns the Jacobian elliptic functions sn.u; kc/, cn.u; kc/,
         // and dn.u; kc/. Here uu D u, while emmc D k2 c .
         boolean bo;
@@ -733,7 +734,7 @@ public class Static {
                 u *= (d = sqrt(d));
             }
             a = 1.0;
-            dn_ref[0] = 1.0;
+            dn.$(1.0);
             for (i = 0; i < 13; i++) {
                 l = i;
                 em[i] = a;
@@ -745,32 +746,32 @@ public class Static {
                 a = c;
             }
             u *= c;
-            sn_ref[0] = sin(u);
-            cn_ref[0] = cos(u);
-            if (sn_ref[0] != 0.0) {
-                a = cn_ref[0] / sn_ref[0];
+            sn.$(sin(u));
+            cn.$(cos(u));
+            if (sn.$() != 0.0) {
+                a = cn.$() / sn.$();
                 c *= a;
                 for (ii = l; ii >= 0; ii--) {
                     b = em[ii];
                     a *= c;
-                    c *= dn_ref[0];
-                    dn_ref[0] = (en[ii] + a) / (b + a);
+                    c *= dn.$();
+                    dn.$((en[ii] + a) / (b + a));
                     a = c / b;
                 }
                 a = 1.0 / sqrt(c * c + 1.0);
-                sn_ref[0] = (sn_ref[0] >= 0.0 ? a : -a);
-                cn_ref[0] = c * sn_ref[0];
+                sn.$((sn.$() >= 0.0 ? a : -a));
+                cn.$(c * sn.$());
             }
             if (bo) {
-                a = dn_ref[0];
-                dn_ref[0] = cn_ref[0];
-                cn_ref[0] = a;
-                sn_ref[0] /= d;
+                a = dn.$();
+                dn.$(cn.$());
+                cn.$(a);
+                sn.$(sn.$() / d);
             }
         } else {
-            cn_ref[0] = 1.0 / cosh(u);
-            dn_ref[0] = cn_ref[0];
-            sn_ref[0] = tanh(u);
+            cn.$(1.0 / cosh(u));
+            dn.$(cn.$());
+            sn.$(tanh(u));
         }
     }
 

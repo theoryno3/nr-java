@@ -4,7 +4,6 @@ package com.snuggy.nr.chapter03;
 import static com.snuggy.nr.refs.Refs.*;
 import static com.snuggy.nr.util.Static.*;
 
-import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Spline_interp extends Base_interp {

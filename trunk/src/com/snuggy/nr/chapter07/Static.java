@@ -1,11 +1,11 @@
+
 package com.snuggy.nr.chapter07;
 
-import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.refs.Refs.*;
-import com.snuggy.nr.refs.*;
-
+import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Static {
@@ -233,8 +233,9 @@ public class Static {
     // static random number
     // generator.
 
-    public static void vegas(final double[] regn, final Func_DoubArr_Doub_To_Doub fxn, final int init, final int ncall, final int itmx,
-            final int nprn, final double tgral_ref[], final double sd_ref[], final double chi2a_ref[]) {
+    public static void vegas(final double[] regn, final Func_DoubArr_Doub_To_Doub fxn, 
+            final int init, final int ncall, final int itmx, final int nprn, 
+            final $double tgral, final $double sd, final $double chi2a) {
         // Performs Monte Carlo integration of a user-supplied ndim-dimensional
         // function fxn over a rectangular volume speci ed by regn[0..2*ndim-1],
         // a vector consisting of ndim \lower left" coordinates of the region
@@ -372,11 +373,11 @@ public class Static {
             si += wgt * ti;
             schi += wgt * ti * ti;
             swgt += wgt;
-            tgral_ref[0] = si / swgt;
-            chi2a_ref[0] = (schi - si * tgral_ref[0]) / (it + 0.0001);
-            if (chi2a_ref[0] < 0.0)
-                chi2a_ref[0] = 0.0;
-            sd_ref[0] = sqrt(1.0 / swgt);
+            tgral.$(si / swgt);
+            chi2a.$((schi - si * tgral.$()) / (it + 0.0001));
+            if (chi2a.$() < 0.0)
+                chi2a.$(0.0);
+            sd.$(sqrt(1.0 / swgt));
             tsi = sqrt(tsi);
             if (nprn >= 0) {
                 // cout << " iteration no. " << setw(3) << (it+1);
@@ -457,8 +458,9 @@ public class Static {
 
     private static int iran = 0;
 
-    public static void miser(final Func_DoubArr_To_Doub func, final double[] regn, final int npts, final double dith,
-            final double ave_ref[], final double var_ref[]) {
+    public static void miser(final Func_DoubArr_To_Doub func, 
+            final double[] regn, final int npts, final double dith,
+            final $double ave, final $double var) {
         // Monte Carlo samples a user-supplied ndim-dimensional function func
         // in a rectangular volume speci ed by regn[0..2*ndim-1], a vector
         // consisting of ndim \lower-left" coordinates of the region followed
@@ -479,8 +481,8 @@ public class Static {
         // available. We take MNBS D 4  MNPT.
         int j, jb, n, ndim, npre, nptl, nptr;
         double fracl, fval, rgl, rgm, rgr, s, sigl, siglb, sigr, sigrb;
-        double avel_ref[] = doub_ref();
-        double varl_ref[] = doub_ref();
+        $double avel = $(0.0);
+        $double varl = $(0.0);
         double sum, sumb, summ, summ2;
         ndim = regn.length / 2;
         final double[] pt = doub_vec(ndim);
@@ -492,8 +494,8 @@ public class Static {
                 summ += fval;
                 summ2 += fval * fval;
             }
-            ave_ref[0] = summ / npts;
-            var_ref[0] = MAX(TINY, (summ2 - summ * summ / npts) / (npts * npts));
+            ave.$(summ / npts);
+            var.$(MAX(TINY, (summ2 - summ * summ / npts) / (npts * npts)));
         } else { // Do the preliminary (uniform) sampling.
             final double[] rmid = doub_vec(ndim);
             npre = MAX(Int(npts * PFAC), Int(MNPT));
@@ -552,13 +554,13 @@ public class Static {
                 regn_temp[ndim + j] = regn[ndim + j];
             }
             regn_temp[ndim + jb] = rmid[jb];
-            miser(func, regn_temp, nptl, dith, avel_ref, varl_ref);
+            miser(func, regn_temp, nptl, dith, avel, varl);
             regn_temp[jb] = rmid[jb]; // Dispatch recursive call; will return
                                       // back
             regn_temp[ndim + jb] = regn[ndim + jb]; // here eventually.
-            miser(func, regn_temp, nptr, dith, ave_ref, var_ref);
-            ave_ref[0] = fracl * avel_ref[0] + (1 - fracl) * ave_ref[0];
-            var_ref[0] = fracl * fracl * varl_ref[0] + (1 - fracl) * (1 - fracl) * var_ref[0];
+            miser(func, regn_temp, nptr, dith, ave, var);
+            ave.$(fracl * avel.$() + (1 - fracl) * ave.$());
+            var.$(fracl * fracl * varl.$() + (1 - fracl) * (1 - fracl) * var.$());
             // Combine left and right regions by equation (7.9.11) (1st line).
         }
     }

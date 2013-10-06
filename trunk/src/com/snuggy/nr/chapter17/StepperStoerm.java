@@ -62,8 +62,8 @@ public class StepperStoerm extends StepperBS {
     }
 
     // Here is the routine dy that implements Stoermer�s rule:
-    public boolean dy(final double[] y, final double htot, final int k, final double[] yend, final int ipt_ref[],
-            final Dtype derivs) throws NRException {
+    public boolean dy(final double[] y, final double htot, final int k,  final double[] yend, 
+            final $int ipt, final Dtype derivs) throws NRException {
         // Stoermer step. Inputs are y, H, and k. The output is returned
         // as yend[0..2n-1]. The counter ipt keeps track of saving the
         // right-hand sides in the correct locations for dense output.
@@ -91,9 +91,9 @@ public class StepperStoerm extends StepperBS {
             derivs.eval(xnew, ytemp, yend); // Store derivatives temporarily in
                                             // yend.
             if (dense && abs(nn - (nstp2 + 1) / 2) < k + 1) {
-                ipt_ref[0]++;
+                ipt.$(ipt.$() + 1);
                 for (int i = 0; i < neqn; i++)
-                    fsave[ipt_ref[0]][i] = yend[i];
+                    fsave[ipt.$()][i] = yend[i];
             }
             if (nn != nstp2) {
                 for (int i = 0; i < neqn; i++)
@@ -109,7 +109,7 @@ public class StepperStoerm extends StepperBS {
     }
 
     public void prepare_dense(final double h, final double[] dydxnew, final double[] ysav, final double[] scale,
-            final int k, final double error_ref[]) {
+            final int k, final $double error) {
         // Store coecients of interpolating polynomial for dense output in
         // dens array. Input stepsize h, right-hand side at end of interval
         // dydxnew (only rst n/2 elements referenced), y and y0 at beginning
@@ -193,11 +193,11 @@ public class StepperStoerm extends StepperBS {
         }
         dense_interp(neqn, dens, mu); // Compute the interpolation coecients in
                                       // dens.
-        error_ref[0] = 0.0; // Estimate the interpolation error.
+        error.$(0.0); // Estimate the interpolation error.
         if (mu >= 1) {
             for (int i = 0; i < neqn; i++)
-                error_ref[0] += SQR(dens[(mu + 6) * neqn + i] / scale[i]);
-            error_ref[0] = sqrt(error_ref[0] / neqn) * errfac[mu - 1];
+                error.$(error.$() + SQR(dens[(mu + 6) * neqn + i] / scale[i]));
+            error.$(sqrt(error.$() / neqn) * errfac[mu - 1]);
         }
     }
 
