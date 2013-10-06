@@ -4,10 +4,12 @@ package com.snuggy.nr.chapter01;
 import static java.lang.Math.*;
 
 import com.snuggy.nr.util.*;
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
 
 public class Calendar {
     
-    public static void flmoon(final int n, final int nph, final int[] jd_ref, final double[] frac_ref) 
+    public static void flmoon(final int n, final int nph, final $int jd, final $double frac) 
             throws NRException {
         // Our routines begin with an introductory comment summarizing their
         // purpose and explaining their calling sequence. This routine
@@ -28,7 +30,7 @@ public class Calendar {
                                        // understand
         am = 306.0253 + 385.816918 * c + 0.010730 * t2; // this algorithm, but
                                                         // it does work!
-        jd_ref[0] = 2415020 + 28 * n + 7 * nph;
+        jd.$(2415020 + 28 * n + 7 * nph);
         xtra = 0.75933 + 1.53058868 * c + ((1.178e-4) - (1.55e-7) * t) * t2;
         if (nph == 0 || nph == 2)
             xtra += (0.1734 - 3.93e-4 * t) * sin(RAD * as) - 0.4068 * sin(RAD * am);
@@ -39,8 +41,8 @@ public class Calendar {
                                                              // an error
                                                              // condition.
         i = (int) (xtra >= 0.0 ? floor(xtra) : ceil(xtra - 1.0));
-        jd_ref[0] += i;
-        frac_ref[0] = xtra - i;
+        jd.$(jd.$() + i);
+        frac.$(xtra - i);
     }
 
     public static int julday(final int mm, final int id, final int iyyy) throws NRException {
@@ -71,7 +73,7 @@ public class Calendar {
         return jul;
     }
 
-    public static void caldat(final int julian, final int[] mm_ref, final int[] id_ref, final int[] iyyy_ref) {
+    public static void caldat(final int julian, final $int mm, final $int id, final $int iyyy) {
         // Inverse of the function julday given above. Here julian is input
         // as a Julian Day Number, and the routine outputs mm,id, and iyyy as
         // the month, day, and year on which the specified Julian Day
@@ -92,17 +94,17 @@ public class Calendar {
         jc = (int) (6680.0 + ((double) (jb - 2439870) - 122.1) / 365.25);
         jd = (int) (365 * jc + (0.25 * jc));
         je = (int) ((jb - jd) / 30.6001);
-        id_ref[0] = jb - jd - (int) (30.6001 * je);
-        mm_ref[0] = je - 1;
-        if (mm_ref[0] > 12)
-            mm_ref[0] -= 12;
-        iyyy_ref[0] = jc - 4715;
-        if (mm_ref[0] > 2)
-            --(iyyy_ref[0]);
-        if (iyyy_ref[0] <= 0)
-            --(iyyy_ref[0]);
+        id.$(jb - jd - (int) (30.6001 * je));
+        mm.$(je - 1);
+        if (mm.$() > 12)
+            mm.$(mm.$() - 12);
+        iyyy.$(jc - 4715);
+        if (mm.$() > 2)
+            iyyy.$(iyyy.$() - 1);
+        if (iyyy.$() <= 0)
+            iyyy.$(iyyy.$() - 1);
         if (julian < 0)
-            iyyy_ref[0] -= 100 * (1 - julian / 36525);
+            iyyy.$(iyyy.$() - 100 * (1 - julian / 36525));
     }
 
 }
