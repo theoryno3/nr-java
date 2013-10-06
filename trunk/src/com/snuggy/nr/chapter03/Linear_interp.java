@@ -16,12 +16,12 @@ public class Linear_interp extends Base_interp {
 
     @Override
     public double rawinterp(final int j, final double x) throws NRException {
-        if (xx.$(j) == xx.$(j + 1))
-            return yy.$(j); // Table is defective, but we can
+        if (xx.$_(j) == xx.$_(j + 1))
+            return yy.$_(j); // Table is defective, but we can
                                        // recover.
         else
-            return yy.$(j) + ((x - xx.$(j)) / (xx.$(j + 1) - xx.$(j)))
-                    * (yy.$(j + 1) - yy.$(j));
+            return yy.$_(j) + ((x - xx.$_(j)) / (xx.$_(j + 1) - xx.$_(j)))
+                    * (yy.$_(j + 1) - yy.$_(j));
     }
 
 }

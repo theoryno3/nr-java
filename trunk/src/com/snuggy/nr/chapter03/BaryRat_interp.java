@@ -39,7 +39,7 @@ public class BaryRat_interp extends Base_interp {
                 for (int j = i; j <= jmax; j++) {
                     if (j == k)
                         continue;
-                    term *= (xx.$(k) - xx.$(j));
+                    term *= (xx.$_(k) - xx.$_(j));
                 }
                 term = temp / term;
                 temp = -temp;
@@ -56,12 +56,12 @@ public class BaryRat_interp extends Base_interp {
 
         double num = 0, den = 0;
         for (int i = 0; i < n; i++) {
-            double h = x - xx.$(i);
+            double h = x - xx.$_(i);
             if (h == 0.0) {
-                return yy.$(i);
+                return yy.$_(i);
             } else {
                 double temp = w[i] / h;
-                num += temp * yy.$(i);
+                num += temp * yy.$_(i);
                 den += temp;
             }
         }

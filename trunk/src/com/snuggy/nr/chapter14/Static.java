@@ -1,8 +1,11 @@
+
 package com.snuggy.nr.chapter14;
 
 import static com.snuggy.nr.chapter06.Static.*;
 import static com.snuggy.nr.chapter08.Static.*;
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
 import static java.lang.Math.*;
 
 import com.snuggy.nr.chapter02.*;
@@ -11,8 +14,8 @@ import com.snuggy.nr.util.*;
 
 public class Static {
 
-    public static void moment(final double[] data, final double ave_ref[], final double adev_ref[],
-            final double sdev_ref[], final double var_ref[], final double skew_ref[], final double curt_ref[])
+    public static void moment(final double[] data, final $double ave, final $double adev,
+            final $double sdev, final $double var, final $double skew, final $double curt)
             throws NRException {
         // Given an array of data[0..n-1], this routine returns its mean ave,
         // average deviation adev, standard deviation sdev, variance var,
@@ -24,34 +27,34 @@ public class Static {
         s = 0.0; // First pass to get the mean.
         for (j = 0; j < n; j++)
             s += data[j];
-        ave_ref[0] = s / n;
-        adev_ref[0] = var_ref[0] = skew_ref[0] = curt_ref[0] = 0.0; // Second
-                                                                    // pass to
-                                                                    // get the
-                                                                    // first
-                                                                    // (absolute),
-                                                                    // second,
+        ave.$(s / n);
+        $(adev, $(var, $(skew, $(curt, 0.0)))); // Second
+                                                // pass to
+                                                // get the
+                                                // first
+                                                // (absolute),
+                                                // second,
         // third, and fourth moments of the deviation from the mean.
         for (j = 0; j < n; j++) {
-            adev_ref[0] += abs(s = data[j] - ave_ref[0]);
+            adev.$(adev.$() + abs(s = data[j] - ave.$()));
             ep += s;
-            var_ref[0] += (p = s * s);
-            skew_ref[0] += (p *= s);
-            curt_ref[0] += (p *= s);
+            var.$(var.$() + (p = s * s));
+            skew.$(skew.$() + (p *= s));
+            curt.$(curt.$() + (p *= s));
         }
-        adev_ref[0] /= n;
-        var_ref[0] = (var_ref[0] - ep * ep / n) / (n - 1); // Corrected two-pass
+        adev.$(adev.$() / n);
+        var.$((var.$() - ep * ep / n) / (n - 1)); // Corrected two-pass
                                                            // formula.
-        sdev_ref[0] = sqrt(var_ref[0]); // Put the pieces together according to
+        sdev.$(sqrt(var.$())); // Put the pieces together according to
                                         // the con
-        if (var_ref[0] != 0.0) { // ventional definitions.
-            skew_ref[0] /= (n * var_ref[0] * sdev_ref[0]);
-            curt_ref[0] = curt_ref[0] / (n * var_ref[0] * var_ref[0]) - 3.0;
+        if (var.$() != 0.0) { // ventional definitions.
+            skew.$(skew.$() / (n * var.$() * sdev.$()));
+            curt.$(curt.$() / (n * var.$() * var.$()) - 3.0);
         } else
             throw new NRException("No skew/kurtosis when variance = 0 (in moment)");
     }
 
-    public static void ttest(final double[] data1, final double[] data2, final double t_ref[], final double prob_ref[])
+    public static void ttest(final double[] data1, final double[] data2, final $double t, final $double prob)
             throws NRException {
         // Given the arrays data1[0..n1-1] and data2[0..n2-1], returns
         // Student’s t as t, and its pvalue as prob, small values of prob
@@ -59,40 +62,40 @@ public class Static {
         // data arrays are assumed to be drawn from populations with the same
         // true variance.
         Beta beta = new Beta();
-        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
+        final $double var1 = $(0.0), var2 = $(0.0), ave1 = $(0.0), ave2 = $(0.0);
         double svar, df;
         int n1 = data1.length, n2 = data2.length;
-        avevar(data1, ave1_ref, var1_ref);
-        avevar(data2, ave2_ref, var2_ref);
+        avevar(data1, ave1, var1);
+        avevar(data2, ave2, var2);
         df = n1 + n2 - 2; // Degrees of freedom.
-        svar = ((n1 - 1) * var1_ref[0] + (n2 - 1) * var2_ref[0]) / df; // Pooled
+        svar = ((n1 - 1) * var1.$() + (n2 - 1) * var2.$()) / df; // Pooled
                                                                        // variance.
-        t_ref[0] = (ave1_ref[0] - ave2_ref[0]) / sqrt(svar * (1.0 / n1 + 1.0 / n2));
-        prob_ref[0] = beta.betai(0.5 * df, 0.5, df / (df + t_ref[0] * t_ref[0])); // See
+        t.$((ave1.$() - ave2.$()) / sqrt(svar * (1.0 / n1 + 1.0 / n2)));
+        prob.$(beta.betai(0.5 * df, 0.5, df / (df + t.$() * t.$()))); // See
                                                                                   // equation
                                                                                   // (6.14.11).
     }
 
-    public static void avevar(final double[] data, final double ave_ref[], final double var_ref[]) {
+    public static void avevar(final double[] data, final $double ave, final $double var) {
         // Given array data[0..n-1], returns its mean as ave and its variance as
         // var.
         double s, ep;
         int j, n = data.length;
-        ave_ref[0] = 0.0;
+        ave.$(0.0);
         for (j = 0; j < n; j++)
-            ave_ref[0] += data[j];
-        ave_ref[0] /= n;
-        var_ref[0] = ep = 0.0;
+            ave.$(ave.$() + data[j]);
+        ave.$(ave.$() / n);
+        var.$(ep = 0.0);
         for (j = 0; j < n; j++) {
-            s = data[j] - ave_ref[0];
+            s = data[j] - ave.$();
             ep += s;
-            var_ref[0] += s * s;
+            var.$(var.$() + (s * s));
         }
-        var_ref[0] = (var_ref[0] - ep * ep / n) / (n - 1); // Corrected two-pass
+        var.$((var.$() - ep * ep / n) / (n - 1)); // Corrected two-pass
                                                            // formula (14.1.8).
     }
 
-    public static void tutest(final double[] data1, final double[] data2, final double t_ref[], final double prob_ref[])
+    public static void tutest(final double[] data1, final double[] data2, final $double t, final $double prob)
             throws NRException {
         // Given the arrays data1[0..n1-1] and data2[0..n2-1], this routine
         // returns Student’s t as t, and its p-value as prob, small values of
@@ -100,18 +103,18 @@ public class Static {
         // The data arrays are allowed to be drawn from populations with
         // unequal variances.
         Beta beta = new Beta();
-        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
+        final $double var1 = $(0.0), var2 = $(0.0), ave1 = $(0.0), ave2 = $(0.0);
         double df;
         int n1 = data1.length, n2 = data2.length;
-        avevar(data1, ave1_ref, var1_ref);
-        avevar(data2, ave2_ref, var2_ref);
-        t_ref[0] = (ave1_ref[0] - ave2_ref[0]) / sqrt(var1_ref[0] / n1 + var2_ref[0] / n2);
-        df = SQR(var1_ref[0] / n1 + var2_ref[0] / n2)
-                / (SQR(var1_ref[0] / n1) / (n1 - 1) + SQR(var2_ref[0] / n2) / (n2 - 1));
-        prob_ref[0] = beta.betai(0.5 * df, 0.5, df / (df + SQR(t_ref[0])));
+        avevar(data1, ave1, var1);
+        avevar(data2, ave2, var2);
+        t.$((ave1.$() - ave2.$()) / sqrt(var1.$() / n1 + var2.$() / n2));
+        df = SQR(var1.$() / n1 + var2.$() / n2)
+                / (SQR(var1.$() / n1) / (n1 - 1) + SQR(var2.$() / n2) / (n2 - 1));
+        prob.$(beta.betai(0.5 * df, 0.5, df / (df + SQR(t.$()))));
     }
 
-    public static void tptest(final double[] data1, final double[] data2, final double t_ref[], final double prob_ref[])
+    public static void tptest(final double[] data1, final double[] data2, final $double t, final $double prob)
             throws NRException {
         // Given the paired arrays data1[0..n-1] and data2[0..n-1], this routine
         // returns Student’s t for paired data as t, and its p-value as prob,
@@ -119,24 +122,18 @@ public class Static {
         Beta beta = new Beta();
         int j, n = data1.length;
         double sd, df, cov = 0.0;
-        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
-        @SuppressWarnings("unused")
-        final double[] sd_ref = doub_ref();
-        @SuppressWarnings("unused")
-        final double[] df_ref = doub_ref();
-        @SuppressWarnings("unused")
-        final double[] cov_ref = doub_ref(0.0);
-        avevar(data1, ave1_ref, var1_ref);
-        avevar(data2, ave2_ref, var2_ref);
+        final $double var1 = $(0.0), var2 = $(0.0), ave1 = $(0.0), ave2 = $(0.0);
+        avevar(data1, ave1, var1);
+        avevar(data2, ave2, var2);
         for (j = 0; j < n; j++)
-            cov += (data1[j] - ave1_ref[0]) * (data2[j] - ave2_ref[0]);
+            cov += (data1[j] - ave1.$()) * (data2[j] - ave2.$());
         cov /= (df = n - 1);
-        sd = sqrt((var1_ref[0] + var2_ref[0] - 2.0 * cov) / n);
-        t_ref[0] = (ave1_ref[0] - ave2_ref[0]) / sd;
-        prob_ref[0] = beta.betai(0.5 * df, 0.5, df / (df + t_ref[0] * t_ref[0]));
+        sd = sqrt((var1.$() + var2.$() - 2.0 * cov) / n);
+        t.$((ave1.$() - ave2.$()) / sd);
+        prob.$(beta.betai(0.5 * df, 0.5, df / (df + t.$() * t.$())));
     }
 
-    public static void ftest(final double[] data1, final double[] data2, final double f_ref[], final double prob_ref[])
+    public static void ftest(final double[] data1, final double[] data2, final $double f, final $double prob)
             throws NRException {
         // Given the arrays data1[0..n1-1] and data2[0..n2-1], this routine
         // returns the value of f, and its p-value as prob. Small values of
@@ -144,34 +141,32 @@ public class Static {
         // variances.
         Beta beta = new Beta();
         double df1, df2;
-        final double[] var1_ref = doub_ref(), var2_ref = doub_ref(), ave1_ref = doub_ref(), ave2_ref = doub_ref();
-        @SuppressWarnings("unused")
-        final double[] df1_ref = doub_ref(), df2_ref = doub_ref();
+        final $double var1 = $(0.0), var2 = $(0.0), ave1 = $(0.0), ave2 = $(0.0);
         int n1 = data1.length, n2 = data2.length;
-        avevar(data1, ave1_ref, var1_ref);
-        avevar(data2, ave2_ref, var2_ref);
-        if (var1_ref[0] > var2_ref[0]) { // Make F the ratio of the larger
+        avevar(data1, ave1, var1);
+        avevar(data2, ave2, var2);
+        if (var1.$() > var2.$()) { // Make F the ratio of the larger
                                          // variance to the smaller
-            f_ref[0] = var1_ref[0] / var2_ref[0]; // one.
+            f.$(var1.$() / var2.$()); // one.
             df1 = n1 - 1;
             df2 = n2 - 1;
         } else {
-            f_ref[0] = var2_ref[0] / var1_ref[0];
+            f.$(var2.$() / var1.$());
             df1 = n2 - 1;
             df2 = n1 - 1;
         }
-        prob_ref[0] = 2.0 * beta.betai(0.5 * df2, 0.5 * df1, df2 / (df2 + df1 * f_ref[0]));
-        if (prob_ref[0] > 1.0)
-            prob_ref[0] = 2. - prob_ref[0];
+        prob.$(2.0 * beta.betai(0.5 * df2, 0.5 * df1, df2 / (df2 + df1 * f.$())));
+        if (prob.$() > 1.0)
+            prob.$(2. - prob.$());
     }
 
-    public static void chsone(final double[] bins, final double[] ebins, final double df_ref[],
-            final double chsq_ref[], final double prob_ref[]) throws NRException {
-        chsone(bins, ebins, df_ref, chsq_ref, prob_ref, 1);
+    public static void chsone(final double[] bins, final double[] ebins, final $double df,
+            final $double chsq, final $double prob) throws NRException {
+        chsone(bins, ebins, df, chsq, prob, 1);
     }
 
-    public static void chsone(final double[] bins, final double[] ebins, final double df_ref[],
-            final double chsq_ref[], final double prob_ref[], final int knstrn) throws NRException {
+    public static void chsone(final double[] bins, final double[] ebins, final $double df,
+            final $double chsq, final $double prob, final int knstrn) throws NRException {
         // Given the array bins[0..nbins-1] containing the observed numbers
         // of events, and an array ebins[0..nbins-1] containing the expected
         // numbers of events, and given the number of constraints knstrn
@@ -184,32 +179,32 @@ public class Static {
         Gamma gam = new Gamma();
         int j, nbins = bins.length;
         double temp;
-        df_ref[0] = nbins - knstrn;
-        chsq_ref[0] = 0.0;
+        df.$(nbins - knstrn);
+        chsq.$(0.0);
         for (j = 0; j < nbins; j++) {
             if (ebins[j] < 0.0 || (ebins[j] == 0. && bins[j] > 0.))
                 throw new NRException("Bad expected number in chsone");
             if (ebins[j] == 0.0 && bins[j] == 0.0) {
-                --df_ref[0]; // No data means one less degree of free
+                df.$(df.$() - 1); // No data means one less degree of free
             } else { // dom.
                 temp = bins[j] - ebins[j];
-                chsq_ref[0] += temp * temp / ebins[j];
+                chsq.$(chsq.$() + temp * temp / ebins[j]);
             }
         }
-        prob_ref[0] = gam.gammq(0.5 * df_ref[0], 0.5 * chsq_ref[0]); // Chi-square
+        prob.$(gam.gammq(0.5 * df.$(), 0.5 * chsq.$())); // Chi-square
                                                                      // probability
                                                                      // function.
                                                                      // See
                                                                      // 6.2.
     }
 
-    public static void chstwo(final double[] bins1, final double[] bins2, final double df_ref[],
-            final double chsq_ref[], final double prob_ref[]) throws NRException {
-        chstwo(bins1, bins2, df_ref, chsq_ref, prob_ref, 1);
+    public static void chstwo(final double[] bins1, final double[] bins2, 
+            final $double df, final $double chsq, final $double prob) throws NRException {
+        chstwo(bins1, bins2, df, chsq, prob, 1);
     }
 
-    public static void chstwo(final double[] bins1, final double[] bins2, final double df_ref[],
-            final double chsq_ref[], final double prob_ref[], final int knstrn) throws NRException {
+    public static void chstwo(final double[] bins1, final double[] bins2, 
+            final $double df, final $double chsq, final $double prob, final int knstrn) throws NRException {
         // Given the arrays bins1[0..nbins-1] and bins2[0..nbins-1], containing
         // two sets of binned data, and given the number of constraints knstrn
         // (normally 1 or 0), this routine returns the number of degrees of
@@ -220,24 +215,24 @@ public class Static {
         Gamma gam = new Gamma();
         int j, nbins = bins1.length;
         double temp;
-        df_ref[0] = nbins - knstrn;
-        chsq_ref[0] = 0.0;
+        df.$(nbins - knstrn);
+        chsq.$(0.0);
         for (j = 0; j < nbins; j++)
             if (bins1[j] == 0.0 && bins2[j] == 0.0)
-                --df_ref[0]; // No data means one less degree of free
+                df.$(df.$() - 1); // No data means one less degree of free
             else { // dom.
                 temp = bins1[j] - bins2[j];
-                chsq_ref[0] += temp * temp / (bins1[j] + bins2[j]);
+                chsq.$(chsq.$() + (temp * temp / (bins1[j] + bins2[j])));
             }
-        prob_ref[0] = gam.gammq(0.5 * df_ref[0], 0.5 * chsq_ref[0]); // Chi-square
+        prob.$(gam.gammq(0.5 * df.$(), 0.5 * chsq.$())); // Chi-square
                                                                      // probability
                                                                      // function.
                                                                      // See
                                                                      // 6.2.
     }
 
-    public static void ksone(final double[] data, Func_Doub_To_Doub func, final double d_ref[], final double prob_ref[])
-            throws NRException {
+    public static void ksone(final double[] data, Func_Doub_To_Doub func, 
+            final $double d, final $double prob) throws NRException {
         // Given an array data[0..n-1], and given a user-supplied function of a
         // single variable func that is a cumulative distribution function
         // ranging from 0 (for smallest values of its argument) to 1 (for
@@ -252,22 +247,21 @@ public class Static {
         sort(data); // If the data are already sorted into ascending
         // order, then this call can be omitted.
         en = n;
-        d_ref[0] = 0.0;
+        d.$(0.0);
         for (j = 0; j < n; j++) { // Loop over the sorted data points.
             fn = (j + 1) / en; // Data’s c.d.f. after this step.
             ff = func.eval(data[j]); // Compare to the user-supplied function.
             dt = MAX(abs(fo - ff), abs(fn - ff)); // Maximum distance.
-            if (dt > d_ref[0])
-                d_ref[0] = dt;
+            if (dt > d.$())
+                d.$(dt);
             fo = fn;
         }
         en = sqrt(en);
-        prob_ref[0] = ks.qks((en + 0.12 + 0.11 / en) * d_ref[0]); // Compute
-                                                                  // p-value.
+        prob.$(ks.qks((en + 0.12 + 0.11 / en) * d.$())); // Compute p-value.
     }
 
-    public static void kstwo(final double[] data1, final double[] data2, final double d_ref[], final double prob_ref[])
-            throws NRException {
+    public static void kstwo(final double[] data1, final double[] data2, 
+            final $double d, final $double prob) throws NRException {
         // Given an array data1[0..n1-1], and an array data2[0..n2-1], this
         // routine returns the K–S statistic d and the p-value prob for the
         // null hypothesis that the data sets are drawn from the same
@@ -282,7 +276,7 @@ public class Static {
         sort(data2);
         en1 = n1;
         en2 = n2;
-        d_ref[0] = 0.0;
+        d.$(0.0);
         while (j1 < n1 && j2 < n2) { // If we are not done...
             if ((d1 = data1[j1]) <= (d2 = data2[j2])) // Next step is in data1.
                 do
@@ -292,16 +286,16 @@ public class Static {
                 do
                     fn2 = ++j2 / en2;
                 while (j2 < n2 && d2 == data2[j2]);
-            if ((dt = abs(fn2 - fn1)) > d_ref[0])
-                d_ref[0] = dt;
+            if ((dt = abs(fn2 - fn1)) > d.$())
+                d.$(dt);
         }
         en = sqrt(en1 * en2 / (en1 + en2));
-        prob_ref[0] = ks.qks((en + 0.12 + 0.11 / en) * d_ref[0]); // Compute
-                                                                  // p-value.
+        prob.$(ks.qks((en + 0.12 + 0.11 / en) * d.$())); // Compute p-value.
     }
 
-    public static void cntab(final double[][] nn, final double chisq_ref[], final double df_ref[],
-            final double prob_ref[], final double cramrv_ref[], final double ccc_ref[]) throws NRException {
+    public static void cntab(final double[][] nn, 
+            final $double chisq, final $double df, final $double prob, 
+            final $double cramrv, final $double ccc) throws NRException {
         // Given a two-dimensional contingency table in the form of an array
         // nn[0..ni-1][0..nj-1] of integers, this routine returns the chi-square
         // chisq, the number of degrees of freedom df, the pvalue prob (small
@@ -331,29 +325,30 @@ public class Static {
             if (sumj[j] == 0.0)
                 --nnj; // Eliminate any zero columns.
         }
-        df_ref[0] = nni * nnj - nni - nnj + 1; // Corrected number of degrees of
+        df.$(nni * nnj - nni - nnj + 1); // Corrected number of degrees of
                                                // freedom.
-        chisq_ref[0] = 0.0;
+        chisq.$(0.0);
         for (i = 0; i < ni; i++) { // Do the chi-square sum.
             for (j = 0; j < nj; j++) {
                 expctd = sumj[j] * sumi[i] / sum;
                 temp = nn[i][j] - expctd;
-                chisq_ref[0] += temp * temp / (expctd + TINY); // Here TINY
+                chisq.$(chisq.$() + temp * temp / (expctd + TINY)); // Here TINY
                                                                // guarantees
                                                                // that any
                 // eliminated row or column will not contribute to the sum.
             }
         }
-        prob_ref[0] = gam.gammq(0.5 * df_ref[0], 0.5 * chisq_ref[0]); // Chi-square
+        prob.$(gam.gammq(0.5 * df.$(), 0.5 * chisq.$())); // Chi-square
                                                                       // probability
                                                                       // function.
         minij = nni < nnj ? nni - 1 : nnj - 1;
-        cramrv_ref[0] = sqrt(chisq_ref[0] / (sum * minij));
-        ccc_ref[0] = sqrt(chisq_ref[0] / (chisq_ref[0] + sum));
+        cramrv.$(sqrt(chisq.$() / (sum * minij)));
+        ccc.$(sqrt(chisq.$() / (chisq.$() + sum)));
     }
 
-    public static void pearsn(final double[] x, final double[] y, final double r_ref[], final double prob_ref[],
-            final double z_ref[]) throws NRException {
+    public static void pearsn(final double[] x, final double[] y, 
+            final $double r, final $double prob, final $double z) 
+                    throws NRException {
         // Given two arrays x[0..n-1] and y[0..n-1], this routine computes
         // their correlation coefficient r (returned as r), the p-value at
         // which the null hypothesis of zero correlation is disproved (prob
@@ -378,14 +373,13 @@ public class Static {
             syy += yt * yt;
             sxy += xt * yt;
         }
-        r_ref[0] = sxy / (sqrt(sxx * syy) + TINY);
-        z_ref[0] = 0.5 * log((1.0 + r_ref[0] + TINY) / (1.0 - r_ref[0] + TINY)); // Fisher’s
-                                                                                 // z
-                                                                                 // transformation.
+        r.$(sxy / (sqrt(sxx * syy) + TINY));
+        z.$(0.5 * log((1.0 + r.$() + TINY) / (1.0 - r.$() + TINY))); // Fisher’s
+                                                                     // z transformation.
         df = n - 2;
-        t = r_ref[0] * sqrt(df / ((1.0 - r_ref[0] + TINY) * (1.0 + r_ref[0] + TINY))); // Equation
+        t = r.$() * sqrt(df / ((1.0 - r.$() + TINY) * (1.0 + r.$() + TINY))); // Equation
                                                                                        // (14.5.5).
-        prob_ref[0] = beta.betai(0.5 * df, 0.5, df / (df + t * t)); // Student’s
+        prob.$(beta.betai(0.5 * df, 0.5, df / (df + t * t))); // Student’s
                                                                     // t
                                                                     // probability.
         // prob=erfcc(abs(z*sqrt(n-1.0))/1.4142136);
@@ -393,8 +387,10 @@ public class Static {
         // erfcc, would give approximately the same value.
     }
 
-    public static void spear(final double[] data1, final double[] data2, final double d_ref[], final double zd_ref[],
-            final double probd_ref[], final double rs_ref[], final double probrs_ref[]) throws NRException {
+    public static void spear(final double[] data1, final double[] data2, 
+            final $double d, final $double zd, final $double probd, 
+            final $double rs, final $double probrs) 
+                    throws NRException {
         // Given two data arrays, data1[0..n-1] and data2[0..n-1], this routine
         // returns their sum squared difference of ranks as D, the number of
         // standard deviations by which D deviates from its null-hypothesis
@@ -407,8 +403,8 @@ public class Static {
         Beta bet = new Beta();
         int j, n = data1.length;
         double vard, t, fac, en3n, en, df, aved;
-        double sf_ref[] = doub_ref();
-        double sg_ref[] = doub_ref();
+        $double sf = $(0.0);
+        $double sg = $(0.0);
         final double[] wksp1 = doub_vec(n), wksp2 = doub_vec(n);
         for (j = 0; j < n; j++) {
             wksp1[j] = data1[j];
@@ -424,45 +420,45 @@ public class Static {
         // .g3m
         // gm/,
         // respectively.
-        crank(wksp1, sf_ref);
+        crank(wksp1, sf);
         sort2(wksp2, wksp1);
-        crank(wksp2, sg_ref);
-        d_ref[0] = 0.0;
+        crank(wksp2, sg);
+        d.$(0.0);
         for (j = 0; j < n; j++)
             // Sum the squared difference of ranks.
-            d_ref[0] += SQR(wksp1[j] - wksp2[j]);
+            d.$(d.$() + SQR(wksp1[j] - wksp2[j]));
         en = n;
         en3n = en * en * en - en;
-        aved = en3n / 6.0 - (sf_ref[0] + sg_ref[0]) / 12.0; // Expectation value
+        aved = en3n / 6.0 - (sf.$() + sg.$()) / 12.0; // Expectation value
                                                             // of D,
-        fac = (1.0 - sf_ref[0] / en3n) * (1.0 - sg_ref[0] / en3n);
+        fac = (1.0 - sf.$() / en3n) * (1.0 - sg.$() / en3n);
         vard = ((en - 1.0) * en * en * SQR(en + 1.0) / 36.0) * fac; // and
                                                                     // variance
                                                                     // of D give
-        zd_ref[0] = (d_ref[0] - aved) / sqrt(vard); // number of standard
+        zd.$((d.$() - aved) / sqrt(vard)); // number of standard
                                                     // deviaprobd=
-        erfcc(abs(zd_ref[0]) / 1.4142136); // tions and p-value.
-        rs_ref[0] = (1.0 - (6.0 / en3n) * (d_ref[0] + (sf_ref[0] + sg_ref[0]) / 12.0)) / sqrt(fac); // Rank
+        erfcc(abs(zd.$()) / 1.4142136); // tions and p-value.
+        rs.$((1.0 - (6.0 / en3n) * (d.$() + (sf.$() + sg.$()) / 12.0)) / sqrt(fac)); // Rank
                                                                                                     // correlation
                                                                                                     // coefficient,
-        fac = (rs_ref[0] + 1.0) * (1.0 - rs_ref[0]);
+        fac = (rs.$() + 1.0) * (1.0 - rs.$());
         if (fac > 0.0) {
-            t = rs_ref[0] * sqrt((en - 2.0) / fac); // and its t-value,
+            t = rs.$() * sqrt((en - 2.0) / fac); // and its t-value,
             df = en - 2.0;
-            probrs_ref[0] = bet.betai(0.5 * df, 0.5, df / (df + t * t)); // give
+            probrs.$(bet.betai(0.5 * df, 0.5, df / (df + t * t))); // give
                                                                          // its
                                                                          // p-value.
         } else
-            probrs_ref[0] = 0.0;
+            probrs.$(0.0);
     }
 
-    public static void crank(final double[] w, final double s_ref[]) {
+    public static void crank(final double[] w, final $double s) {
         // Given a sorted array w[0..n-1], replaces the elements by their rank,
         // including midranking of ties, and returns as s the sum of f 3  f ,
         // where f is the number of elements in each tie.
         int j = 1, ji, jt, n = w.length;
         double t, rank;
-        s_ref[0] = 0.0;
+        s.$(0.0);
         while (j < n) {
             if (w[j] != w[j - 1]) { // Not a tie.
                 w[j - 1] = j;
@@ -475,7 +471,7 @@ public class Static {
                     // so enter it into all the tied entries,
                     w[ji - 1] = rank;
                 t = jt - j;
-                s_ref[0] += (t * t * t - t); // and update s.
+                s.$(s.$() + (t * t * t - t)); // and update s.
                 j = jt;
             }
         }
@@ -483,8 +479,8 @@ public class Static {
             w[n - 1] = n; // If the last element was not tied, this is its
     } // rank.
 
-    public static void kendl1(final double[] data1, final double[] data2, final double tau_ref[], final double z_ref[],
-            final double prob_ref[]) {
+    public static void kendl1(final double[] data1, final double[] data2, 
+            final $double tau, final $double z, final $double prob) {
         // Given data arrays data1[0..n-1] and data2[0..n-1], this program
         // returns Kendall’s  as tau, its number of standard deviations from
         // zero as z, and its two-sided p-value as prob. Small values of prob
@@ -514,15 +510,15 @@ public class Static {
                 }
             }
         }
-        tau_ref[0] = is / (sqrt(Doub(n1)) * sqrt(Doub(n2))); // Equation
+        tau.$(is / (sqrt(Doub(n1)) * sqrt(Doub(n2)))); // Equation
                                                              // (14.6.8).
         svar = (4.0 * n + 10.0) / (9.0 * n * (n - 1.0)); // Equation (14.6.9).
-        z_ref[0] = tau_ref[0] / sqrt(svar);
-        prob_ref[0] = erfcc(abs(z_ref[0]) / 1.4142136); // p-value.
+        z.$(tau.$() / sqrt(svar));
+        prob.$(erfcc(abs(z.$()) / 1.4142136)); // p-value.
     }
 
-    public static void kendl2(final double[][] tab, final double tau_ref[], final double z_ref[],
-            final double prob_ref[]) {
+    public static void kendl2(final double[][] tab, 
+            final $double tau, final $double z, final $double prob) {
         // Given a two-dimensional table tab[0..i-1][0..j-1], such that
         // tab[k][l] contains the number of events falling in bin k of one
         // variable and bin l of another, this program returns Kendall’s  as
@@ -558,15 +554,15 @@ public class Static {
                 }
             }
         }
-        tau_ref[0] = s / sqrt(en1 * en2);
+        tau.$(s / sqrt(en1 * en2));
         svar = (4.0 * points + 10.0) / (9.0 * points * (points - 1.0));
-        z_ref[0] = tau_ref[0] / sqrt(svar);
-        prob_ref[0] = erfcc(abs(z_ref[0]) / 1.4142136);
+        z.$(tau.$() / sqrt(svar));
+        prob.$(erfcc(abs(z.$()) / 1.4142136));
     }
 
     public static void ks2d1s(final double[] x1, final double[] y1,
-            final Func_Doub_Doub_DoubRef_DoubRef_DoubRef_DoubRef_DoubRef_DoubRef quadvl, final double d1_ref[],
-            final double prob_ref[]) throws NRException {
+            final Func_Doub_Doub_DoubRef_DoubRef_DoubRef_DoubRef_DoubRef_DoubRef quadvl, 
+            final $double d1, final $double prob) throws NRException {
         // Two-dimensional Kolmogorov-Smirnov test of one sample against a
         // model. Given the x and y coordinates of n1 data points in arrays
         // x1[0..n1-1] and y1[0..n1-1], and given a usersupplied function
@@ -577,40 +573,40 @@ public class Static {
         // so prob is only an estimate.
         int j, n1 = x1.length;
         double rr, sqen;
-        final double[] dum_ref = doub_ref(), dumm_ref = doub_ref();
-        final double[] r1_ref = doub_ref();
-        final double[] ga_ref = doub_ref(), gb_ref = doub_ref(), gc_ref = doub_ref(), gd_ref = doub_ref();
-        final double[] fa_ref = doub_ref(), fb_ref = doub_ref(), fc_ref = doub_ref(), fd_ref = doub_ref();
+        final $double dum = $(0.0), dumm = $(0.0);
+        final $double r1 = $(0.0);
+        final $double ga = $(0.0), gb = $(0.0), gc = $(0.0), gd = $(0.0);
+        final $double fa = $(0.0), fb = $(0.0), fc = $(0.0), fd = $(0.0);
         KSdist ks = new KSdist();
-        d1_ref[0] = 0.0;
+        d1.$(0.0);
         for (j = 0; j < n1; j++) { // Loop over the data points.
-            quadct(x1[j], y1[j], x1, y1, fa_ref, fb_ref, fc_ref, fd_ref);
-            quadvl(x1[j], y1[j], ga_ref, gb_ref, gc_ref, gd_ref);
-            if (fa_ref[0] > ga_ref[0])
-                fa_ref[0] += 1.0 / n1;
-            if (fb_ref[0] > gb_ref[0])
-                fb_ref[0] += 1.0 / n1;
-            if (fc_ref[0] > gc_ref[0])
-                fc_ref[0] += 1.0 / n1;
-            if (fd_ref[0] > gd_ref[0])
-                fd_ref[0] += 1.0 / n1;
-            d1_ref[0] = MAX(d1_ref[0], abs(fa_ref[0] - ga_ref[0]));
-            d1_ref[0] = MAX(d1_ref[0], abs(fb_ref[0] - gb_ref[0]));
-            d1_ref[0] = MAX(d1_ref[0], abs(fc_ref[0] - gc_ref[0]));
-            d1_ref[0] = MAX(d1_ref[0], abs(fd_ref[0] - gd_ref[0]));
+            quadct(x1[j], y1[j], x1, y1, fa, fb, fc, fd);
+            quadvl(x1[j], y1[j], ga, gb, gc, gd);
+            if (fa.$() > ga.$())
+                fa.$(fa.$() + 1.0 / n1);
+            if (fb.$() > gb.$())
+                fb.$(fb.$() + 1.0 / n1);
+            if (fc.$() > gc.$())
+                fc.$(fc.$() + 1.0 / n1);
+            if (fd.$() > gd.$())
+                fd.$(fd.$() + 1.0 / n1);
+            d1.$(MAX(d1.$(), abs(fa.$() - ga.$())));
+            d1.$(MAX(d1.$(), abs(fb.$() - gb.$())));
+            d1.$(MAX(d1.$(), abs(fc.$() - gc.$())));
+            d1.$(MAX(d1.$(), abs(fd.$() - gd.$())));
             // For both the sample and the model, the distribution is integrated
             // in each of four quadrants, and the maximum difference is saved.
         }
-        pearsn(x1, y1, r1_ref, dum_ref, dumm_ref); // Get the linear correlation
+        pearsn(x1, y1, r1, dum, dumm); // Get the linear correlation
                                                    // coefficient r1.
         sqen = sqrt(Doub(n1));
-        rr = sqrt(1.0 - r1_ref[0] * r1_ref[0]);
+        rr = sqrt(1.0 - r1.$() * r1.$());
         // Estimate the probability using the K-S probability function.
-        prob_ref[0] = ks.qks(d1_ref[0] * sqen / (1.0 + rr * (0.25 - 0.75 / sqen)));
+        prob.$(ks.qks(d1.$() * sqen / (1.0 + rr * (0.25 - 0.75 / sqen))));
     }
 
     public static void quadct(final double x, final double y, final double[] xx, final double[] yy,
-            final double fa_ref[], final double fb_ref[], final double fc_ref[], final double fd_ref[]) {
+            final $double fa, final $double fb, final $double fc, final $double fd) {
         // Given an origin .x; y/, and an array of nn points with coordinates
         // xx[0..nn-1] and yy[0..nn-1], count how many of them are in each
         // quadrant around the origin, and return the normalized fractions.
@@ -639,14 +635,15 @@ public class Static {
             }
         }
         ff = 1.0 / nn;
-        fa_ref[0] = ff * na;
-        fb_ref[0] = ff * nb;
-        fc_ref[0] = ff * nc;
-        fd_ref[0] = ff * nd;
+        fa.$(ff * na);
+        fb.$(ff * nb);
+        fc.$(ff * nc);
+        fd.$(ff * nd);
     }
 
-    public static void quadvl(final double x, final double y, final double fa_ref[], final double fb_ref[],
-            final double fc_ref[], final double fd_ref[]) {
+    public static void quadvl(final double x, final double y, 
+            final $double fa, final $double fb,
+            final $double fc, final $double fd) {
         // This is a sample of a user-supplied routine to be used with ks2d1s.
         // In this case, the model distribution is uniform inside the
         // square 1 < x < 1, 1 < y < 1. In general, this routine should
@@ -660,10 +657,10 @@ public class Static {
         qb = MIN(2.0, MAX(0.0, 1.0 - y));
         qc = MIN(2.0, MAX(0.0, x + 1.0));
         qd = MIN(2.0, MAX(0.0, y + 1.0));
-        fa_ref[0] = 0.25 * qa * qb;
-        fb_ref[0] = 0.25 * qb * qc;
-        fc_ref[0] = 0.25 * qc * qd;
-        fd_ref[0] = 0.25 * qd * qa;
+        fa.$(0.25 * qa * qb);
+        fb.$(0.25 * qb * qc);
+        fc.$(0.25 * qc * qd);
+        fd.$(0.25 * qd * qa);
     }
 
     // The routine ks2d2s is the two-sample case of the two-dimensional K–S
@@ -671,7 +668,7 @@ public class Static {
     // test, it does not need an analytic model.
 
     public static void ks2d2s(final double[] x1, final double[] y1, final double[] x2, final double[] y2,
-            final double d_ref[], final double prob_ref[]) throws NRException {
+            final $double d, final $double prob) throws NRException {
         // Two-dimensional Kolmogorov-Smirnov test on two samples. Given the x
         // and y coordinates of the first sample as n1 values in arrays
         // x1[0..n1-1] and y1[0..n1-1], and likewise for the second sample,
@@ -682,52 +679,53 @@ public class Static {
         // distribution-dependent, so prob is only an estimate.
         int j, n1 = x1.length, n2 = x2.length;
         double d1, d2, rr, sqen;
-        final double[] dum_ref = doub_ref(), dumm_ref = doub_ref(), r1_ref = doub_ref(), r2_ref = doub_ref();
-        final double[] fa_ref = doub_ref(), fb_ref = doub_ref(), fc_ref = doub_ref(), fd_ref = doub_ref(), ga_ref = doub_ref(), gb_ref = doub_ref(), gc_ref = doub_ref(), gd_ref = doub_ref();
+        final $double dum = $(0.0), dumm = $(0.0), r1 = $(0.0), r2 = $(0.0);
+        final $double fa = $(0.0), fb = $(0.0), fc = $(0.0), fd = $(0.0), ga = $(0.0);
+        final $double gb = $(0.0), gc = $(0.0), gd = $(0.0);
         KSdist ks = new KSdist();
         d1 = 0.0;
         for (j = 0; j < n1; j++) { // First, use points in the first sample as
                                    // origins.
-            quadct(x1[j], y1[j], x1, y1, fa_ref, fb_ref, fc_ref, fd_ref);
-            quadct(x1[j], y1[j], x2, y2, ga_ref, gb_ref, gc_ref, gd_ref);
-            if (fa_ref[0] > ga_ref[0])
-                fa_ref[0] += 1.0 / n1;
-            if (fb_ref[0] > gb_ref[0])
-                fb_ref[0] += 1.0 / n1;
-            if (fc_ref[0] > gc_ref[0])
-                fc_ref[0] += 1.0 / n1;
-            if (fd_ref[0] > gd_ref[0])
-                fd_ref[0] += 1.0 / n1;
-            d1 = MAX(d1, abs(fa_ref[0] - ga_ref[0]));
-            d1 = MAX(d1, abs(fb_ref[0] - gb_ref[0]));
-            d1 = MAX(d1, abs(fc_ref[0] - gc_ref[0]));
-            d1 = MAX(d1, abs(fd_ref[0] - gd_ref[0]));
+            quadct(x1[j], y1[j], x1, y1, fa, fb, fc, fd);
+            quadct(x1[j], y1[j], x2, y2, ga, gb, gc, gd);
+            if (fa.$() > ga.$())
+                fa.$(fa.$() + 1.0 / n1);
+            if (fb.$() > gb.$())
+                fb.$(fb.$() + 1.0 / n1);
+            if (fc.$() > gc.$())
+                fc.$(fc.$() + 1.0 / n1);
+            if (fd.$() > gd.$())
+                fd.$(fd.$() + 1.0 / n1);
+            d1 = MAX(d1, abs(fa.$() - ga.$()));
+            d1 = MAX(d1, abs(fb.$() - gb.$()));
+            d1 = MAX(d1, abs(fc.$() - gc.$()));
+            d1 = MAX(d1, abs(fd.$() - gd.$()));
         }
         d2 = 0.0;
         for (j = 0; j < n2; j++) { // Then, use points in the second sample as
-            quadct(x2[j], y2[j], x1, y1, fa_ref, fb_ref, fc_ref, fd_ref); // origins.
-            quadct(x2[j], y2[j], x2, y2, ga_ref, gb_ref, gc_ref, gd_ref);
-            if (ga_ref[0] > fa_ref[0])
-                ga_ref[0] += 1.0 / n1;
-            if (gb_ref[0] > fb_ref[0])
-                gb_ref[0] += 1.0 / n1;
-            if (gc_ref[0] > fc_ref[0])
-                gc_ref[0] += 1.0 / n1;
-            if (gd_ref[0] > fd_ref[0])
-                gd_ref[0] += 1.0 / n1;
-            d2 = MAX(d2, abs(fa_ref[0] - ga_ref[0]));
-            d2 = MAX(d2, abs(fb_ref[0] - gb_ref[0]));
-            d2 = MAX(d2, abs(fc_ref[0] - gc_ref[0]));
-            d2 = MAX(d2, abs(fd_ref[0] - gd_ref[0]));
+            quadct(x2[j], y2[j], x1, y1, fa, fb, fc, fd); // origins.
+            quadct(x2[j], y2[j], x2, y2, ga, gb, gc, gd);
+            if (ga.$() > fa.$())
+                ga.$(ga.$() + 1.0 / n1);
+            if (gb.$() > fb.$())
+                gb.$(gb.$() + 1.0 / n1);
+            if (gc.$() > fc.$())
+                gc.$(gc.$() + 1.0 / n1);
+            if (gd.$() > fd.$())
+                gd.$(gd.$() + 1.0 / n1);
+            d2 = MAX(d2, abs(fa.$() - ga.$()));
+            d2 = MAX(d2, abs(fb.$() - gb.$()));
+            d2 = MAX(d2, abs(fc.$() - gc.$()));
+            d2 = MAX(d2, abs(fd.$() - gd.$()));
         }
-        d_ref[0] = 0.5 * (d1 + d2); // Average the K-S statistics.
+        d.$(0.5 * (d1 + d2)); // Average the K-S statistics.
         sqen = sqrt(n1 * n2 / Doub(n1 + n2));
-        pearsn(x1, y1, r1_ref, dum_ref, dumm_ref); // Get the linear correlation
+        pearsn(x1, y1, r1, dum, dumm); // Get the linear correlation
                                                    // coefficient for each
-        pearsn(x2, y2, r2_ref, dum_ref, dumm_ref); // sample.
-        rr = sqrt(1.0 - 0.5 * (r1_ref[0] * r1_ref[0] + r2_ref[0] * r2_ref[0]));
+        pearsn(x2, y2, r2, dum, dumm); // sample.
+        rr = sqrt(1.0 - 0.5 * (r1.$() * r1.$() + r2.$() * r2.$()));
         // Estimate the probability using the K-S probability function.
-        prob_ref[0] = ks.qks(d_ref[0] * sqen / (1.0 + rr * (0.25 - 0.75 / sqen)));
+        prob.$(ks.qks(d.$() * sqen / (1.0 + rr * (0.25 - 0.75 / sqen))));
     }
 
     public static void savgol(final double[] c, final int np, final int nl, final int nr, final int ld, final int m)

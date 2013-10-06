@@ -1,6 +1,9 @@
 package com.snuggy.nr.chapter07;
 
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
+
 import static java.lang.Math.*;
 
 import com.snuggy.nr.util.*;
@@ -10,7 +13,7 @@ public class Static {
     private static final long c1[] = { 0xbaa96887L, 0x1e17d32cL, 0x03bcdc3cL, 0x0f33d1b2L };
     private static final long c2[] = { 0x4b0f3b58L, 0xe874f0c3L, 0x6955c5a6L, 0x55a7ca46L };
 
-    public static void psdes(final int lword_ref[], final int rword_ref[]) {
+    public static void psdes(final $int lword, final $int rword) {
         // Pseudo-DES hashing of the 64-bit word (lword,rword). Both 32-bit
         // arguments are returned hashed on all bits.
         final int NITER = 2;
@@ -18,15 +21,15 @@ public class Static {
         for (i = 0; i < NITER; i++) {
             // Perform niter iterations of DES logic, using a simpler
             // (noncryptographic) nonlinear function instead of DES’s.
-            ia = (iswap = rword_ref[0]) ^ c1[(int) i]; // The bit-rich constants
+            ia = (iswap = rword.$()) ^ c1[(int) i]; // The bit-rich constants
                                                        // c1 and (below)
             // c2 guarantee lots of nonlinear mixing.
             itmpl = ia & 0xffff;
             itmph = ia >>> 16;
             ib = itmpl * itmpl + ~(itmph * itmph);
-            rword_ref[0] = (int) (lword_ref[0] ^ (((ia = (ib >>> 16) | ((ib & 0xffff) << 16)) ^ c2[(int) i]) + itmpl
-                    * itmph));
-            lword_ref[0] = (int) iswap;
+            rword.$((int) (lword.$() ^ (((ia = (ib >>> 16) | ((ib & 0xffff) << 16)) ^ c2[(int) i]) + itmpl
+                    * itmph)));
+            lword.$((int) iswap);
         }
     }
 
@@ -50,13 +53,13 @@ public class Static {
                 for (j = 0; j < nb2; j++)
                     if (jb + j + nb2 < m) {
                         // psdes(arr[jb + j], arr[jb + j + nb2]);
-                        int foo_ref[] = int_ref();
-                        int bar_ref[] = int_ref();
-                        foo_ref[0] = arr[jb + j];
-                        bar_ref[0] = arr[jb + j + nb2];
-                        psdes(foo_ref, bar_ref);
-                        arr[jb + j] = foo_ref[0];
-                        arr[jb + j + nb2] = bar_ref[0];
+                        $int foo = $(0);
+                        $int bar = $(0);
+                        foo.$(arr[jb + j]);
+                        bar.$(arr[jb + j + nb2]);
+                        psdes(foo, bar);
+                        arr[jb + j] = foo.$();
+                        arr[jb + j + nb2] = bar.$();
                     }
             nb = nb2;
             nb2 >>= 1;
@@ -65,13 +68,13 @@ public class Static {
         if (m != n)
             for (j = nb2; j < m; j++) {
                 // psdes(arr[j], arr[j - nb2]);
-                int foo_ref[] = int_ref();
-                int bar_ref[] = int_ref();
-                foo_ref[0] = arr[j];
-                bar_ref[0] = arr[j - nb2];
-                psdes(foo_ref, bar_ref);
-                arr[j] = foo_ref[0];
-                arr[j - nb2] = bar_ref[0];
+                $int foo = $(0);
+                $int bar = $(0);
+                foo.$(arr[j]);
+                bar.$(arr[j - nb2]);
+                psdes(foo, bar);
+                arr[j] = foo.$();
+                arr[j - nb2] = bar.$();
             }
         // Final mix needed only if m is not a power of 2.
     }

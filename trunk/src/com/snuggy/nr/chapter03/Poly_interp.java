@@ -38,23 +38,23 @@ public class Poly_interp extends Base_interp {
         final $double xa = $(xx, jl); 
         final $double ya = $(yy, jl);
         final double[] c = doub_vec(mm), d = doub_vec(mm);
-        dif = abs(x - xa.$(0));
+        dif = abs(x - xa.$_(0));
         for (i = 0; i < mm; i++) { // Here we find the index ns of the closest
                                    // table entry,
-            if ((dift = abs(x - xa.$(i))) < dif) {
+            if ((dift = abs(x - xa.$_(i))) < dif) {
                 ns = i;
                 dif = dift;
             }
-            c[i] = ya.$(i); // and initialize the tableau of c’s and
+            c[i] = ya.$_(i); // and initialize the tableau of c’s and
                                        // d’s.
-            d[i] = ya.$(i);
+            d[i] = ya.$_(i);
         }
-        y = ya.$((ns--)); // This is the initial approximation to y.
+        y = ya.$_((ns--)); // This is the initial approximation to y.
         for (m = 1; m < mm; m++) { // For each column of the tableau,
             for (i = 0; i < mm - m; i++) { // we loop over the current c’s and
                                            // d’s and update
-                ho = xa.$(i) - x; // them.
-                hp = xa.$(i + m) - x;
+                ho = xa.$_(i) - x; // them.
+                hp = xa.$_(i + m) - x;
                 w = c[i + 1] - d[i];
                 if ((den = ho - hp) == 0.0)
                     throw new NRException("Poly_interp error");

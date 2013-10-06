@@ -116,14 +116,14 @@ public class Spline_interp extends Base_interp {
 
         int klo = jl, khi = jl + 1;
         double y, h, b, a;
-        h = xx.$(khi) - xx.$(klo);
+        h = xx.$_(khi) - xx.$_(klo);
         if (h == 0.0)
             throw new NRException("Bad input to routine splint"); // The xa’s
                                                                   // must be dis
-        a = (xx.$(khi) - x) / h; // tinct.
-        b = (x - xx.$(klo)) / h; // Cubic spline polynomial is now
+        a = (xx.$_(khi) - x) / h; // tinct.
+        b = (x - xx.$_(klo)) / h; // Cubic spline polynomial is now
                                             // evaluated.
-        y = a * yy.$(klo) + b * yy.$(khi) + 
+        y = a * yy.$_(klo) + b * yy.$_(khi) + 
                 ((a * a * a - a) * y2[klo] + (b * b * b - b) * y2[khi]) * 
                 (h * h) / 6.0;
         return y;
