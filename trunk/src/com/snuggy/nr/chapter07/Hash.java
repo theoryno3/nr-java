@@ -2,8 +2,8 @@
 package com.snuggy.nr.chapter07;
 
 import java.util.*;
-
 import com.snuggy.nr.util.*;
+import com.snuggy.nr.refs.*;
 
 public class Hash<hfnT extends HfnT<keyT,elT>, keyT, elT> extends Hashtable<hfnT, keyT, elT> {
 
@@ -32,13 +32,13 @@ public class Hash<hfnT extends HfnT<keyT,elT>, keyT, elT> extends Hashtable<hfnT
         els.set(iset(key), el);
     }
 
-    public int get(final keyT key, final elT el_ref[]) throws NRException {
+    public int get(final keyT key, final $<elT> el) throws NRException {
         // Retrieve an element into el. Returns 0 if no element is stored
         // under key, or 1 for success.
         int ll = iget(key);
         if (ll < 0)
             return 0;
-        el_ref[0] = els.get(ll);
+        el.$(els.get(ll));
         return 1;
     }
 
