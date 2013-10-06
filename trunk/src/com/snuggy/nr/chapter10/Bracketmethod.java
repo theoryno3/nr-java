@@ -143,29 +143,23 @@ public class Bracketmethod {
         $(y, t);
     }
 
-    public void shft2(final double a_ref[], final double b_ref[], final double c) {
+    public void shft2(final $double a, final $double b, final double c) {
         // Utility function used in this structure or others derived from it.
-        a_ref[0] = b_ref[0];
-        b_ref[0] = c;
+        a.$(b.$());
+        b.$(c);
     }
 
-    public void shft3(final double a_ref[], final double b_ref[], final double c_ref[], final double d) {
-        a_ref[0] = b_ref[0];
-        b_ref[0] = c_ref[0];
-        c_ref[0] = d;
+    public void shft3(final $double a, final $double b, final $double c, final double d) {
+        $(a, b);
+        $(b, c);
+        $(c, d);
     }
 
-    public void shft3(final $double a_ref, final $double b_ref, final $double c_ref, final double d) {
-        $(a_ref, b_ref);
-        $(b_ref, c_ref);
-        $(c_ref, d);
-    }
-
-    public void mov3(final double a_ref[], final double b_ref[], final double c_ref[], final double d, final double e,
+    public void mov3(final $double a, final $double b, final $double c, final double d, final double e,
             final double f) {
-        a_ref[0] = d;
-        b_ref[0] = e;
-        c_ref[0] = f;
+        a.$(d);
+        b.$(e);
+        c.$(f);
     }
 
 }

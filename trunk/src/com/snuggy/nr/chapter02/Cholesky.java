@@ -2,8 +2,9 @@
 package com.snuggy.nr.chapter02;
 
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
 import static java.lang.Math.*;
-
 import com.snuggy.nr.util.*;
 
 public class Cholesky {
@@ -93,26 +94,26 @@ public class Cholesky {
         }
     }
 
-    public void inverse(final double[][] ainv_ref[]) {
+    public void inverse(final $double2d ainv) {
         // Set ainv[0..n-1][0..n-1] to the matrix inverse of A,
         // the matrix whose Cholesky decomposition has been stored.
         int i, j, k;
         double sum;
         // ainv.resize(n,n);
-        ainv_ref[0] = doub_mat(n, n);
+        ainv.$(doub_mat(n, n));
         for (i = 0; i < n; i++)
             for (j = 0; j <= i; j++) {
                 sum = (i == j ? 1. : 0.);
                 for (k = i - 1; k >= j; k--)
-                    sum -= el[i][k] * ainv_ref[0][j][k];
-                ainv_ref[0][j][i] = sum / el[i][i];
+                    sum -= el[i][k] * ainv.$()[j][k];
+                ainv.$()[j][i] = sum / el[i][i];
             }
         for (i = n - 1; i >= 0; i--)
             for (j = 0; j <= i; j++) {
-                sum = (i < j ? 0. : ainv_ref[0][j][i]);
+                sum = (i < j ? 0. : ainv.$()[j][i]);
                 for (k = i + 1; k < n; k++)
-                    sum -= el[k][i] * ainv_ref[0][j][k];
-                ainv_ref[0][i][j] = ainv_ref[0][j][i] = sum / el[i][i];
+                    sum -= el[k][i] * ainv.$()[j][k];
+                ainv.$()[i][j] = ainv.$()[j][i] = sum / el[i][i];
             }
     }
 

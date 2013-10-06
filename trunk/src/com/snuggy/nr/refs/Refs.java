@@ -5,7 +5,7 @@ import com.snuggy.nr.util.*;
 
 public class Refs {
     
-    // references to ints
+    // reference to int
     
     public static $int $(final int t) {
         $int r = new IntRef(t);
@@ -22,7 +22,7 @@ public class Refs {
         return y.$();
     }
     
-    // references to doubles
+    // reference to double
     
     public static $double $(final double t) {
         $double r = new DoubleRef(t);
@@ -54,7 +54,7 @@ public class Refs {
         return y.$();
     }
     
-    // references to booleans
+    // reference to boolean
     
     public static $boolean $(final boolean t) {
         $boolean r = new BooleanRef(t);
@@ -69,7 +69,37 @@ public class Refs {
         x.$(y.$());
     }
     
-    // references to parameterized Objects passed by reference
+    // reference to double[]
+    
+    public static $double1d $(final double[] t) {
+        $double1d r = new Double1DRef(t);
+        return r;
+    }
+    
+    public static void $(final $double1d x, double[] y) {
+        x.$(y);
+    }
+    
+    public static void $(final $double1d x, final $double1d y) {
+        x.$(y.$());
+    }
+    
+    // reference to double[][]
+    
+    public static $double2d $(final double[][] t) {
+        $double2d r = new Double2DRef(t);
+        return r;
+    }
+    
+    public static void $(final $double2d x, double[][] y) {
+        x.$(y);
+    }
+    
+    public static void $(final $double2d x, final $double2d y) {
+        x.$(y.$());
+    }
+    
+    // reference to parameterized Object passed by reference
     
 	public static <T> $<T> $(final T t) {
 	    $<T> r = new ObjectRef<T>(t);
@@ -264,10 +294,10 @@ public class Refs {
         }
     }
 	
-    static class Double1DRefFromArrayElement implements $$double1d {
+    static class Double1DByValueFromArrayElement implements $$double1d {
         private final double[] arr[];
         private final int off;
-        public Double1DRefFromArrayElement(final double[] arr[], final int off) {
+        public Double1DByValueFromArrayElement(final double[] arr[], final int off) {
             this.arr = arr;
             this.off = off;
         }
@@ -512,6 +542,44 @@ public class Refs {
         @Override
         public void $(int n, double v) throws NRException {
             throw new NRException("offset used for non-offset $double");
+        }
+	}
+	
+	static class Double1DRef implements $double1d {
+        private double[] t;
+        public Double1DRef(double[] t) {
+            this.t = t;
+        }
+        @Override
+        public void $(double[] t) {
+            this.t = t;
+        }
+        @Override
+        public double[] $() {
+            return t;
+        }
+        @Override
+        public String toString() {
+            return String.valueOf(t);
+        }
+	}
+	
+	static class Double2DRef implements $double2d {
+        private double[][] t;
+        public Double2DRef(double[][] t) {
+            this.t = t;
+        }
+        @Override
+        public void $(double[][] t) {
+            this.t = t;
+        }
+        @Override
+        public double[][] $() {
+            return t;
+        }
+        @Override
+        public String toString() {
+            return String.valueOf(t);
         }
 	}
 	
