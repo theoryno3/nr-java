@@ -3,9 +3,11 @@ package com.snuggy.nr.refs;
 
 import static com.snuggy.nr.refs.Refs.*;
 
+import com.snuggy.nr.util.*;
+
 public class TestRefs {
 
-    public static void main(String[] argv) throws InstantiationException, IllegalAccessException {
+    public static void main(String[] argv) throws InstantiationException, IllegalAccessException, NRException {
 	    $<Foo> ref_foo = $(new Foo("foo1"));
         System.out.println("Name before is " + ref_foo);
         probe(ref_foo);
@@ -26,7 +28,7 @@ public class TestRefs {
         System.out.println("probing " + foo.$());
     }
     
-    public static void overwrite($$<Foo> foo) {
+    public static void overwrite($$<Foo> foo) throws NRException {
         System.out.println("overwriting " + foo.$$().toString());
         foo.$$(new Foo("foo2"));
     }
