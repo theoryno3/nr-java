@@ -6,7 +6,6 @@ import static java.lang.Math.*;
 
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Eulsum {
 
     // Convergence acceleration of an alternating series by the Euler
@@ -16,20 +15,20 @@ public class Eulsum {
     // (see below).
     private final double[] wksp;
     private int n, ncv;
-    private double cnvgd;
+    private boolean cnvgd;
     private double sum, eps, lastval, lasteps;
 
     public Eulsum(final int nmax, final double epss) {
         wksp = doub_vec(nmax);
         n = (0);
         ncv = (0);
-        cnvgd = (0);
+        cnvgd = (false);
         sum = (0.);
         eps = (epss);
         lastval = (0.);
     }
     
-    public double cnvgd() {
+    public boolean cnvgd() {
         return cnvgd;
     }
 
@@ -62,7 +61,7 @@ public class Eulsum {
         if (lasteps <= eps)
             ncv++;
         if (ncv >= 2)
-            cnvgd = 1;
+            cnvgd = true;
         return (lastval = sum);
     }
 
