@@ -1,13 +1,19 @@
 
 package com.snuggy.nr.util;
 
-public class Complex {
+import com.snuggy.nr.refs.*;
+
+public class Complex implements ByValue<Complex> {
     
-    private final double real, imag;
+    private double real, imag;
 
     private Complex(double real, double imag) {
         this.real = real;
         this.imag = imag;
+    }
+    
+    public static boolean equal(Complex x, Complex y) {
+        return x.real == y.real && x.imag == y.imag;
     }
     
     public static double norm(Complex x) {
@@ -61,6 +67,8 @@ public class Complex {
     }
     
     public static Complex complex(Complex x) {
+        if (x == null)
+            System.out.println("moo");
         return complex(x.real, x.imag);
     }
     
@@ -175,6 +183,23 @@ public class Complex {
 
     public static double divide(double x, int y) {
         return x / y;
+    }
+
+    @Override
+    public void copyIn(Complex t) {
+        this.real = t.real;
+        this.imag = t.imag;
+    }
+
+    @Override
+    public Complex copyOut() {
+        Complex r = new Complex(this.real, this.imag);
+        return r;
+    }
+    
+    @Override
+    public String toString() {
+        return "" + real + "+" + imag + "i";
     }
 
 }

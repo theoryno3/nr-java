@@ -2,7 +2,10 @@
 package com.snuggy.nr.chapter06;
 
 import static com.snuggy.nr.util.Complex.*;
+
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.refs.Refs.*;
+import com.snuggy.nr.refs.*;
 import static java.lang.Math.*;
 
 import java.lang.reflect.*;
@@ -775,15 +778,17 @@ public class Static {
         }
     }
 
-    @Deprecated @Broken
-    public static Complex hypgeo(final Complex a, final Complex b, final Complex c,
-            final Complex z) throws NRException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
+    public static $$<Complex> hypgeo(final Complex a, final Complex b, final Complex c,
+                                 final Complex z) throws NRException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
         // Complex hypergeometric function 2F1 for complex a; b; c, and z, by
         // direct integration of the hypergeometric equation in the complex
         // plane. The branch cut is taken to lie along the real axis, Re z > 1.
         final double atol = 1.0e-14, rtol = 1.0e-14; // Accuracy parameters.
-        Complex ans = complex(), dz = complex(), z0 = complex();
-        Complex[] y = new Complex[2];
+        $$<Complex> ans = $$(complex());
+        Complex dz = complex(), z0 = complex();
+        $$<Complex>[] y = obj_vec_nulls($$.class, 2);
+        y[0] = $$(complex());
+        y[1] = $$(complex());
         final double[] yy = doub_vec(4);
         if (norm(z) <= 0.25) { // Use series...
             hypser(a, b, c, z, ans, y[1]);
@@ -800,10 +805,10 @@ public class Static {
         dz = minus(z, z0);
         hypser(a, b, c, z0, y[0], y[1]); // Get starting function and
                                          // derivative.
-        yy[0] = real(y[0]);
-        yy[1] = imag(y[0]);
-        yy[2] = real(y[1]);
-        yy[3] = imag(y[1]);
+        yy[0] = real(y[0].$());
+        yy[1] = imag(y[0].$());
+        yy[2] = real(y[1].$());
+        yy[3] = imag(y[1].$());
         Hypderiv d = new Hypderiv(a, b, c, z0, dz); // Set up the functor for
                                                     // the derivatives.
         
@@ -817,34 +822,32 @@ public class Static {
         // object. The integration is performed by the Bulirsch-Stoer
         // stepping routine.
         ode.integrate();
-        y[0] = complex(yy[0], yy[1]);
+        $$(y[0], complex(yy[0], yy[1]));
         return y[0];
     }
 
     public static void hypser(final Complex a, final Complex b, final Complex c, final Complex z,
-            final Complex series_const, final Complex deriv_const) throws NRException {
+            final $$<Complex> series, final $$<Complex> deriv) throws NRException {
         // Returns the hypergeometric series 2F1 and its derivative, iterating
         // to machine accuracy. For jzj  1=2 convergence is quite rapid.
-        Complex series = complex(series_const);
-        Complex deriv = complex(0.0);
         Complex fac = complex(1.0);
-        Complex temp = fac;
-        Complex aa = a;
-        Complex bb = b;
-        Complex cc = c;
+        Complex temp = complex(fac);
+        Complex aa = complex(a);
+        Complex bb = complex(b);
+        Complex cc = complex(c);
         for (int n = 1; n <= 1000; n++) {
             // fac *= ((aa * bb) / cc);
             fac = (times(fac, divide(times(aa, bb), cc)));
             // deriv += fac;
-            deriv = plus(deriv, fac);
+            $$(deriv, plus(deriv.$(), fac));
             // fac *= ((1.0 / n) * z);
             fac = (times(fac, times(divide(1.0, n), z)));
             // series = temp + fac;
-            series = plus(temp, fac);
-            if (series == temp)
+            $$(series, plus(temp, fac));
+            if (equal(series.$(), temp))
                 return;
             // temp = series;
-            temp = complex(series);
+            temp = complex(series.$());
             // aa += 1.0;
             aa = plus(aa, 1.0);
             // bb += 1.0;
