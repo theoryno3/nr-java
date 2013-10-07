@@ -151,15 +151,15 @@ public class Refs {
 	    return r;
 	}
 	
-	public static <T extends ByValue<T>> void $$(final $$<T> x, final T y) {
+	public static <T extends ByValue<T>> void $$(final $$<T> x, final T y) throws NRException {
 	    x.$$(y);
 	}
 	
-	public static <T extends ByValue<T>> void $$(final $$<T> x, final $<T> y) {
+	public static <T extends ByValue<T>> void $$(final $$<T> x, final $<T> y) throws NRException {
 	    x.$$(y.$());
 	}
 	
-	public static <T extends ByValue<T>> void $$(final $<T> x, final $$<T> y) {
+	public static <T extends ByValue<T>> void $$(final $<T> x, final $$<T> y) throws NRException {
 	    x.$(y.$$());
 	}
 	
@@ -798,11 +798,11 @@ public class Refs {
             this.t = t;
         }
         @Override
-        public T $$() {
+        public T $$() throws NRException {
             return t.copyOut();
         }
         @Override
-        public void $$(T t) {
+        public void $$(T t) throws NRException {
             this.t.copyIn(t);
         }
         @Override
