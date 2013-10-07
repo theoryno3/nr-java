@@ -12,7 +12,6 @@ import com.snuggy.nr.chapter10.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Fitexy {
 
     // Object for tting a straight line a C bx to a set of points .xi ; yi
@@ -26,34 +25,35 @@ public class Fitexy {
     // or (ii) b is so large that the data are consistent with a vertical
     // (in nite b) line. If siga and sigb are returned as BIG, then the data
     // are consistent with all values of b.
-    
+
     private double a, b, siga, sigb, chi2, q; // Answers.
     private int ndat;
-    private final double[] xx, yy, sx, sy, ww; // Variables that communicate with
-                                         // Chixy.
+    private final double[] xx, yy, sx, sy, ww; // Variables that communicate
+                                               // with
+    // Chixy.
     private $double aa = $(0.0);
     private $double offs = $(0.0);
-    
+
     public double a() {
         return a;
     }
-    
+
     public double b() {
         return b;
     }
-    
+
     public double chi2() {
         return chi2;
     }
-    
+
     public double q() {
         return q;
     }
-    
+
     public double siga() {
         return siga;
     }
-    
+
     public double sigb() {
         return sigb;
     }
@@ -72,11 +72,11 @@ public class Fitexy {
         Gamma gam = new Gamma();
         Brent brent = new Brent(ACC);
         Chixy chixy = new Chixy(xx, yy, sx, sy, ww, aa, offs); // Instantiate
-                                                                       // a
-                                                                       // Chixy
-                                                                       // and
-                                                                       // bind
-                                                                       // it to
+                                                               // a
+                                                               // Chixy
+                                                               // and
+                                                               // bind
+                                                               // it to
         int j; // our variables.
         $double varx = $(0.0), vary = $(0.0), d1 = $(0.0), d2 = $(0.0), dum1 = $(0.0);
         double amx, amn, ang[] = new double[7], ch[] = new double[7], scale, bmn, bmx, r2;
@@ -120,7 +120,8 @@ public class Fitexy {
             r2 += ww[j]; // Save the inverse sum of weights at
         r2 = 1.0 / r2; // the minimum.
         bmx = bmn = BIG; // Now, nd standard errors for b as
-        // points where 2 offs=chi2+1.0; D 1.
+        // points where 2
+        offs.$(chi2 + 1.0); // D 1.
         for (j = 0; j < 6; j++) { // Go through saved values to bracket
             // the desired roots. Note periodicity in slope angles.
             if (ch[j] > offs.$()) {
