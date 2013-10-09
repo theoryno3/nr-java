@@ -62,8 +62,8 @@ public class Fitmed {
         f1 = rofunc(b1);
         if (sigb > 0.0) {
             b2 = b + SIGN(3.0 * sigb, f1); // Guess bracket as 3- away, in the
-                                           // downhill dif2=
-            rofunc(b2); // rection known from f1.
+                                           // downhill di
+            f2 = rofunc(b2); // rection known from f1.
             if (b2 == b1) {
                 abdev /= ndata;
                 return;
