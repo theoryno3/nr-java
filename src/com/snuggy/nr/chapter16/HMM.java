@@ -8,17 +8,20 @@ import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class HMM {
 
     // Structure for a hidden Markov model and its methods.
+    // FIXME: these don't need to be by-value
     private final $$double2d a, b; // Transition matrix and symbol probability matrix.
+    // FIXME: these don't need to be by-value
     private final $$int1d obs; // Observed data.
     private int fbdone;
     private int mstat, nobs, ksym; // Number of states, observations, and
                                    // symbols.
     private int lrnrm;
+    // FIXME: these don't need to be by-value
     private final $$double2d alpha, beta, pstate; // Matrices ?, ?, and Pi .t/.
+    // FIXME: these don't need to be by-value
     private final $$int1d arnrm, brnrm;
     private double BIG, BIGI, lhood;
 
@@ -180,9 +183,9 @@ public class HMM {
         int i, j, k, t;
         double num, denom, term;
         final double[][] bnew = doub_mat(mstat, ksym);
-        final int[] powtab = int_vec(10); // Fill table of powers of BIGI.
+        final double[] powtab = doub_vec(10); // Fill table of powers of BIGI.
         for (i = 0; i < 10; i++)
-            powtab[i] = (int) pow(BIGI, i - 6);
+            powtab[i] = pow(BIGI, i - 6);
         if (fbdone != 1)
             throw new NRException("must do forwardbackward first");
         for (i = 0; i < mstat; i++) { // Looping over i, get denominators and
