@@ -7,7 +7,6 @@ import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class StepperStoerm extends StepperBS {
 
     // Stoermer�s rule for integrating y00 D f.x;y/ for a system of equations.

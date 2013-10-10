@@ -10,7 +10,6 @@ import java.lang.reflect.*;
 import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
-@Deprecated @Broken
 public class Odeint {
 
     // Driver for ODE solvers with adaptive stepsize control. The template

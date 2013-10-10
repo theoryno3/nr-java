@@ -2,16 +2,16 @@
 package com.snuggy.nr.chapter06;
 
 import static com.snuggy.nr.util.Complex.*;
-
 import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.refs.Refs.*;
+
 import com.snuggy.nr.refs.*;
+
 import static java.lang.Math.*;
 
 import java.lang.reflect.*;
 
 import com.snuggy.nr.chapter17.*;
-import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Static {
@@ -359,7 +359,6 @@ public class Static {
     // FPMIN is a number close to the smallest representable floating-point
     // number; and BIG is a number near the machine overflow limit.
 
-    @Deprecated @Broken
     public static Complex cisi(final double x) throws NRException {
         // Computes the cosine and sine integrals Ci.x/ and Si.x/.
         // The function Ci.x/ is returned as the real part of cs, and Si.x/
@@ -786,6 +785,7 @@ public class Static {
         final double atol = 1.0e-14, rtol = 1.0e-14; // Accuracy parameters.
         $$<Complex> ans = $$(complex());
         Complex dz = complex(), z0 = complex();
+        @SuppressWarnings("unchecked")
         $$<Complex>[] y = obj_vec_nulls($$.class, 2);
         y[0] = $$(complex());
         y[1] = $$(complex());

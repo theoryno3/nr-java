@@ -5,9 +5,6 @@ import static com.snuggy.nr.chapter08.Static.*;
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
-import com.snuggy.nr.util.*;
-
-@Deprecated @Broken
 public class Fitmed {
 
     // Object for fitting a straight line y D aCbx to a set of points .xi;
