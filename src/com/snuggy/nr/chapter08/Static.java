@@ -671,4 +671,49 @@ public class Static {
         }
     }
 
+    public static void eclass(final int[] nf, final int[] lista, final int[] listb) {
+        // Given m equivalences between pairs of n individual elements in the
+        // form of the input arrays lista[0..m-1] and listb[0..m-1], this
+        // routine returns in nf[0..n-1] the number of the equivalence class
+        // of each of the n elements, integers between 0 and n-1 (not all
+        // such integers used).
+        int l, k, j, n = nf.length, m = lista.length;
+        for (k = 0; k < n; k++)
+            nf[k] = k; // Initialize each element its own class.
+        for (l = 0; l < m; l++) { // For each piece of input information...
+            j = lista[l];
+            while (nf[j] != j)
+                j = nf[j]; // Track first element up to its ancestor.
+            k = listb[l];
+            while (nf[k] != k)
+                k = nf[k]; // Track second element up to its ancestor.
+            if (j != k)
+                nf[j] = k; // If they are not already related, make them
+        } // so.
+        for (j = 0; j < n; j++)
+            // Final sweep up to highest ancestors.
+            while (nf[j] != nf[nf[j]])
+                nf[j] = nf[nf[j]];
+    }
+
+    public static void eclazz(final int[] nf, Func_Int_Int_To_Bool equiv) {
+        // Given a user-supplied boolean function equiv that tells whether
+        // a pair of elements, each in the range 0...n-1, are related, return
+        // in nf[0..n-1] equivalence class numbers for each element.
+        int kk, jj, n = nf.length;
+        nf[0] = 0;
+        for (jj = 1; jj < n; jj++) { // Loop over first element of all pairs.
+            nf[jj] = jj;
+            for (kk = 0; kk < jj; kk++) { // Loop over second element of all
+                                          // pairs.
+                nf[kk] = nf[nf[kk]]; // Sweep it up this much.
+                if (equiv.eval(jj + 1, kk + 1))
+                    nf[nf[nf[kk]]] = jj;
+                // Good exercise for the reader to figure out why this much
+                // ancestry is necessary!
+            }
+        }
+        for (jj = 0; jj < n; jj++)
+            nf[jj] = nf[nf[jj]]; // Only this much sweeping is needed
+    }
 }
