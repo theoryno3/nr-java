@@ -332,7 +332,7 @@ public class Static {
         return r;
     }
 
-    public static final double[] arr_minus(final double[] a, final double[] b) throws NRException {
+    public static final double[] vec_minus(final double[] a, final double[] b) throws NRException {
         if (a == null || b == null || a.length != b.length)
             throw new NRException("a == null || b == null || a.length != b.length");
         final double[] r = new double[a.length];
@@ -341,7 +341,7 @@ public class Static {
         return r;
     }
 
-    public static final int[] arr_minus(final int[] a, final int[] b) throws NRException {
+    public static final int[] vec_minus(final int[] a, final int[] b) throws NRException {
         if (a == null || b == null || a.length != b.length)
             throw new NRException("a == null || b == null || a.length != b.length");
         final int[] r = new int[a.length];
@@ -350,7 +350,7 @@ public class Static {
         return r;
     }
 
-    public static final double[] arr_plus(final double[] a, final double[] b) throws NRException {
+    public static final double[] vec_plus(final double[] a, final double[] b) throws NRException {
         if (a == null || b == null || a.length != b.length)
             throw new NRException("a == null || b == null || a.length != b.length");
         final double[] r = new double[a.length];
