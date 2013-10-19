@@ -40,7 +40,7 @@ public class Poly2D_interp {
         // Find grid block.
         for (k = i; k < i + mm; k++) { // mm interpolations in the x2 direction.
             // x2terp.yy = &y[k][0];
-            x2terp.yy = $(y[k], 0);
+            x2terp.yy = $_(y[k], 0);
             yv[k] = x2terp.rawinterp(j, x2p);
         }
         return x1terp.rawinterp(i, x1p);

@@ -33,7 +33,7 @@ public abstract class Base_interp {
         jsav = (0);
         cor = (0);
         // xx = (&x[0]);
-        xx = $(x, 0);
+        xx = $_(x, 0);
         yy = (y);
         dj = MIN(1, (int) pow((double) n, 0.25));
     }

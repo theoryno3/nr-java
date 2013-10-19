@@ -790,7 +790,7 @@ public class Static {
         y[0] = $$(complex());
         y[1] = $$(complex());
         final double[] yy = doub_vec(4);
-        if (norm(z) <= 0.25) { // Use series...
+        if (norm2(z) <= 0.25) { // Use series...
             hypser(a, b, c, z, ans, y[1]);
             return ans;
         }

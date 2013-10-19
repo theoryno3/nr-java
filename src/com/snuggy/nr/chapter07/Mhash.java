@@ -106,7 +106,7 @@ public class Mhash<hfnT extends HfnT<keyT, elT>, keyT, elT> extends Hashtable<hf
         return ((nextget < 0) ? 0 : 1);
     }
 
-    public int getnext(final $<elT> el) {
+    public int getnext(final $<elT> el) throws NRException {
         // If nextget points validly, copy its element into el, update nextget
         // to the next element with the same key, and return 1. Otherwise, do
         // not modify el, and return 0.
