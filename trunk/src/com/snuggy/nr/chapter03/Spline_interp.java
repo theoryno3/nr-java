@@ -23,7 +23,7 @@ public class Spline_interp extends Base_interp {
     }
 
     public Spline_interp(final double[] xv, final double[] yv, final double yp1, final double ypn) throws NRException {
-        super(xv, $(yv, 0), 2);
+        super(xv, $_(yv, 0), 2);
         y2 = doub_vec(xv.length);
         sety2(xv, yv, yp1, ypn);
     }

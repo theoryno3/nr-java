@@ -59,7 +59,7 @@ public class Refs {
         return r;
     }
     
-    public static $double $(final double[] arr, final int off) {
+    public static $double $_(final double[] arr, final int off) {
         $double r = new DoubleRefFromArrayElement(arr, off);
         return r;
     }
@@ -69,7 +69,7 @@ public class Refs {
         return r;
     }
     
-    public static $double $(final double[][] arr, final int i, final int j) {
+    public static $double $_(final double[][] arr, final int i, final int j) {
         $double r = new DoubleRefFrom2DArrayElement(arr, i, j);
         return r;
     }
@@ -136,14 +136,19 @@ public class Refs {
 	    return r;
 	}
 	
-	public static <T> void $(final $<T> x, final T y) {
+	public static <T> void $(final $<T> x, final T y) throws NRException {
 	    x.$(y);
 	}
 	
-	public static <T> void $(final $<T> x, final $<T> y) {
+	public static <T> void $(final $<T> x, final $<T> y) throws NRException {
 	    x.$(y.$());
 	}
 	
+    public static <T> $<T> $_(final T[] arr, final int off) {
+        $<T> r = new ObjectRefFromArrayElement<T>(arr, off);
+        return r;
+    }
+    
     // references to parameterized Objects passed by reference or value
     
 	public static <T extends ByValue<T>> $$<T> $$(final T t) {
@@ -782,6 +787,14 @@ public class Refs {
         public String toString() {
             return t.toString();
         }
+        @Override
+        public void $_(int n, T v) throws NRException {
+            throw new NRException("not implemented");
+        }
+        @Override
+        public T $_(int n) throws NRException {
+            throw new NRException("not implemented");
+        }
     }
 	
     static class ObjectRefByValue<T extends ByValue<T>> implements $$<T> {
@@ -809,5 +822,59 @@ public class Refs {
         public String toString() {
             return t.toString();
         }
+        @Override
+        public void $_(int n, T v) throws NRException {
+            throw new NRException("not implemented");
+        }
+        @Override
+        public T $_(int n) throws NRException {
+            throw new NRException("not implemented");
+        }
     }
+    
+	static class ObjectRefFromArrayElement<T> implements $<T> {
+        private final T[] arr;
+        private int off;
+        public ObjectRefFromArrayElement(final T[] arr, final int off) {
+            this.arr = arr;
+            this.off = off;
+        }
+        public ObjectRefFromArrayElement(final $<T> x, final int off) throws NRException {
+            if (!(x instanceof ObjectRefFromArrayElement))
+                throw new NRException("!(x instanceof DoubleRefFromArrayElement)");
+            ObjectRefFromArrayElement<T> temp = (ObjectRefFromArrayElement<T>) x;
+            this.arr = temp.arr;
+            this.off = temp.off + off;
+        }
+        @Override
+        public void $(T t) {
+            arr[off] = t;
+        }
+        @Override
+        public T $() {
+            return arr[off];
+        }
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{ ");
+            for (T x : arr)
+                sb.append(x + ", ");
+            sb.append("} at " + off);
+            return sb.toString();
+        }
+        @Override
+        public T $_(int n) throws NRException {
+            if (off + n >= arr.length || off + n < 0)
+                throw new NRException("out of range offset used for offset $double");
+            return arr[off+n];
+        }
+        @Override
+        public void $_(int n, T v) throws NRException {
+            if (off + n >= arr.length || off + n < 0)
+                throw new NRException("out of range offset used for offset $double");
+            arr[off+n] = v;
+        }
+	}
+	
 }

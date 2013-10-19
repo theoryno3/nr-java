@@ -1,12 +1,18 @@
 
 package com.snuggy.nr.util;
 
+import static java.lang.Math.*;
 import com.snuggy.nr.refs.*;
 
 public class Complex implements ByValue<Complex> {
     
     private double real, imag;
 
+    public Complex() {
+        this.real = 0.0;
+        this.imag = 0.0;
+    }
+    
     private Complex(double real, double imag) {
         this.real = real;
         this.imag = imag;
@@ -16,7 +22,7 @@ public class Complex implements ByValue<Complex> {
         return x.real == y.real && x.imag == y.imag;
     }
     
-    public static double norm(Complex x) {
+    public static double norm2(Complex x) {
         return x.real * x.real + x.imag * x.imag;
     }
     
@@ -185,6 +191,24 @@ public class Complex implements ByValue<Complex> {
         return x / y;
     }
 
+    public static Complex sqrt(Complex x) {
+        double mod = java.lang.Math.sqrt(norm2(x));
+        double re = real(x);
+        double im = imag(x);
+        return complex(
+                java.lang.Math.sqrt((mod + re) / 2.0),
+                signum(im) * java.lang.Math.sqrt((mod - re) / 2.0)
+               );
+    }
+    
+    public static Complex polar(final double _Rho, final double _Theta)
+    {   // return _Rho * exp(i * _Theta) as complex
+	    return complex(
+	            _Rho * cos(_Theta),
+		        _Rho * sin(_Theta)
+		       );
+    }
+
     @Override
     public void copyIn(Complex t) {
         this.real = t.real;
@@ -199,7 +223,7 @@ public class Complex implements ByValue<Complex> {
     
     @Override
     public String toString() {
-        return "" + real + "+" + imag + "i";
+        return "(" + real + " + " + imag + "i)";
     }
 
 }

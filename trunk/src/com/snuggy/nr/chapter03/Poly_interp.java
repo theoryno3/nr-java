@@ -21,7 +21,7 @@ public class Poly_interp extends Base_interp {
     }
 
     public Poly_interp(final double[] xv, final double[] yv, final int m) {
-        super(xv, $(yv, 0), m);
+        super(xv, $_(yv, 0), m);
         dy = (0.0);
     }
 

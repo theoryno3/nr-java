@@ -11,7 +11,7 @@ public class Linear_interp extends Base_interp {
     // then call interp for interpolated values.
 
     public Linear_interp(final double[] xv, final double[] yv) {
-        super(xv, $(yv, 0), 2);
+        super(xv, $_(yv, 0), 2);
     }
 
     @Override

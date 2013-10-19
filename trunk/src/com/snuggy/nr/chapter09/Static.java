@@ -1,10 +1,16 @@
-
 package com.snuggy.nr.chapter09;
 
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.util.Complex.*;
+
 import com.snuggy.nr.refs.*;
+
+import static com.snuggy.nr.refs.Refs.*;
+
 import java.io.*;
+
 import static java.lang.Math.*;
+
 import com.snuggy.nr.util.*;
 
 public class Static {
@@ -226,8 +232,8 @@ public class Static {
         }
     }
 
-    public static <T extends Func_Doub_To_Doub> double rtbis(final T func, final double x1, final double x2, final double xacc)
-            throws NRException {
+    public static <T extends Func_Doub_To_Doub> double rtbis(final T func, final double x1, final double x2,
+            final double xacc) throws NRException {
         // Using bisection, return the root of a function or functor func known
         // to lie between x1 and x2. The root will be refined until its accuracy
         // is xacc.
@@ -237,7 +243,8 @@ public class Static {
         double fmid = func.eval(x2);
         if (f * fmid >= 0.0)
             throw new NRException("Root must be bracketed for bisection in rtbis");
-        // rtb = f < 0.0 ? (dx=x2-x1,x1) : (dx=x1-x2,x2); // Orient the search so that f>0
+        // rtb = f < 0.0 ? (dx=x2-x1,x1) : (dx=x1-x2,x2); // Orient the search
+        // so that f>0
         if (f < 0.0) {
             dx = x2 - x1;
             rtb = (x1);
@@ -254,4 +261,384 @@ public class Static {
         }
         throw new NRException("Too many bisections in rtbis");
     }
+
+    public static <T extends Func_Doub_To_Doub> double rtflsp(final T func, final double x1, final double x2,
+            final double xacc) throws NRException {
+        // Using the false-position method, return the root of a function or
+        // functor func known to lie between x1 and x2. The root is refined
+        // until its accuracy is xacc.
+        final int MAXIT = 30; // Set to the maximum allowed number of
+                              // iterations.
+        double xl, xh, del;
+        double fl = func.eval(x1);
+        double fh = func.eval(x2); // Be sure the interval brackets a root.
+        if (fl * fh > 0.0)
+            throw new NRException("Root must be bracketed in rtflsp");
+        if (fl < 0.0) { // Identify the limits so that xl corresponds to the low
+            xl = x1; // side.
+            xh = x2;
+        } else {
+            xl = x2;
+            xh = x1;
+            // SWAP(fl, fh);
+            double temp = fl;
+            fl = fh;
+            fh = temp;
+        }
+        double dx = xh - xl;
+        for (int j = 0; j < MAXIT; j++) { // False-position loop.
+            double rtf = xl + dx * fl / (fl - fh); // Increment with respect to
+                                                   // latest value.
+            double f = func.eval(rtf);
+            if (f < 0.0) { // Replace appropriate limit.
+                del = xl - rtf;
+                xl = rtf;
+                fl = f;
+            } else {
+                del = xh - rtf;
+                xh = rtf;
+                fh = f;
+            }
+            dx = xh - xl;
+            if (abs(del) < xacc || f == 0.0)
+                return rtf; // Convergence.
+        }
+        throw new NRException("Maximum number of iterations exceeded in rtflsp");
+    }
+
+    public static <T extends Func_Doub_To_Doub> double rtsec(final T func, final double x1, final double x2,
+            final double xacc) throws NRException {
+        // Using the secant method, return the root of a function or functor
+        // func thought to lie between x1 and x2. The root is refined until its
+        // accuracy is xacc.
+        final int MAXIT = 30; // Maximum allowed number of iterations.
+        double xl, rts;
+        double fl = func.eval(x1);
+        double f = func.eval(x2);
+        if (abs(fl) < abs(f)) { // Pick the bound with the smaller function
+                                // value as
+            rts = x1; // the most recent guess.
+            xl = x2;
+            // SWAP(fl, f);
+            double temp = fl;
+            fl = f;
+            f = temp;
+        } else {
+            xl = x1;
+            rts = x2;
+        }
+        for (int j = 0; j < MAXIT; j++) { // Secant loop.
+            double dx = (xl - rts) * f / (f - fl); // Increment with respect to
+                                                   // latest value.
+            xl = rts;
+            fl = f;
+            rts += dx;
+            f = func.eval(rts);
+            if (abs(dx) < xacc || f == 0.0)
+                return rts; // Convergence.
+        }
+        throw new NRException("Maximum number of iterations exceeded in rtsec");
+    }
+
+    public static <T extends Func_Doub_To_Doub> double zriddr(final T func, final double x1, final double x2,
+            final double xacc) throws NRException {
+        // Using Ridders’ method, return the root of a function or functor func
+        // known to lie between x1 and x2. The root will be refined to an
+        // approximate accuracy xacc.
+        final int MAXIT = 60;
+        double fl = func.eval(x1);
+        double fh = func.eval(x2);
+        if ((fl > 0.0 && fh < 0.0) || (fl < 0.0 && fh > 0.0)) {
+            double xl = x1;
+            double xh = x2;
+            double ans = -9.99e99; // Any highly unlikely value, to simplify
+                                   // logic
+            for (int j = 0; j < MAXIT; j++) { // below.
+                double xm = 0.5 * (xl + xh);
+                double fm = func.eval(xm); // First of two function evaluations
+                                           // per it
+                double s = sqrt(fm * fm - fl * fh); // eration.
+                if (s == 0.0)
+                    return ans;
+                double xnew = xm + (xm - xl) * ((fl >= fh ? 1.0 : -1.0) * fm / s); // Updating
+                                                                                   // formula.
+                if (abs(xnew - ans) <= xacc)
+                    return ans;
+                ans = xnew;
+                double fnew = func.eval(ans); // Second of two function
+                                              // evaluations per
+                if (fnew == 0.0)
+                    return ans; // iteration.
+                if (SIGN(fm, fnew) != fm) { // Bookkeeping to keep the root
+                                            // bracketed
+                    xl = xm; // on next iteration.
+                    fl = fm;
+                    xh = ans;
+                    fh = fnew;
+                } else if (SIGN(fl, fnew) != fl) {
+                    xh = ans;
+                    fh = fnew;
+                } else if (SIGN(fh, fnew) != fh) {
+                    xl = ans;
+                    fl = fnew;
+                } else
+                    throw new NRException("never get here.");
+                if (abs(xh - xl) <= xacc)
+                    return ans;
+            }
+            throw new NRException("zriddr exceed maximum iterations");
+        } else {
+            if (fl == 0.0)
+                return x1;
+            if (fh == 0.0)
+                return x2;
+            throw new NRException("root must be bracketed in zriddr.");
+        }
+    }
+
+    /*
+     * public static <T extends Func_Doub_To_Doub> double zbrent(final T func,
+     * final double x1, final double x2, final double tol) { // Using Brent’s
+     * method, return the root of a function or functor func // known to lie
+     * between x1 and x2. The root will be refined until its // accuracy is tol.
+     * final int ITMAX = 100; // Maximum allowed number of iterations. final
+     * double EPS = EPS(); // numeric_limits<double>::epsilon(); // Machine
+     * floating-point precision. double a = x1, b = x2, c = x2, d, e, fa =
+     * func.eval(a), fb = func.eval(b), fc, p, q, r, s, tol1, xm; if ((fa > 0.0
+     * && fb > 0.0) || (fa < 0.0 && fb < 0.0)) throw new
+     * NRException("Root must be bracketed in zbrent"); fc = fb; for (int iter =
+     * 0; iter < ITMAX; iter++) { if ((fb > 0.0 && fc > 0.0) || (fb < 0.0 && fc
+     * < 0.0)) { c = a; // Rename a, b, c and adjust bounding interval fc = fa;
+     * // d. e = d = b - a; } if (abs(fc) < abs(fb)) { a = b; b = c; c = a; fa =
+     * fb; fb = fc; fc = fa; } tol1 = 2.0 * EPS * abs(b) + 0.5 * tol; //
+     * Convergence check. xm = 0.5 * (c - b); if (abs(xm) <= tol1 || fb == 0.0)
+     * return b; if (abs(e) >= tol1 && abs(fa) > abs(fb)) { s = fb / fa; //
+     * Attempt inverse quadratic interpolation. if (a == c) { p = 2.0 * xm * s;
+     * q = 1.0 - s; } else { q = fa / fc; r = fb / fc; p = s * (2.0 * xm * q *
+     * (q - r) - (b - a) * (r - 1.0)); q = (q - 1.0) * (r - 1.0) * (s - 1.0); }
+     * if (p > 0.0) q = -q; // Check whether in bounds. p = abs(p); double min1
+     * = 3.0 * xm * q - abs(tol1 * q); double min2 = abs(e * q); if (2.0 * p <
+     * (min1 < min2 ? min1 : min2)) { e = d; // Accept interpolation. d = p / q;
+     * } else { d = xm; // Interpolation failed, use bisection. e = d; } } else
+     * { // Bounds decreasing too slowly, use bisection. d = xm; e = d; } a = b;
+     * // Move last best guess to a. fa = fb; if (abs(d) > tol1) // Evaluate new
+     * trial root. b += d; else b += SIGN(tol1, xm); fb = func.eval(b); } throw
+     * new NRException("Maximum number of iterations exceeded in zbrent"); }
+     */
+
+    public static <T extends Funcd> double rtnewt(final T funcd, final double x1, final double x2, final double xacc)
+            throws NRException {
+        // Using the Newton-Raphson method, return the root of a function known
+        // to lie in the interval OEx1; x2 . The root will be refined until its
+        // accuracy is known within xacc. funcd is a usersupplied struct that
+        // returns the function value as a functor and the first derivative of
+        // the function at the point x as the function df (see text).
+        final int JMAX = 20; // Set to maximum number of iterations.
+        double rtn = 0.5 * (x1 + x2); // Initial guess.
+        for (int j = 0; j < JMAX; j++) {
+            double f = funcd.eval(rtn);
+            double df = funcd.df(rtn);
+            double dx = f / df;
+            rtn -= dx;
+            if ((x1 - rtn) * (rtn - x2) < 0.0)
+                throw new NRException("Jumped out of brackets in rtnewt");
+            if (abs(dx) < xacc)
+                return rtn; // Convergence.
+        }
+        throw new NRException("Maximum number of iterations exceeded in rtnewt");
+    }
+
+    public static <T extends Funcd> double rtsafe(final T funcd, final double x1, final double x2, final double xacc)
+            throws NRException {
+        // Using a combination of Newton-Raphson and bisection, return the root
+        // of a function bracketed between x1 and x2. The root will be refined
+        // until its accuracy is known within xacc. funcd is a user-supplied
+        // struct that returns the function value as a functor and the first
+        // derivative of the function at the point x as the function df (see
+        // text).
+        final int MAXIT = 100; // Maximum allowed number of iterations.
+        double xh, xl;
+        double fl = funcd.eval(x1);
+        double fh = funcd.eval(x2);
+        if ((fl > 0.0 && fh > 0.0) || (fl < 0.0 && fh < 0.0))
+            throw new NRException("Root must be bracketed in rtsafe");
+        if (fl == 0.0)
+            return x1;
+        if (fh == 0.0)
+            return x2;
+        if (fl < 0.0) { // Orient the search so that f.xl/ < 0.
+            xl = x1;
+            xh = x2;
+        } else {
+            xh = x1;
+            xl = x2;
+        }
+        double rts = 0.5 * (x1 + x2); // Initialize the guess for root,
+        double dxold = abs(x2 - x1); // the “stepsize before last,”
+        double dx = dxold; // and the last step.
+        double f = funcd.eval(rts);
+        double df = funcd.df(rts);
+        for (int j = 0; j < MAXIT; j++) { // Loop over allowed iterations.
+            if ((((rts - xh) * df - f) * ((rts - xl) * df - f) > 0.0) // Bisect
+                                                                      // if
+                                                                      // Newton
+                                                                      // out of
+                                                                      // range,
+                    || (abs(2.0 * f) > abs(dxold * df))) { // or not decreasing
+                                                           // fast enough.
+                dxold = dx;
+                dx = 0.5 * (xh - xl);
+                rts = xl + dx;
+                if (xl == rts)
+                    return rts; // Change in root is negligible.
+            } else { // Newton step acceptable. Take it.
+                dxold = dx;
+                dx = f / df;
+                double temp = rts;
+                rts -= dx;
+                if (temp == rts)
+                    return rts;
+            }
+            if (abs(dx) < xacc)
+                return rts; // Convergence criterion.
+            double f_ = funcd.eval(rts);
+            @SuppressWarnings("unused")
+            double df_ = funcd.df(rts);
+            // The one new function evaluation per iteration.
+            if (f_ < 0.0) // Maintain the bracket on the root.
+                xl = rts;
+            else
+                xh = rts;
+        }
+        throw new NRException("Maximum number of iterations exceeded in rtsafe");
+    }
+
+    // static final double frac[MR+1]=
+    static final double frac[] = { 0.0, 0.5, 0.25, 0.75, 0.13, 0.38, 0.62, 0.88, 1.0 };
+
+    public static void laguer(final Complex[] a, final $<Complex> x, final $int its) throws NRException {
+        // Given the m+1 complex coefficients a[0..m] of the polynomial
+        // Pmi D0 aOEi xi , and given a complex value x, this routine improves
+        // x by Laguerre’s method until it converges, within the achievable
+        // roundoff limit, to a root of the given polynomial. The number of
+        // iterations taken is returned as its.
+        final int MR = 8, MT = 10, MAXIT = MT * MR;
+        final double EPS = EPS(); // numeric_limits<double>::epsilon();
+        // Here EPS is the estimated fractional roundoff error. We try to break
+        // (rare) limit cycles with MR different fractional values, once every
+        // MT steps, for MAXIT total allowed iterations.
+        // Fractions used to break a limit cycle.
+        Complex dx, x1, b, d, f, g, h, sq, gp, gm, g2;
+        int m = a.length - 1;
+        for (int iter = 1; iter <= MAXIT; iter++) { // Loop over iterations up
+                                                    // to allowed maximum.
+            its.$(iter);
+            b = a[m];
+            double err = abs(b);
+            // d=f=0.0;
+            f = complex(0.0);
+            d = complex(f);
+            double abx = abs(x.$());
+            for (int j = m - 1; j >= 0; j--) { // Efficient computation of the
+                                               // polynomial and
+                // f=x*f+d; // its first two derivatives. f stores P00=2.
+                f = plus(times(x.$(), f), d);
+                // d=x*d+b;
+                d = plus(times(x.$(), d), b);
+                // b=x*b+a[j];
+                b = plus(times(x.$(), b), a[j]);
+                err = abs(b) + abx * err;
+            }
+            err *= EPS;
+            // Estimate of roundoff error in evaluating polynomial.
+            if (abs(b) <= err)
+                return; // We are on the root.
+            // g=d/b; // The generic case: Use Laguerre’s formula.
+            g = divide(d, b);
+            // g2=g*g;
+            g2 = times(g, g);
+            // h=g2-2.0*f/b;
+            h = minus(g2, times(2.0, divide(f, b)));
+            // sq=sqrt(Doub(m-1)*(Doub(m)*h-g2));
+            sq = sqrt(times(Doub(m - 1), minus(times(Doub(m), h), g2)));
+            // gp=g+sq;
+            gp = plus(g, sq);
+            // gm=g-sq;
+            gm = minus(g, sq);
+            double abp = abs(gp);
+            double abm = abs(gm);
+            if (abp < abm)
+                gp = gm;
+            dx = MAX(abp, abm) > 0.0 ? divide(Doub(m), gp) : polar(1 + abx, Doub(iter));
+            // x1=x-dx;
+            x1 = minus(x.$(), dx);
+            if (x == x1)
+                return; // Converged.
+            if (iter % MT != 0)
+                x.$(x1);
+            else
+                x.$(minus(x.$(), times(frac[iter / MT], dx)));
+            // Every so often we take a fractional step, to break any limit
+            // cycle
+            // (itself a rare occurrence).
+        }
+        throw new NRException("too many iterations in laguer");
+        // Very unusual; can occur only for complex roots. Try a different
+        // starting guess.
+    }
+
+    public static void zroots(final Complex[] a, final Complex[] roots, 
+            final $boolean polish) throws NRException, InstantiationException, IllegalAccessException {
+        // Given the m+1 complex coefficients a[0..m] of the polynomial
+        // Pm
+        // iD0 a.i/xi , this routine successively calls laguer and finds all
+        // m complex roots in roots[0..m-1]. The boolean variable polish
+        // should be input as true if polishing (also by Laguerre’s method) is
+        // desired, false if the roots will be subsequently polished by other
+        // means.
+        final double EPS = 1.0e-14; // A small number.
+        $int its = $(0);
+        int i;
+        $<Complex> x = $(complex(0.0));
+        Complex b, c;
+        int m = a.length - 1;
+        Complex[] ad = obj_vec(Complex.class, m + 1);
+        for (int j = 0; j <= m; j++)
+            ad[j] = a[j]; // Copy of coefficients for successive deflation.
+        for (int j = m - 1; j >= 0; j--) { // Loop over each root to be found.
+            x = $(complex(0.0)); // Start at zero to favor convergence to small-
+            Complex[] ad_v = obj_vec(Complex.class, j + 2); // est remaining
+                                                            // root, and return
+                                                            // the root.
+            for (int jj = 0; jj < j + 2; jj++)
+                ad_v[jj] = ad[jj];
+            laguer(ad_v, x, its);
+            if (abs(imag(x.$())) <= 2.0 * EPS * abs(real(x.$())))
+                x.$(complex(real(x.$()), 0.0));
+            roots[j] = complex(x.$());
+            b = ad[j + 1]; // Forward deflation.
+            for (int jj = j; jj >= 0; jj--) {
+                c = ad[jj];
+                ad[jj] = b;
+                // b=x*b+c;
+                b = plus(times(x.$(), b), c);
+            }
+        }
+        if (polish.$())
+            for (int j = 0; j < m; j++)
+                // Polish the roots using the undeflated coeffi
+                //laguer(a, roots[j], its); // cients.
+                laguer(a, $_(roots, j), its); // cients.
+        for (int j = 1; j < m; j++) { // Sort roots by their real parts by
+                                      // straight in
+            x.$(roots[j]); // sertion.
+            for (i = j - 1; i >= 0; i--) {
+                if (real(roots[i]) <= real(x.$()))
+                    break;
+                roots[i + 1] = roots[i];
+            }
+            roots[i + 1] = complex(x.$());
+        }
+    }
+    
 }

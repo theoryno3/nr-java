@@ -17,7 +17,7 @@ public class Rat_interp extends Base_interp {
     protected double dy;
 
     public Rat_interp(final double[] xv, final double[] yv, final int m) {
-        super(xv, $(yv, 0), m);
+        super(xv, $_(yv, 0), m);
         dy = (0.0);
     }
 
