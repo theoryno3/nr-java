@@ -303,6 +303,10 @@ public class Static {
         return 2.220446049250313E-16;
     }
 
+    public static int FLT_RADIX() {
+        return 2;
+    }
+
     public static double SIGN(final double a, final double b) {
         return (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
     }

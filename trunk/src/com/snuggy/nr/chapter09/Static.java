@@ -1,8 +1,10 @@
+
 package com.snuggy.nr.chapter09;
 
 import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.util.Complex.*;
 
+import com.snuggy.nr.chapter11.*;
 import com.snuggy.nr.refs.*;
 
 import static com.snuggy.nr.refs.Refs.*;
@@ -587,8 +589,8 @@ public class Static {
         // starting guess.
     }
 
-    public static void zroots(final Complex[] a, final Complex[] roots, 
-            final $boolean polish) throws NRException, InstantiationException, IllegalAccessException {
+    public static void zroots(final Complex[] a, final Complex[] roots, final $boolean polish) throws NRException,
+            InstantiationException, IllegalAccessException {
         // Given the m+1 complex coefficients a[0..m] of the polynomial
         // Pm
         // iD0 a.i/xi , this routine successively calls laguer and finds all
@@ -627,7 +629,7 @@ public class Static {
         if (polish.$())
             for (int j = 0; j < m; j++)
                 // Polish the roots using the undeflated coeffi
-                //laguer(a, roots[j], its); // cients.
+                // laguer(a, roots[j], its); // cients.
                 laguer(a, $_(roots, j), its); // cients.
         for (int j = 1; j < m; j++) { // Sort roots by their real parts by
                                       // straight in
@@ -640,5 +642,29 @@ public class Static {
             roots[i + 1] = complex(x.$());
         }
     }
-    
+
+    public static void zrhqr(final double[] a, final Complex[] rt) throws InstantiationException,
+            IllegalAccessException, NRException {
+        // Find all the roots of a polynomial with real coefficients,
+        // Pm
+        // iD0 a.i/xi , given the coefficients
+        // a[0..m]. The method is to construct an upper Hessenberg matrix whose
+        // eigenvalues are the desired roots and then use the routine Unsymmeig.
+        // The roots are returned in the complex vector rt[0..m-1], sorted in
+        // descending order by their real parts.
+        int m = a.length - 1;
+        double[][] hess = doub_mat(m, m);
+        for (int k = 0; k < m; k++) { // Construct the matrix.
+            hess[0][k] = -a[m - k - 1] / a[m];
+            for (int j = 1; j < m; j++)
+                hess[j][k] = 0.0;
+            if (k != m - 1)
+                hess[k + 1][k] = 1.0;
+        }
+        Unsymmeig h = new Unsymmeig(hess, false, true); // Find its
+                                                        // eigenvalues.
+        for (int j = 0; j < m; j++)
+            rt[j] = complex(h.wri(j));
+    }
+
 }
