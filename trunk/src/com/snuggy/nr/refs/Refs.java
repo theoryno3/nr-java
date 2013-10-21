@@ -164,9 +164,11 @@ public class Refs {
 	    x.$$(y.$());
 	}
 	
+	/*
 	public static <T extends ByValue<T>> void $$(final $<T> x, final $$<T> y) throws NRException {
 	    x.$(y.$$());
 	}
+	*/
 	
     // double[] by value
     
@@ -797,7 +799,7 @@ public class Refs {
         }
     }
 	
-    static class ObjectRefByValue<T extends ByValue<T>> implements $$<T> {
+    public static class ObjectRefByValue<T extends ByValue<T>> implements $$<T> {
         private T t;
         public ObjectRefByValue(T t) {
             this.t = t;

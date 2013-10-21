@@ -1,7 +1,7 @@
-
 package com.snuggy.nr.chapter09;
 
 import static com.snuggy.nr.util.Static.*;
+import static com.snuggy.nr.chapter05.Static.*;
 import static com.snuggy.nr.util.Complex.*;
 
 import com.snuggy.nr.chapter11.*;
@@ -530,56 +530,61 @@ public class Static {
         // (rare) limit cycles with MR different fractional values, once every
         // MT steps, for MAXIT total allowed iterations.
         // Fractions used to break a limit cycle.
-        Complex dx, x1, b, d, f, g, h, sq, gp, gm, g2;
+        final $$<Complex> 
+                dx = $$(complex(0.0)), x1 = $$(complex(0.0)), b = $$(complex(0.0)), 
+                d = $$(complex(0.0)), f = $$(complex(0.0)), 
+                g = $$(complex(0.0)), h = $$(complex(0.0)), sq = $$(complex(0.0)), 
+                gp = $$(complex(0.0)), gm = $$(complex(0.0)), g2 = $$(complex(0.0));
         int m = a.length - 1;
         for (int iter = 1; iter <= MAXIT; iter++) { // Loop over iterations up
                                                     // to allowed maximum.
             its.$(iter);
-            b = a[m];
-            double err = abs(b);
+            $$(b, a[m]);
+            //double err = abs(b);
+            double err = norm(b.$());
             // d=f=0.0;
-            f = complex(0.0);
-            d = complex(f);
+            $$(f, complex(0.0));
+            $$(d, f);
             double abx = abs(x.$());
             for (int j = m - 1; j >= 0; j--) { // Efficient computation of the
                                                // polynomial and
                 // f=x*f+d; // its first two derivatives. f stores P00=2.
-                f = plus(times(x.$(), f), d);
+                $$(f, plus(times(x.$(), f.$()), d.$()));
                 // d=x*d+b;
-                d = plus(times(x.$(), d), b);
+                $$(d, plus(times(x.$(), d.$()), b.$()));
                 // b=x*b+a[j];
-                b = plus(times(x.$(), b), a[j]);
-                err = abs(b) + abx * err;
+                $$(b, plus(times(x.$(), b.$()), a[j]));
+                err = norm(b.$()) + abx * err;
             }
             err *= EPS;
             // Estimate of roundoff error in evaluating polynomial.
-            if (abs(b) <= err)
+            if (abs(b.$()) <= err)
                 return; // We are on the root.
             // g=d/b; // The generic case: Use Laguerre’s formula.
-            g = divide(d, b);
+            $$(g, divide(d.$(), b.$()));
             // g2=g*g;
-            g2 = times(g, g);
+            $$(g2, times(g.$(), g.$()));
             // h=g2-2.0*f/b;
-            h = minus(g2, times(2.0, divide(f, b)));
+            $$(h, minus(g2.$(), times(2.0, divide(f.$(), b.$()))));
             // sq=sqrt(Doub(m-1)*(Doub(m)*h-g2));
-            sq = sqrt(times(Doub(m - 1), minus(times(Doub(m), h), g2)));
+            $$(sq, sqrt(times(Doub(m - 1), minus(times(Doub(m), h.$()), g2.$()))));
             // gp=g+sq;
-            gp = plus(g, sq);
+            $$(gp, plus(g.$(), sq.$()));
             // gm=g-sq;
-            gm = minus(g, sq);
-            double abp = abs(gp);
-            double abm = abs(gm);
+            $$(gm, minus(g.$(), sq.$()));
+            double abp = norm(gp.$());
+            double abm = norm(gm.$());
             if (abp < abm)
-                gp = gm;
-            dx = MAX(abp, abm) > 0.0 ? divide(Doub(m), gp) : polar(1 + abx, Doub(iter));
+                $$(gp, gm);
+            $$(dx, MAX(abp, abm) > 0.0 ? divide(Doub(m), gp.$()) : polar(1 + abx, Doub(iter)));
             // x1=x-dx;
-            x1 = minus(x.$(), dx);
-            if (x == x1)
+            $$(x1, minus(x.$(), dx.$()));
+            if (equal(x.$(), x1.$()))
                 return; // Converged.
             if (iter % MT != 0)
-                x.$(x1);
+                x.$(x1.$$());
             else
-                x.$(minus(x.$(), times(frac[iter / MT], dx)));
+                x.$(minus(x.$(), times(frac[iter / MT], dx.$())));
             // Every so often we take a fractional step, to break any limit
             // cycle
             // (itself a rare occurrence).
@@ -589,7 +594,7 @@ public class Static {
         // starting guess.
     }
 
-    public static void zroots(final Complex[] a, final Complex[] roots, final $boolean polish) throws NRException,
+    public static void zroots(final Complex[] a, final Complex[] roots, final boolean polish) throws NRException,
             InstantiationException, IllegalAccessException {
         // Given the m+1 complex coefficients a[0..m] of the polynomial
         // Pm
@@ -599,34 +604,37 @@ public class Static {
         // desired, false if the roots will be subsequently polished by other
         // means.
         final double EPS = 1.0e-14; // A small number.
-        $int its = $(0);
+        final $int its = $(0);
         int i;
-        $<Complex> x = $(complex(0.0));
-        Complex b, c;
-        int m = a.length - 1;
-        Complex[] ad = obj_vec(Complex.class, m + 1);
+        final $$<Complex> x = $$(complex(0.0));
+        final $$<Complex> b = $$(complex(0.0)), c = $$(complex(0.0));
+        final int m = a.length - 1;
+        @SuppressWarnings("unchecked")
+        final $$<Complex>[] ad = obj_vec_nulls($$(complex(0.0)).getClass(), m + 1);
+        for (int nn = 0; nn < ad.length; nn++)
+            ad[nn] = $$(complex(0.0));
         for (int j = 0; j <= m; j++)
-            ad[j] = a[j]; // Copy of coefficients for successive deflation.
+            $$(ad[j], a[j]); // Copy of coefficients for successive deflation.
         for (int j = m - 1; j >= 0; j--) { // Loop over each root to be found.
-            x = $(complex(0.0)); // Start at zero to favor convergence to small-
+            $$(x, complex(0.0)); // Start at zero to favor convergence to small-
             Complex[] ad_v = obj_vec(Complex.class, j + 2); // est remaining
                                                             // root, and return
                                                             // the root.
             for (int jj = 0; jj < j + 2; jj++)
-                ad_v[jj] = ad[jj];
+                ad_v[jj] = ad[jj].$$();
             laguer(ad_v, x, its);
             if (abs(imag(x.$())) <= 2.0 * EPS * abs(real(x.$())))
                 x.$(complex(real(x.$()), 0.0));
             roots[j] = complex(x.$());
-            b = ad[j + 1]; // Forward deflation.
+            $$(b, ad[j + 1]); // Forward deflation.
             for (int jj = j; jj >= 0; jj--) {
-                c = ad[jj];
+                $$(c, ad[jj]);
                 ad[jj] = b;
                 // b=x*b+c;
-                b = plus(times(x.$(), b), c);
+                $$(b, plus(times(x.$(), b.$()), c.$()));
             }
         }
-        if (polish.$())
+        if (polish)
             for (int j = 0; j < m; j++)
                 // Polish the roots using the undeflated coeffi
                 // laguer(a, roots[j], its); // cients.
@@ -665,6 +673,41 @@ public class Static {
                                                         // eigenvalues.
         for (int j = 0; j < m; j++)
             rt[j] = complex(h.wri(j));
+    }
+
+    public static void qroot(final double[] p, final $double b, final $double c, final double eps) throws NRException {
+        // Given n+1 coefficients p[0..n] of a polynomial of degree n, and trial
+        // values for the coefficients of a quadratic factor x*x+b*x+c, improve
+        // the solution until the coefficients b,c change by less than eps.
+        // The routine poldiv in 5.1 is used.
+        final int ITMAX = 20; // At most ITMAX iterations.
+        final double TINY = 1.0e-14;
+        double sc, sb, s, rc, rb, r, dv, delc, delb;
+        int n = p.length - 1;
+        double[] d = doub_vec(3);
+        $$double1d q = $$(doub_vec(n + 1)), rem = $$(doub_vec(n + 1)), qq = $$(doub_vec(n + 1));
+        d[2] = 1.0;
+        for (int iter = 0; iter < ITMAX; iter++) {
+            d[1] = b.$();
+            d[0] = c.$();
+            poldiv(p, d, q, rem);
+            s = rem.$()[0]; // First division, r,s.
+            r = rem.$()[1];
+            poldiv(q.$(), d, qq, rem);
+            sb = -c.$() * (rc = -rem.$()[1]); // Second division, partial r,s
+                                              // with respect to
+            rb = -b.$() * rc + (sc = -rem.$()[0]); // c.
+            dv = 1.0 / (sb * rc - sc * rb); // Solve 2x2 equation.
+            delb = (r * sc - s * rc) * dv;
+            delc = (-r * sb + s * rb) * dv;
+            b.$(b.$() + (delb = (r * sc - s * rc) * dv));
+            c.$(c.$() + (delc = (-r * sb + s * rb) * dv));
+            if ((abs(delb) <= eps * abs(b.$()) || abs(b.$()) < TINY)
+                    && (abs(delc) <= eps * abs(c.$()) || abs(c.$()) < TINY)) {
+                return; // Coefficients converged.
+            }
+        }
+        throw new NRException("Too many iterations in routine qroot");
     }
 
 }

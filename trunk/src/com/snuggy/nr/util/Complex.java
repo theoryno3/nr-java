@@ -26,6 +26,10 @@ public class Complex implements ByValue<Complex> {
         return x.real * x.real + x.imag * x.imag;
     }
     
+    public static double norm(Complex x) {
+        return java.lang.Math.sqrt(norm2(x));
+    }
+    
     public static double real(Complex x) {
         return x.real;
     }
@@ -33,31 +37,6 @@ public class Complex implements ByValue<Complex> {
     public static double imag(Complex x) {
         return x.imag;
     }
-    
-    public static double abs(Complex x) {
-        return abs(x.real, x.imag);
-    }
-    
-    private static double abs(double x, double y) {
-        //  abs(z)  =  sqrt(norm(z))
-
-        // Adapted from
-        // "Numerical Recipes in Fortran 77: The Art of Scientific Computing"
-        // (ISBN 0-521-43064-X)
-
-        double absX =  Math.abs(x);
-        double absY =  Math.abs(y);
-
-        if (absX == 0.0 && absY == 0.0) {                                      // !!! Numerical Recipes, mmm?
-            return  0.0;
-        } else if (absX >= absY) {
-            double d =  y / x;
-            return  absX*Math.sqrt(1.0 + d*d);
-        } else {
-            double d =  x / y;
-            return  absY*Math.sqrt(1.0 + d*d);
-        }//endif
-    }//end abs()
     
     public static Complex complex() {
         return complex(0.0, 0.0);
@@ -76,6 +55,24 @@ public class Complex implements ByValue<Complex> {
         if (x == null)
             System.out.println("moo");
         return complex(x.real, x.imag);
+    }
+    
+    public static double abs(Complex z) {
+        double x = z.real;
+        double y = z.imag;
+        
+        double absX =  Math.abs(x);
+        double absY =  Math.abs(y);
+
+        if (absX == 0.0 && absY == 0.0) {                                      // !!! Numerical Recipes, mmm?
+            return  0.0;
+        } else if (absX >= absY) {
+            double d =  y / x;
+            return  absX*Math.sqrt(1.0 + d*d);
+        } else {
+            double d =  x / y;
+            return  absY*Math.sqrt(1.0 + d*d);
+        }
     }
     
     public static Complex plus(Complex x, double y) {
@@ -191,14 +188,27 @@ public class Complex implements ByValue<Complex> {
         return x / y;
     }
 
-    public static Complex sqrt(Complex x) {
-        double mod = java.lang.Math.sqrt(norm2(x));
-        double re = real(x);
-        double im = imag(x);
-        return complex(
-                java.lang.Math.sqrt((mod + re) / 2.0),
-                signum(im) * java.lang.Math.sqrt((mod - re) / 2.0)
-               );
+    public static Complex sqrt(Complex z) {
+        z = complex(z);
+        double mag =  abs(z);
+        if (mag > 0.0) {
+            if (z.real > 0.0) {
+                double temp =  Math.sqrt(0.5 * (mag + z.real));
+                z.real =  temp;
+                z.imag =  0.5 * z.imag / temp;
+            } else {
+                double temp =  Math.sqrt(0.5 * (mag - z.real));
+                if (z.imag < 0.0) {
+                    temp =  -temp;
+                }
+                z.real =  0.5 * z.imag / temp;
+                z.imag =  temp;
+            }
+        } else {
+            z.real =  0.0;
+            z.imag =  0.0;
+	    }
+        return z;
     }
     
     public static Complex polar(final double _Rho, final double _Theta)
