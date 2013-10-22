@@ -233,7 +233,7 @@ public class Static {
     // static random number
     // generator.
 
-    public static void vegas(final double[] regn, final Func_DoubArr_Doub_To_Doub fxn, 
+    public static void vegas(final double[] regn, final Func_DoubVec_Doub_To_Doub fxn, 
             final int init, final int ncall, final int itmx, final int nprn, 
             final $double tgral, final $double sd, final $double chi2a) {
         // Performs Monte Carlo integration of a user-supplied ndim-dimensional
@@ -458,9 +458,9 @@ public class Static {
 
     private static int iran = 0;
 
-    public static void miser(final Func_DoubArr_To_Doub func, 
+    public static void miser(final Func_DoubVec_To_Doub func, 
             final double[] regn, final int npts, final double dith,
-            final $double ave, final $double var) {
+            final $double ave, final $double var) throws NRException {
         // Monte Carlo samples a user-supplied ndim-dimensional function func
         // in a rectangular volume speci ed by regn[0..2*ndim-1], a vector
         // consisting of ndim \lower-left" coordinates of the region followed

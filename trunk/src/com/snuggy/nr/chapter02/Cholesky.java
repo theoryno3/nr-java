@@ -94,7 +94,7 @@ public class Cholesky {
         }
     }
 
-    public void inverse(final $double2d ainv) {
+    public void inverse(final $double2d ainv) throws NRException {
         // Set ainv[0..n-1][0..n-1] to the matrix inverse of A,
         // the matrix whose Cholesky decomposition has been stored.
         int i, j, k;

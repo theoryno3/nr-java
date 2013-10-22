@@ -18,7 +18,7 @@ public class Fitsvd {
     private double tol;
     private double[] x; // (Why is x a pointer? Explained in 15.4.4.)
     private final double[] y, sig; 
-    private Func_Doub_To_DoubArr funcs;
+    private Func_Doub_To_DoubVec funcs;
     private $$double1d a; // Output values. a is the vector of fitted
                         // coefficients,
     // covar is its covariance matrix, and chisq is the value of 2 for the fit.
@@ -26,7 +26,7 @@ public class Fitsvd {
     @SuppressWarnings("unused")
     private double chisq;
     
-    public Fitsvd(final double[] xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks) throws NRException {
+    public Fitsvd(final double[] xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubVec funks) throws NRException {
         this(xx, yy, ssig, funks, 1.e-12);
     }
     
@@ -38,7 +38,7 @@ public class Fitsvd {
         return covar.$();
     }
 
-    public Fitsvd(final double[] xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubArr funks,
+    public Fitsvd(final double[] xx, final double[] yy, final double[] ssig, Func_Doub_To_DoubVec funks,
             final double TOL) throws NRException {
         // Constructor. Binds references to the data arrays xx, yy, and ssig,
         // and to a user-supplied function funks(x) that returns a VecDoub
@@ -112,13 +112,13 @@ public class Fitsvd {
     private $$double2d xmd;
 
     // VecDoub (*funcsmd)(VecDoub_I &);
-    private Func_DoubArr_To_DoubArr funcsmd;
+    private Func_DoubVec_To_DoubVec funcsmd;
 
-    public Fitsvd(final $$double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks) throws NRException {
+    public Fitsvd(final $$double2d xx, final double[] yy, final double[] ssig, Func_DoubVec_To_DoubVec funks) throws NRException {
         this(xx, yy, ssig, funks, 1.e-12);
     }
 
-    public Fitsvd(final $$double2d xx, final double[] yy, final double[] ssig, Func_DoubArr_To_DoubArr funks,
+    public Fitsvd(final $$double2d xx, final double[] yy, final double[] ssig, Func_DoubVec_To_DoubVec funks,
             final double TOL) throws NRException {
         // Constructor for multidimensional fits. Exactly the same as the
         // previous constructor, except that xx is now a matrix whose rows are

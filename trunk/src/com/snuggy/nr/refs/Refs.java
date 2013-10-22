@@ -29,11 +29,11 @@ public class Refs {
         return r;
     }
     
-    public static void $(final $int1d x, int[] y) {
+    public static void $(final $int1d x, int[] y) throws NRException {
         x.$(y);
     }
     
-    public static void $(final $int1d x, final $int1d y) {
+    public static void $(final $int1d x, final $int1d y) throws NRException {
         x.$(y.$());
     }
     
@@ -44,11 +44,11 @@ public class Refs {
         return r;
     }
     
-    public static void $(final $int2d x, int[][] y) {
+    public static void $(final $int2d x, int[][] y) throws NRException {
         x.$(y);
     }
     
-    public static void $(final $int2d x, final $int2d y) {
+    public static void $(final $int2d x, final $int2d y) throws NRException {
         x.$(y.$());
     }
     
@@ -106,11 +106,11 @@ public class Refs {
         return r;
     }
     
-    public static void $(final $double1d x, double[] y) {
+    public static void $(final $double1d x, double[] y) throws NRException {
         x.$(y);
     }
     
-    public static void $(final $double1d x, final $double1d y) {
+    public static void $(final $double1d x, final $double1d y) throws NRException {
         x.$(y.$());
     }
     
@@ -121,11 +121,11 @@ public class Refs {
         return r;
     }
     
-    public static void $(final $double2d x, double[][] y) {
+    public static void $(final $double2d x, double[][] y) throws NRException {
         x.$(y);
     }
     
-    public static void $(final $double2d x, final $double2d y) {
+    public static void $(final $double2d x, final $double2d y) throws NRException {
         x.$(y.$());
     }
     

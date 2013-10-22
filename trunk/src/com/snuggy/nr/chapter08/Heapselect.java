@@ -1,8 +1,8 @@
 
 package com.snuggy.nr.chapter08;
 
-import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.chapter08.Static.*;
+import static com.snuggy.nr.util.Static.*;
 
 import com.snuggy.nr.util.*;
 

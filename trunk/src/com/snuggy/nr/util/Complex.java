@@ -2,6 +2,7 @@
 package com.snuggy.nr.util;
 
 import static java.lang.Math.*;
+
 import com.snuggy.nr.refs.*;
 
 public class Complex implements ByValue<Complex> {

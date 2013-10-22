@@ -22,7 +22,7 @@ public class Fitmrq {
     private int ndat, ma, mfit;
     private final double[] x, y, sig;
     private double tol;
-    private Func_Doub_DoubArr_DoubRef_DoubArr_To_Void funcs;
+    private Func_Doub_DoubVec_DoubRef_DoubVec_To_Void funcs;
     private boolean[] ia;
     private final double[] a; // Output values. a is the vector of fitted
                         // coefficients,
@@ -40,11 +40,11 @@ public class Fitmrq {
         return covar;
     }
 
-    public Fitmrq(final double[] xx, final double[] yy, final double[] ssig, final double[] aa, Func_Doub_DoubArr_DoubRef_DoubArr_To_Void funks) {
+    public Fitmrq(final double[] xx, final double[] yy, final double[] ssig, final double[] aa, Func_Doub_DoubVec_DoubRef_DoubVec_To_Void funks) {
         this(xx, yy, ssig, aa, funks, 1.e-3);
     }
 
-    public Fitmrq(final double[] xx, final double[] yy, final double[] ssig, final double[] aa, Func_Doub_DoubArr_DoubRef_DoubArr_To_Void funks,
+    public Fitmrq(final double[] xx, final double[] yy, final double[] ssig, final double[] aa, Func_Doub_DoubVec_DoubRef_DoubVec_To_Void funks,
             final double TOL) {
         // Constructor. Binds references to the data arrays xx, yy, and ssig,
         // and to a user-supplied function funks that calculates the nonlinear
