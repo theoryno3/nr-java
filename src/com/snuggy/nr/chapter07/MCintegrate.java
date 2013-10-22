@@ -21,9 +21,9 @@ public class MCintegrate {
     private final double[] xx, fn;
     private double vol; // Volume of the box V .
     
-    private Func_DoubArr_To_DoubArr funcsp; // Pointers to the user-supplied functions.
-    private Func_DoubArr_To_DoubArr xmapp;
-    private Func_DoubArr_To_Bool inregionp;
+    private Func_DoubVec_To_DoubVec funcsp; // Pointers to the user-supplied functions.
+    private Func_DoubVec_To_DoubVec xmapp;
+    private Func_DoubVec_To_Bool inregionp;
     private Ran ran; // Random number generator.
     
     // MCintegrate(const VecDoub &xlow, const VecDoub &xhigh,
@@ -36,8 +36,8 @@ public class MCintegrate {
     // void calcanswers();
 
     public MCintegrate(final double[] xlow, final double[] xhigh, 
-                        final Func_DoubArr_To_DoubArr funcs, final Func_DoubArr_To_Bool inregion,
-                        final Func_DoubArr_To_DoubArr xmap, final int ranseed) throws NRException {
+                        final Func_DoubVec_To_DoubVec funcs, final Func_DoubVec_To_Bool inregion,
+                        final Func_DoubVec_To_DoubVec xmap, final int ranseed) throws NRException {
         ndim = (xlow.length);
         n = (0);
         xlo = $$(xlow);

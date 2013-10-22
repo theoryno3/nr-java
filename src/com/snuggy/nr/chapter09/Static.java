@@ -1,18 +1,16 @@
 package com.snuggy.nr.chapter09;
 
-import static com.snuggy.nr.util.Static.*;
 import static com.snuggy.nr.chapter05.Static.*;
-import static com.snuggy.nr.util.Complex.*;
-
-import com.snuggy.nr.chapter11.*;
-import com.snuggy.nr.refs.*;
-
 import static com.snuggy.nr.refs.Refs.*;
+import static com.snuggy.nr.util.Complex.*;
+import static com.snuggy.nr.util.Static.*;
+import static java.lang.Math.*;
 
 import java.io.*;
 
-import static java.lang.Math.*;
-
+import com.snuggy.nr.chapter02.*;
+import com.snuggy.nr.chapter11.*;
+import com.snuggy.nr.refs.*;
 import com.snuggy.nr.util.*;
 
 public class Static {
@@ -530,17 +528,13 @@ public class Static {
         // (rare) limit cycles with MR different fractional values, once every
         // MT steps, for MAXIT total allowed iterations.
         // Fractions used to break a limit cycle.
-        final $$<Complex> 
-                dx = $$(complex(0.0)), x1 = $$(complex(0.0)), b = $$(complex(0.0)), 
-                d = $$(complex(0.0)), f = $$(complex(0.0)), 
-                g = $$(complex(0.0)), h = $$(complex(0.0)), sq = $$(complex(0.0)), 
-                gp = $$(complex(0.0)), gm = $$(complex(0.0)), g2 = $$(complex(0.0));
+        final $$<Complex> dx = $$(complex(0.0)), x1 = $$(complex(0.0)), b = $$(complex(0.0)), d = $$(complex(0.0)), f = $$(complex(0.0)), g = $$(complex(0.0)), h = $$(complex(0.0)), sq = $$(complex(0.0)), gp = $$(complex(0.0)), gm = $$(complex(0.0)), g2 = $$(complex(0.0));
         int m = a.length - 1;
         for (int iter = 1; iter <= MAXIT; iter++) { // Loop over iterations up
                                                     // to allowed maximum.
             its.$(iter);
             $$(b, a[m]);
-            //double err = abs(b);
+            // double err = abs(b);
             double err = norm(b.$());
             // d=f=0.0;
             $$(f, complex(0.0));
@@ -708,6 +702,213 @@ public class Static {
             }
         }
         throw new NRException("Too many iterations in routine qroot");
+    }
+
+    public static void mnewt(final int ntrial, final double[] x, final double tolx, final double tolf,
+            Func_DoubVec_DoubVec_DoubMat_To_Void usrfun) throws NRException {
+        // Given an initial guess x[0..n-1] for a root in n dimensions, take
+        // ntrial Newton-Raphson steps to improve the root. Stop if the root
+        // converges in either summed absolute variable increments tolx or
+        // summed absolute function values tolf.
+        int i, n = x.length;
+        double[] p = doub_vec(n), fvec = doub_vec(n);
+        double[][] fjac = doub_mat(n, n);
+        for (int k = 0; k < ntrial; k++) {
+            usrfun.eval(x, fvec, fjac); // User function supplies function
+                                        // values at x in
+            double errf = 0.0; // fvec and Jacobian matrix in fjac.
+            for (i = 0; i < n; i++)
+                errf += abs(fvec[i]); // Check function convergence.
+            if (errf <= tolf)
+                return;
+            for (i = 0; i < n; i++)
+                p[i] = -fvec[i]; // Right-hand side of linear equations.
+            LUdcmp alu = new LUdcmp(fjac); // Solve linear equations using LU
+                                           // decomposition.
+            alu.solve(p, p);
+            double errx = 0.0; // Check root convergence.
+            for (i = 0; i < n; i++) { // Update solution.
+                errx += abs(p[i]);
+                x[i] += p[i];
+            }
+            if (errx <= tolx)
+                return;
+        }
+        return;
+    }
+
+    public static <T extends Func_DoubVec_To_Doub> void lnsrch(final double[] xold, final double fold,
+            final double[] g, final double[] p, final double[] x, final $double f, final double stpmax,
+            final $boolean check, final T func) throws NRException {
+        // Given an n-dimensional point xold[0..n-1], the value of the function
+        // and gradient there, fold and g[0..n-1], and a direction p[0..n-1],
+        // finds a new point x[0..n-1] along the direction p from xold where the
+        // function or functor func has decreased “sufficiently.” The new
+        // function
+        // value is returned in f. stpmax is an input quantity that limits the
+        // length of the steps so that you do not try to evaluate the function
+        // in regions where it is undefined or subject to overflow. p is usually
+        // the Newton direction. The output quantity check is false on a normal
+        // exit. It is true when x is too close to xold. In a minimization
+        // algorithm, this usually signals convergence and can be ignored.
+        // However, in a zero-finding algorithm the calling program should check
+        // whether the convergence is spurious.
+        final double ALF = 1.0e-4, TOLX = EPS(); // numeric_limits<double>::epsilon();
+        // ALF ensures sufficient decrease in function value; TOLX is the
+        // convergence criterion on x.
+        double a, alam, alam2 = 0.0, alamin, b, disc, f2 = 0.0;
+        double rhs1, rhs2, slope = 0.0, sum = 0.0, temp, test, tmplam;
+        int i, n = xold.length;
+        check.$(false);
+        for (i = 0; i < n; i++)
+            sum += p[i] * p[i];
+        sum = sqrt(sum);
+        if (sum > stpmax)
+            for (i = 0; i < n; i++)
+                p[i] *= stpmax / sum; // Scale if attempted step is too big.
+        for (i = 0; i < n; i++)
+            slope += g[i] * p[i];
+        if (slope >= 0.0)
+            throw new NRException("Roundoff problem in lnsrch.");
+        test = 0.0; // Compute min.
+        for (i = 0; i < n; i++) {
+            temp = abs(p[i]) / MAX(abs(xold[i]), 1.0);
+            if (temp > test)
+                test = temp;
+        }
+        alamin = TOLX / test;
+        alam = 1.0; // Always try full Newton step first.
+        for (;;) { // Start of iteration loop.
+            for (i = 0; i < n; i++)
+                x[i] = xold[i] + alam * p[i];
+            f.$(func.eval(x));
+            if (alam < alamin) { // Convergence on x. For zero finding,
+                // the calling program should verify the convergence.
+                for (i = 0; i < n; i++)
+                    x[i] = xold[i];
+                check.$(true);
+                return;
+            } else if (f.$() <= fold + ALF * alam * slope)
+                return; // Sufficient function decrease.
+            else { // Backtrack.
+                if (alam == 1.0)
+                    tmplam = -slope / (2.0 * (f.$() - fold - slope)); // First
+                                                                      // time.
+                else { // Subsequent backtracks.
+                    rhs1 = f.$() - fold - alam * slope;
+                    rhs2 = f2 - fold - alam2 * slope;
+                    a = (rhs1 / (alam * alam) - rhs2 / (alam2 * alam2)) / (alam - alam2);
+                    b = (-alam2 * rhs1 / (alam * alam) + alam * rhs2 / (alam2 * alam2)) / (alam - alam2);
+                    if (a == 0.0)
+                        tmplam = -slope / (2.0 * b);
+                    else {
+                        disc = b * b - 3.0 * a * slope;
+                        if (disc < 0.0)
+                            tmplam = 0.5 * alam;
+                        else if (b <= 0.0)
+                            tmplam = (-b + sqrt(disc)) / (3.0 * a);
+                        else
+                            tmplam = -slope / (b + sqrt(disc));
+                    }
+                    if (tmplam > 0.5 * alam)
+                        tmplam = 0.5 * alam; //   0:51.
+                }
+            }
+            alam2 = alam;
+            f2 = f.$();
+            alam = MAX(tmplam, 0.1 * alam);//  0:11.
+        } // Try again.
+    }
+
+    public static <T extends Func_DoubVec_To_DoubVec> void newt(final double[] x, final $boolean check, final T vecfunc) throws NRException {
+        // Given an initial guess x[0..n-1] for a root in n dimensions, find the
+        // root by a globally convergent Newton’s method. The vector of
+        // functions
+        // to be zeroed, called fvec[0..n-1] in the routine below, is returned
+        // by the user-supplied function or functor vecfunc (see text). The
+        // output quantity check is false on a normal return and true if the
+        // routine has converged to a local minimum of the function fmin defined
+        // below. In this case try restarting from a different initial guess.
+        final int MAXITS = 200;
+        final double TOLF = 1.0e-8, TOLMIN = 1.0e-12, STPMX = 100.0;
+        final double TOLX = EPS(); // numeric_limits<double>::epsilon();
+        // Here MAXITS is the maximum number of iterations; TOLF sets the
+        // convergence criterion on function values; TOLMIN sets the criterion
+        // for deciding whether spurious convergence to a minimum of fmin has
+        // occurred; STPMX is the scaled maximum step length allowed in line
+        // searches; and TOLX is the convergence criterion on ix.
+        int i, j, its, n = x.length;
+        double den, fold, stpmax, sum, temp, test;
+        $double f = $(0.0);
+        double[] g = doub_vec(n), p = doub_vec(n), xold = doub_vec(n);
+        double[][] fjac = doub_mat(n, n);
+        NRfmin<T> fmin = new NRfmin<T>(vecfunc); // Set up NRfmin object.
+        NRfdjac<T> fdjac = new NRfdjac<T>(vecfunc); // Set up NRfdjac object.
+        $double1d fvec = fmin.fvec(); // Make an alias to simplify coding.
+        f.$(fmin.eval(x)); // fvec is also computed by this call.
+        test = 0.0; // Test for initial guess being a root. Use
+        for (i = 0; i < n; i++)
+            // more stringent test than simply TOLF.
+            if (abs(fvec.$()[i]) > test)
+                test = abs(fvec.$()[i]);
+        if (test < 0.01 * TOLF) {
+            check.$(false);
+            return;
+        }
+        sum = 0.0;
+        for (i = 0; i < n; i++)
+            sum += SQR(x[i]); // Calculate stpmax for line searches.
+        stpmax = STPMX * MAX(sqrt(sum), Doub(n));
+        for (its = 0; its < MAXITS; its++) { // Start of iteration loop.
+            fjac = fdjac.eval(x, fvec.$());
+            // If analytic Jacobian is available, you can replace the struct
+            // NRfdjac below with your
+            // own struct.
+            for (i = 0; i < n; i++) { // Compute rf for the line search.
+                sum = 0.0;
+                for (j = 0; j < n; j++)
+                    sum += fjac[j][i] * fvec.$()[j];
+                g[i] = sum;
+            }
+            for (i = 0; i < n; i++)
+                xold[i] = x[i]; // Store x,
+            fold = f.$(); // and f .
+            for (i = 0; i < n; i++)
+                p[i] = -fvec.$()[i]; // Right-hand side for linear equations.
+            LUdcmp alu = new LUdcmp(fjac); // Solve linear equations by LU decompo
+            alu.solve(p, p); // sition.
+            lnsrch(xold, fold, g, p, x, f, stpmax, check, fmin);
+            // lnsrch returns new x and f . It also calculates fvec at the new x
+            // when it calls fmin.
+            test = 0.0; // Test for convergence on function values.
+            for (i = 0; i < n; i++)
+                if (abs(fvec.$()[i]) > test)
+                    test = abs(fvec.$()[i]);
+            if (test < TOLF) {
+                check.$(false);
+                return;
+            }
+            if (check.$()) { // Check for gradient of f zero, i.e., spu
+                test = 0.0; // rious convergence.
+                den = MAX(f.$(), 0.5 * n);
+                for (i = 0; i < n; i++) {
+                    temp = abs(g[i]) * MAX(abs(x[i]), 1.0) / den;
+                    if (temp > test)
+                        test = temp;
+                }
+                check.$(test < TOLMIN);
+                return;
+            }
+            test = 0.0; // Test for convergence on ix.
+            for (i = 0; i < n; i++) {
+                temp = (abs(x[i] - xold[i])) / MAX(abs(x[i]), 1.0);
+                if (temp > test)
+                    test = temp;
+            }
+            if (test < TOLX)
+                return;
+        }
+        throw new NRException("MAXITS exceeded in newt");
     }
 
 }

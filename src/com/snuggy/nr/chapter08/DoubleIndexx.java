@@ -54,7 +54,7 @@ public class DoubleIndexx {
     // the user, but see
     // text for exceptions.
 
-    public void rank(final $int1d irank) {
+    public void rank(final $int1d irank) throws NRException {
         // Returns a rank table, whose jth element is the rank of arr[j],
         // where arr is the vector originally indexed. The smallest arr[j]
         // has rank 0.

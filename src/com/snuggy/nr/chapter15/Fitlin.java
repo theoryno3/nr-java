@@ -17,7 +17,7 @@ public class Fitlin {
     // often as desired. fit sets the output quantities a, covar, and chisq.
     private int ndat, ma;
     private final double[] x, y, sig;
-    private Func_Doub_To_DoubArr funcs;
+    private Func_Doub_To_DoubVec funcs;
     private boolean[] ia;
     private final double[] a; // Output values. a is the vector of fitted
                         // coefficients,
@@ -34,7 +34,7 @@ public class Fitlin {
         return covar;
     }
 
-    public Fitlin(final double[] xx, final double[] yy, final double[] ssig, final Func_Doub_To_DoubArr funks) {
+    public Fitlin(final double[] xx, final double[] yy, final double[] ssig, final Func_Doub_To_DoubVec funks) {
         // Constructor. Binds references to the data arrays xx, yy, and ssig,
         // and to a user-supplied function funks(x) that returns a VecDoub
         // containing ma basis functions evaluated at x D x. Initializes all

@@ -8,7 +8,7 @@ import com.snuggy.nr.util.*;
 public class Static {
 
     public static void rk4(final double[] y, final double[] dydx, final double x, final double h, final double[] yout,
-            Func_Doub_DoubArr_DoubArr_To_Void derivs) {
+            Func_Doub_DoubVec_DoubVec_To_Void derivs) {
         // Given values for the variables y[0..n-1] and their derivatives
         // dydx[0..n-1] known at x, use the fourth-order Runge-Kutta method to
         // advance the solution over an interval h and return the incremented
