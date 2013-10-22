@@ -820,7 +820,8 @@ public class Static {
         } // Try again.
     }
 
-    public static <T extends Func_DoubVec_To_DoubVec> void newt(final double[] x, final $boolean check, final T vecfunc) throws NRException {
+    public static <T extends Func_DoubVec_To_DoubVec> void newt(final double[] x, final $boolean check, final T vecfunc)
+            throws NRException {
         // Given an initial guess x[0..n-1] for a root in n dimensions, find the
         // root by a globally convergent Newton’s method. The vector of
         // functions
@@ -875,7 +876,8 @@ public class Static {
             fold = f.$(); // and f .
             for (i = 0; i < n; i++)
                 p[i] = -fvec.$()[i]; // Right-hand side for linear equations.
-            LUdcmp alu = new LUdcmp(fjac); // Solve linear equations by LU decompo
+            LUdcmp alu = new LUdcmp(fjac); // Solve linear equations by LU
+                                           // decompo
             alu.solve(p, p); // sition.
             lnsrch(xold, fold, g, p, x, f, stpmax, check, fmin);
             // lnsrch returns new x and f . It also calculates fvec at the new x
@@ -909,6 +911,148 @@ public class Static {
                 return;
         }
         throw new NRException("MAXITS exceeded in newt");
+    }
+
+    public static <T extends Func_DoubVec_To_DoubVec> void broydn(final double[] x, final $boolean check, final T vecfunc) throws NRException {
+        // Given an initial guess x[0..n-1] for a root in n dimensions, find
+        // the root by Broyden’s method embedded in a globally convergent
+        // strategy. The vector of functions to be zeroed, called fvec[0..n-1]
+        // in the routine below, is returned by the user-supplied function or
+        // functor vecfunc. The routines NRfdjac and NRfmin from newt are used.
+        // The output quantity check is false on a normal return and true if the
+        // routine has converged to a local minimum of the function fmin or if
+        // Broyden’s method can make no further progress. In this case try
+        // restarting from a different initial guess.
+        final int MAXITS = 200;
+        final double EPS = EPS(); // numeric_limits<double>::epsilon();
+        final double TOLF = 1.0e-8, TOLX = EPS, STPMX = 100.0, TOLMIN = 1.0e-12;
+        // Here MAXITS is the maximum number of iterations; EPS is the machine
+        // precision; TOLF is the convergence criterion on function values;
+        // TOLX is the convergence criterion on ix; STPMX is the scaled maximum
+        // step length allowed in line searches; and TOLMIN is used to decide
+        // whether spurious convergence to a minimum of fmin has occurred.
+        boolean restrt, skip;
+        int i, its, j, n = x.length;
+        double den, fold, stpmax, sum, temp, test;
+        $double f = $(0.0);
+        double[] fvcold = doub_vec(n), g = doub_vec(n), p = doub_vec(n), s = doub_vec(n), t = doub_vec(n), w = doub_vec(n), xold = doub_vec(n);
+        QRdcmp qr = null;
+        NRfmin<T> fmin = new NRfmin<T>(vecfunc); // Set up NRfmin object.
+        NRfdjac<T> fdjac = new NRfdjac<T>(vecfunc); // Set up NRfdjac object.
+        $double1d fvec = fmin.fvec(); // Make an alias to simplify coding.
+        f.$(fmin.eval(x)); // The vector fvec is also computed by this
+        test = 0.0; // call.
+        for (i = 0; i < n; i++)
+            // Test for initial guess being a root. Use more
+            // stringent test than simply TOLF.
+            if (abs(fvec.$()[i]) > test)
+                test = abs(fvec.$()[i]);
+        if (test < 0.01 * TOLF) {
+            check.$(false);
+            return;
+        }
+        for (sum = 0.0, i = 0; i < n; i++)
+            sum += SQR(x[i]); // Calculate stpmax for line searches.
+        stpmax = STPMX * MAX(sqrt(sum), Doub(n));
+        restrt = true; // Ensure initial Jacobian gets computed.
+        for (its = 1; its <= MAXITS; its++) { // Start of iteration loop.
+            if (restrt) { // Initialize or reinitialize Jacobian and QR de
+                qr = new QRdcmp(fdjac.eval(x, fvec.$())); // compose it.
+                if (qr.sing())
+                    throw new NRException("singular Jacobian in broydn");
+            } else { // Carry out Broyden update.
+                for (i = 0; i < n; i++)
+                    s[i] = x[i] - xold[i]; // s D ix.
+                for (i = 0; i < n; i++) { // t D R  s.
+                    for (sum = 0.0, j = i; j < n; j++)
+                        sum += qr.r()[i][j] * s[j];
+                    t[i] = sum;
+                }
+                skip = true;
+                for (i = 0; i < n; i++) { // w D iF  B  s.
+                    for (sum = 0.0, j = 0; j < n; j++)
+                        sum += qr.qt()[j][i] * t[j];
+                    w[i] = fvec.$()[i] - fvcold[i] - sum;
+                    if (abs(w[i]) >= EPS * (abs(fvec.$()[i]) + abs(fvcold[i])))
+                        skip = false;
+                    // Don’t update with noisy components of w.
+                    else
+                        w[i] = 0.0;
+                }
+                if (!skip) {
+                    qr.qtmult(w, t); // t D QT  w.
+                    for (den = 0.0, i = 0; i < n; i++)
+                        den += SQR(s[i]);
+                    for (i = 0; i < n; i++)
+                        s[i] /= den; // Store s=.s  s/ in s.
+                    qr.update(t, s); // Update R and QT .
+                    if (qr.sing())
+                        throw new NRException("singular update in broydn");
+                }
+            }
+            qr.qtmult(fvec.$(), p);
+            for (i = 0; i < n; i++)
+                // Right-hand side for linear equations is QT  F.
+                p[i] = -p[i];
+            for (i = n - 1; i >= 0; i--) { // Compute rf .QR/T F for the line
+                                           // search.
+                for (sum = 0.0, j = 0; j <= i; j++)
+                    sum -= qr.r()[j][i] * p[j];
+                g[i] = sum;
+            }
+            for (i = 0; i < n; i++) { // Store x and F.
+                xold[i] = x[i];
+                fvcold[i] = fvec.$()[i];
+            }
+            fold = f.$(); // Store f .
+            qr.rsolve(p, p); // Solve linear equations.
+            lnsrch(xold, fold, g, p, x, f, stpmax, check, fmin);
+            // lnsrch returns new x and f . It also calculates fvec at the new x
+            // when it calls fmin.
+            test = 0.0; // Test for convergence on function values.
+            for (i = 0; i < n; i++)
+                if (abs(fvec.$()[i]) > test)
+                    test = abs(fvec.$()[i]);
+            if (test < TOLF) {
+                check.$(false);
+                qr = null;
+                return;
+            }
+            if (check.$()) { // True if line search failed to find a new x.
+                if (restrt) { // Failure; already tried reinitializing the
+                              // Jacobian.
+                    qr = null;
+                    return;
+                } else {
+                    test = 0.0; // Check for gradient of f zero, i.e., spurious
+                                // con
+                    den = MAX(f.$(), 0.5 * n); // vergence.
+                    for (i = 0; i < n; i++) {
+                        temp = abs(g[i]) * MAX(abs(x[i]), 1.0) / den;
+                        if (temp > test)
+                            test = temp;
+                    }
+                    if (test < TOLMIN) {
+                        qr = null;
+                        return;
+                    } else
+                        restrt = true; // Try reinitializing the Jacobian.
+                }
+            } else { // Successful step; will use Broyden update for next
+                restrt = false; // step.
+                test = 0.0; // Test for convergence on ix.
+                for (i = 0; i < n; i++) {
+                    temp = (abs(x[i] - xold[i])) / MAX(abs(x[i]), 1.0);
+                    if (temp > test)
+                        test = temp;
+                }
+                if (test < TOLX) {
+                    qr = null;
+                    return;
+                }
+            }
+        }
+        throw new NRException("MAXITS exceeded in broydn");
     }
 
 }

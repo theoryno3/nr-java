@@ -20,14 +20,18 @@ public class QRdcmp {
     // void update(VecDoub_I &u, VecDoub_I &v); See next subsection.
     // void rotate(final int  i, final double a, final double b); Used by update.
     
-    public final double[][] qt() {
+    public double[][] qt() {
         return qt;
     }
     
-    public final double[][] r() {
+    public double[][] r() {
         return r;
     }
-
+    
+    public boolean sing() {
+        return sing;
+    }
+    
     // As usual, the constructor performs the actual decomposition:
     public QRdcmp(final double[][] a) {
         // Construct the QR decomposition of a[0..n-1][0..n-1]. The upper
