@@ -5,7 +5,7 @@ import static java.lang.Math.*;
 
 import com.snuggy.nr.util.*;
 
-public class NRfdjac<T extends Func_DoubVec_To_DoubVec> {
+public class NRfdjac<T extends Func_DoubVec_To_DoubVec> implements Func_DoubVec_DoubVec_To_DoubMat {
 
     // Computes forward-difference approximation to Jacobian.
     private final double EPS; // Set to approximate square root of the machine
