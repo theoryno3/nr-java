@@ -311,8 +311,7 @@ public class Refs {
         }
         @Override
         public void $$(final double[] t) throws NRException {
-            if (this.t.length != t.length)
-                throw new NRException("this.t.length != t.length");
+            this.t = new double[t.length];
             System.arraycopy(t, 0, this.t, 0, t.length);
         }
         @Override
@@ -399,8 +398,7 @@ public class Refs {
         }
         @Override
         public void $$(final double[][] t) throws NRException {
-            if (this.t.length != t.length)
-                throw new NRException("this.t.length != t.length");
+            this.t = new double[t.length][t[0].length];
             for (int i = 0; i < t.length; i++) {
                 if (this.t[i].length != t[i].length)
                     throw new NRException("this.t[i].length !+ t[i].length");
@@ -507,8 +505,7 @@ public class Refs {
         }
         @Override
         public void $$(final boolean[] t) throws NRException {
-            if (this.t.length != t.length)
-                throw new NRException("this.t.length != t.length");
+            this.t = new boolean[t.length];
             System.arraycopy(t, 0, this.t, 0, t.length);
         }
         @Override
@@ -541,8 +538,7 @@ public class Refs {
         }
         @Override
         public void $$(final boolean[][] t) throws NRException {
-            if (this.t.length != t.length)
-                throw new NRException("this.t.length != t.length");
+            this.t = new boolean[t.length][t[0].length];
             for (int i = 0; i < t.length; i++) {
                 if (this.t[i].length != t[i].length)
                     throw new NRException("this.t[i].length !+ t[i].length");

@@ -37,11 +37,12 @@ public class Ran implements Random {
 
     public double doub() {
         // return 5.42101086242752217E-20 * int64();
+        /*
         double r = 5.42101086242752217E-20 * int64();
         if (r < 0.0)
             r += 1.0;
         return r;
-        /*
+        */
         long arg = int64();
         // Make sure it's in 0 to 1 rather than -0.5 to 0.5.
         // Save the right bit and shift to the right.
@@ -51,7 +52,6 @@ public class Ran implements Random {
         r *= 2.0;
         r += 5.42101086242752217E-20 * bit;
         return r;
-        */
     } // Return random double-precision floating value in the range 0. to 1.
 
     public int int32() {
