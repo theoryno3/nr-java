@@ -2,6 +2,7 @@
 package com.snuggy.nr.chapter10;
 
 import static com.snuggy.nr.refs.Refs.*;
+
 import static com.snuggy.nr.util.Static.*;
 import static java.lang.Math.*;
 
@@ -12,7 +13,8 @@ public class Brent extends Bracketmethod {
 
     // Brent’s method to find a minimum.
     @SuppressWarnings("unused")
-    private double xmin, fmin;
+    private double xmin;
+    private double fmin;
     private final double tol;
 
     public Brent() {
@@ -21,6 +23,10 @@ public class Brent extends Bracketmethod {
 
     public Brent(final double toll) {
         tol = (toll);
+    }
+    
+    public double fmin() {
+        return fmin;
     }
 
     public <T extends Func_Doub_To_Doub> double minimize(final T func) throws NRException {

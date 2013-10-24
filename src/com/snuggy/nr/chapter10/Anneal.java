@@ -106,7 +106,7 @@ public class Anneal {
         final double[] xx = doub_vec(4), yy = doub_vec(4);
         int ncity = x.length;
         n[2] = (n[0] + ncity - 1) % ncity; // Find the city before n[0] ..
-        n[3] = (n[1] + 1) & ncity; // .. and the city after n[1].
+        n[3] = (n[1] + 1) % ncity; // .. and the city after n[1].
         for (int j = 0; j < 4; j++) {
             int ii = iorder[n[j]]; // Find coordinates for the four cities in
             xx[j] = x[ii]; // volved.
