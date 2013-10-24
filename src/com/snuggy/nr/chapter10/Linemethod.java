@@ -2,11 +2,8 @@
 package com.snuggy.nr.chapter10;
 
 import static com.snuggy.nr.util.Static.*;
-
 import com.snuggy.nr.util.*;
-
 import static com.snuggy.nr.refs.Refs.*;
-
 import com.snuggy.nr.refs.*;
 
 public class Linemethod<T extends Func_DoubVec_To_Doub> {
@@ -14,10 +11,10 @@ public class Linemethod<T extends Func_DoubVec_To_Doub> {
     // Base class for line-minimization algorithms. Provides the
     // line-minimization
     // routine linmin.
-    private final T func;
-    private $$double1d p;
-    private $$double1d xi;
     private int n;
+    protected final T func;
+    protected $$double1d p;
+    protected $$double1d xi;
 
     public Linemethod(final T funcc) throws NRException {
         // Constructor argument is the user-supplied function or functor to be
