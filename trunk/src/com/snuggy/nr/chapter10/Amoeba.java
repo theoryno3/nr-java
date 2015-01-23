@@ -23,7 +23,7 @@ public class Amoeba {
         ftol = (ftoll);
     }
 
-    // The finalructor argument ftoll is the fractional convergence tolerance
+    // The Constructor argument ftoll is the fractional convergence tolerance
     // to be achieved in the function value (n.b.!).
 
     public <T extends Func_DoubVec_To_Doub> double[] minimize(final double[] point, final double del, final T func) throws NRException {
