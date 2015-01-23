@@ -645,6 +645,7 @@ public class Static {
         }
     }
 
+    /*
     public static void zrhqr(final double[] a, final Complex[] rt) throws InstantiationException,
             IllegalAccessException, NRException {
         // Find all the roots of a polynomial with real coefficients,
@@ -668,6 +669,7 @@ public class Static {
         for (int j = 0; j < m; j++)
             rt[j] = complex(h.wri(j));
     }
+    */
 
     public static void qroot(final double[] p, final $double b, final $double c, final double eps) throws NRException {
         // Given n+1 coefficients p[0..n] of a polynomial of degree n, and trial

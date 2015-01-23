@@ -110,7 +110,7 @@ public class StepperRoss extends StepperBS {
         cont3 = doub_vec(n);
         cont4 = doub_vec(n);
         a = doub_mat(n, n);
-        // Input to the finalructor are the dependent variable y[0..n-1] and
+        // Input to the constructor are the dependent variable y[0..n-1] and
         // its derivative dydx[0..n-1] at the starting value of the independent
         // variable x. Also input are the absolute and relative tolerances,
         // atol and rtol, and the boolean dense, which is true if dense output
