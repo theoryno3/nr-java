@@ -30,7 +30,7 @@ public class Amoeba {
         // Multidimensional minimization of the function or functor func(x),
         // where x[0..ndim-1] is a vector in ndim dimensions, by the downhill
         // simplex method of Nelder and Mead. The initial simplex is specified
-        // as in equation (10.5.1) by a point[0..ndim-1] and a finalant
+        // as in equation (10.5.1) by a point[0..ndim-1] and a constant
         // displacement del along each coordinate direction. Returned is the
         // location of the minimum.
         double[] dels = doub_vec(point.length, del);
