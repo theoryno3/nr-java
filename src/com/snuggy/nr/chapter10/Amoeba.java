@@ -102,9 +102,13 @@ public class Amoeba {
 			// Compute the fractional range from highest to lowest and return if
 			// satisfactory.
 			// I think p[ilo][*] is the current argmin here.
-			for (int i = 0; i < ndim; i++)
-				System.out.printf("%f ", p[ilo][i]);
-			System.out.printf("\n");
+			for (int i = 0; i < mpts; i++) {
+				System.out.print(i == ilo ? "-" : " ");
+				for (int j = 0; j < ndim; j++)
+					System.out.printf(" %f", p[i][j]);
+				System.out.println();
+			}
+			System.out.println("--------------------");
 			if (rtol < ftol) { // If returning, put best point and value in slot
 								// 0.
 				SWAP(y, 0, ilo);
